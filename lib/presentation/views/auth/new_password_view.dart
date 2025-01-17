@@ -28,6 +28,7 @@ class NewPasswordView extends StatefulWidget {
 class _ForgotPasswordPhoneState extends State<NewPasswordView> {
   late TextEditingController controllerPhone;
   late TextEditingController controllerCode;
+  ValueNotifier<bool> valueNotifier = ValueNotifier(true);
 
   @override
   void initState() {
@@ -40,6 +41,7 @@ class _ForgotPasswordPhoneState extends State<NewPasswordView> {
   void dispose() {
     controllerPhone.dispose();
     controllerCode.dispose();
+    valueNotifier.dispose();
     super.dispose();
   }
 
@@ -121,20 +123,38 @@ class _ForgotPasswordPhoneState extends State<NewPasswordView> {
               ),
             ),
             const SizedBox(height: 24),
-            CustomTextField(
-              title: 'Новый пароль',
-              hintText: 'Введите',
-              controller: controllerCode,
-              suffixIcon: AppIcons.eyeOff.svg(),
-              onChanged: (value) {},
+            ValueListenableBuilder(
+              valueListenable: valueNotifier,
+              builder: (context, value, __) {
+                return CustomTextField(
+                  title: 'Новый пароль',
+                  hintText: 'Введите',
+                  controller: controllerCode,
+                  suffixIcon: AppIcons.eyeOff.svg(),
+                  obscureText: value,
+                  onsuffixIconPressed: () {
+                    valueNotifier.value = !value;
+                  },
+                  onChanged: (value) {},
+                );
+              },
             ),
             const SizedBox(height: 16),
-            CustomTextField(
-              title: 'Подтвердите пароль',
-              hintText: 'Введите',
-              controller: controllerPhone,
-              suffixIcon: AppIcons.eyeOff.svg(),
-              onChanged: (value) {},
+            ValueListenableBuilder(
+              valueListenable: valueNotifier,
+              builder: (context, value, __) {
+                return CustomTextField(
+                  title: 'Подтвердите пароль',
+                  hintText: 'Введите',
+                  controller: controllerPhone,
+                  suffixIcon: AppIcons.eyeOff.svg(),
+                  obscureText: value,
+                  onsuffixIconPressed: () {
+                    valueNotifier.value = !value;
+                  },
+                  onChanged: (value) {},
+                );
+              },
             ),
             const SizedBox(height: 32),
             BlocBuilder<AuthBloc, AuthState>(

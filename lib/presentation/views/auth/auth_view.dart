@@ -23,6 +23,7 @@ class AuthView extends StatefulWidget {
 class _AuthViewState extends State<AuthView> {
   late TextEditingController controllerPhone;
   late TextEditingController controllerPassword;
+  ValueNotifier<bool> valueNotifier = ValueNotifier(true);
 
   @override
   void initState() {
@@ -142,12 +143,21 @@ class _AuthViewState extends State<AuthView> {
               onChanged: (value) {},
             ),
             const SizedBox(height: 16),
-            CustomTextField(
-              title: 'Пароль',
-              hintText: 'Введите',
-              controller: controllerPassword,
-              suffixIcon: AppIcons.eyeOff.svg(),
-              onChanged: (value) {},
+            ValueListenableBuilder(
+              valueListenable: valueNotifier,
+              builder: (context, value, __) {
+                return CustomTextField(
+                  title: 'Пароль',
+                  hintText: 'Введите',
+                  controller: controllerPassword,
+                  obscureText: value,
+                  suffixIcon: AppIcons.eyeOff.svg(),
+                  onsuffixIconPressed: () {
+                    valueNotifier.value = !value;
+                  },
+                  onChanged: (value) {},
+                );
+              },
             ),
             const SizedBox(height: 8),
             Align(
