@@ -11,6 +11,7 @@ import 'package:sklad/presentation/views/home/create_view.dart';
 import 'package:sklad/presentation/views/home/filter_view.dart';
 import 'package:sklad/presentation/views/home/home_view.dart';
 import 'package:sklad/presentation/views/home/kitchen_warehouse_view.dart';
+import 'package:sklad/presentation/views/home/notification_view.dart';
 import 'package:sklad/presentation/views/memos/incoming_view.dart';
 import 'package:sklad/presentation/views/memos/memos_drafts_view.dart';
 import 'package:sklad/presentation/views/memos/outgoing_view.dart';
@@ -57,6 +58,10 @@ sealed class AppRouts {
       GoRoute(
         path: AppRouteName.pdfInfo,
         builder: (context, state) => const PdfInfoView(),
+      ),
+      GoRoute(
+        path: AppRouteName.notification,
+        builder: (context, state) => const NotificationView(),
       ),
       mainView,
     ],

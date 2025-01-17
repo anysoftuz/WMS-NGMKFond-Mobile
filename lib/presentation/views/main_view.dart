@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -51,7 +52,7 @@ class _MainViewState extends State<MainView> {
         actions: [
           WButton(
             onTap: () {
-              context.push(AppRouteName.filter);
+              context.push(AppRouteName.notification);
             },
             height: 52,
             width: 52,
@@ -297,17 +298,25 @@ class _MainViewState extends State<MainView> {
                   ),
                 ),
               ),
-              ListTile(
-                onTap: () {
-                  context.read<AuthBloc>().add(LogOutEvent());
+              BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, state) {
+                  return ListTile(
+                    onTap: () {
+                      context.read<AuthBloc>().add(LogOutEvent());
+                    },
+                    leading: CircleAvatar(
+                      radius: 28,
+                      backgroundImage: CachedNetworkImageProvider(
+                        state.userModel.user?.avatar ?? "",
+                      ),
+                    ),
+                    contentPadding: const EdgeInsets.only(left: 16, right: 8),
+                    title: Text(
+                      "${state.userModel.user?.lastname ?? "Nomalum"} ${(state.userModel.user?.firstname ?? "Nomalum")[0]}.${(state.userModel.user?.patronymic ?? "Nomalum")[0]}",
+                    ),
+                    subtitle: Text(state.userModel.user?.position ?? 'Nomalum'),
+                  );
                 },
-                leading: const CircleAvatar(
-                  radius: 28,
-                  backgroundImage: AssetImage(AppImages.banner),
-                ),
-                contentPadding: const EdgeInsets.only(left: 16, right: 8),
-                title: const Text("Мухаммадамин Н."),
-                subtitle: const Text('Начальник склада '),
               ),
             ],
           ),
