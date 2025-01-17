@@ -6,6 +6,7 @@ import 'package:sklad/infrastructure/core/service_locator.dart';
 import 'package:sklad/infrastructure/repo/apis_repo_impl.dart';
 import 'package:sklad/presentation/routers/route_name.dart';
 import 'package:sklad/presentation/views/auth/auth_view.dart';
+import 'package:sklad/presentation/views/common/pdf_view.dart';
 import 'package:sklad/presentation/views/error_view.dart';
 import 'package:sklad/presentation/views/home/create_view.dart';
 import 'package:sklad/presentation/views/home/filter_view.dart';
@@ -62,6 +63,13 @@ sealed class AppRouts {
       GoRoute(
         path: AppRouteName.notification,
         builder: (context, state) => const NotificationView(),
+      ),
+      GoRoute(
+        path: AppRouteName.pdfView,
+        builder: (context, state) => PDFViewerPage(
+          title: (state.extra as Map<String, String>)['title'] ?? '',
+          id: (state.extra as Map<String, String>)['id'] ?? '',
+        ),
       ),
       mainView,
     ],

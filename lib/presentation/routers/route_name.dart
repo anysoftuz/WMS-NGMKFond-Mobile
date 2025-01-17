@@ -15,6 +15,7 @@ abstract class AppRouteName {
   static const overheadOutgoing = "/overheadOutgoing";
   static const overheadIncoming = "/overheadIncoming";
   static const auth = '/auth';
+  static const pdfView = '/pdfView';
   static const notification = '/notification';
   static const meatWarehouse = '/meatWarehouse';
   static const riceWarehouse = '/riceWarehouse';

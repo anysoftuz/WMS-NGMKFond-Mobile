@@ -5,12 +5,13 @@ import 'package:sklad/presentation/widgets/custom_text_field.dart';
 import 'package:sklad/presentation/widgets/w_preview_button.dart';
 
 class DraftsEditView extends StatelessWidget {
-  const DraftsEditView({super.key});
+  const DraftsEditView({super.key, required this.title});
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("№ 04-04-01/463")),
+      appBar: AppBar(title: Text(title)),
       bottomNavigationBar: const BottomInfoButton(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
