@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:sklad/data/abstract_repo/apis_repo.dart';
 import 'package:sklad/data/common/response_model.dart';
 import 'package:sklad/data/models/drafts_memo_model.dart';
+import 'package:sklad/data/models/respondents_list_model.dart';
 import 'package:sklad/data/models/visitors_model.dart';
 import 'package:sklad/data/models/warehouse_capacity_model.dart';
 import 'package:sklad/infrastructure/apis/apis_datasource.dart';
@@ -54,6 +55,62 @@ class ApisRepoImpl implements ApisRepo {
   ) async {
     try {
       final result = await datasourceImpl.getDrafts(query);
+      return Right(result);
+    } on DioException {
+      return Left(DioFailure());
+    } on ParsingException catch (e) {
+      return Left(ParsingFailure(errorMessage: e.errorMessage));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(
+        errorMessage: e.errorMessage,
+        statusCode: e.statusCode,
+      ));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ResponseModel<DraftsMemoModel>>> getReceived(
+    Map<String, dynamic> query,
+  ) async {
+    try {
+      final result = await datasourceImpl.getReceived(query);
+      return Right(result);
+    } on DioException {
+      return Left(DioFailure());
+    } on ParsingException catch (e) {
+      return Left(ParsingFailure(errorMessage: e.errorMessage));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(
+        errorMessage: e.errorMessage,
+        statusCode: e.statusCode,
+      ));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ResponseModel<DraftsMemoModel>>> getSent(
+    Map<String, dynamic> query,
+  ) async {
+    try {
+      final result = await datasourceImpl.getSent(query);
+      return Right(result);
+    } on DioException {
+      return Left(DioFailure());
+    } on ParsingException catch (e) {
+      return Left(ParsingFailure(errorMessage: e.errorMessage));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(
+        errorMessage: e.errorMessage,
+        statusCode: e.statusCode,
+      ));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ResponseModel<RespondentsListModel>>>
+      getRespondentsList() async {
+    try {
+      final result = await datasourceImpl.getRespondentsList();
       return Right(result);
     } on DioException {
       return Left(DioFailure());

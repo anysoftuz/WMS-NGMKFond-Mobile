@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:sklad/assets/colors/colors.dart';
-import 'package:sklad/presentation/routers/route_name.dart';
 import 'package:sklad/presentation/widgets/w_button.dart';
 
 class InformationIteam extends StatelessWidget {
@@ -25,6 +23,7 @@ class InformationIteam extends StatelessWidget {
     this.onTapEdit,
     this.title7,
     this.subtitle7,
+    this.onTap,
   });
 
   final String mainTitle;
@@ -44,6 +43,7 @@ class InformationIteam extends StatelessWidget {
   final String? subtitle7;
   final bool isButton;
   final bool isEdit;
+  final GestureTapCallback? onTap;
   final GestureTapCallback? onTapEdit;
 
   @override
@@ -290,7 +290,9 @@ class InformationIteam extends StatelessWidget {
             else
               WButton(
                 onTap: () {
-                  context.push(AppRouteName.pdfInfo);
+                  if (onTap != null) {
+                    onTap!();
+                  }
                 },
                 height: 40,
                 borderRadius: 12,

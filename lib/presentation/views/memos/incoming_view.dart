@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sklad/app/home/home_bloc.dart';
+import 'package:sklad/presentation/routers/route_name.dart';
 import 'package:sklad/presentation/widgets/information_iteam.dart';
 import 'package:sklad/presentation/widgets/title_filter.dart';
+import 'package:sklad/presentation/widgets/w_shimmer.dart';
+import 'package:sklad/utils/my_function.dart';
 
 class IncomingView extends StatefulWidget {
   const IncomingView({super.key});
@@ -11,6 +18,12 @@ class IncomingView extends StatefulWidget {
 
 class _IncomingViewState extends State<IncomingView> {
   @override
+  void initState() {
+    context.read<HomeBloc>().add(GetReceivedEvent(docType: 'memo'));
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
@@ -20,21 +33,62 @@ class _IncomingViewState extends State<IncomingView> {
             const TitileFilter(text: 'Входящие'),
             const SizedBox(height: 12),
             Expanded(
-              child: ListView.separated(
-                itemBuilder: (context, index) => const InformationIteam(
-                  mainTitle: "№ документа: 04-04-01/463",
-                  title1: 'Дата:',
-                  subtitle1: '23.08.2024',
-                  title2: 'Тема:',
-                  subtitle2: 'Доставка мяса из одного основного...',
-                  title3: 'Отправитель:',
-                  subtitle3: 'Зарафшан dfeededede fefefefefefe...',
-                  title4: 'Получатель:',
-                  subtitle4: 'Головное управление, по управлению...',
-                ),
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 12),
-                itemCount: 12,
+              child: BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  if (state.statusDraftsMemo.isInProgress) {
+                    return ListView.separated(
+                      itemBuilder: (context, index) => const WShimmer(
+                        height: 220,
+                        width: double.infinity,
+                      ),
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 12),
+                      itemCount: 12,
+                    );
+                  }
+                  return RefreshIndicator.adaptive(
+                    onRefresh: () async {
+                      context
+                          .read<HomeBloc>()
+                          .add(GetReceivedEvent(docType: 'memo'));
+                      await Future.delayed(Duration.zero);
+                    },
+                    child: ListView.separated(
+                      itemBuilder: (context, index) => InformationIteam(
+                        onTap: () {
+                          context.push(AppRouteName.pdfView, extra: {
+                            'title':
+                                state.draftsMemoModel.documents[index].number,
+                            'id': state.draftsMemoModel.documents[index].id,
+                          });
+                        },
+                        mainTitle:
+                            state.draftsMemoModel.documents[index].number,
+                        title1: 'Дата:',
+                        subtitle1: MyFunction.dateFormatDate(
+                          state.draftsMemoModel.documents[index].date
+                              .toString(),
+                        ),
+                        title2: 'Тема:',
+                        subtitle2:
+                            state.draftsMemoModel.documents[index].subject,
+                        title3: 'Отправитель:',
+                        subtitle3: state.draftsMemoModel.documents[index]
+                                .fromName.isEmpty
+                            ? "-"
+                            : state.draftsMemoModel.documents[index].fromName,
+                        title4: 'Получатель:',
+                        subtitle4: state
+                                .draftsMemoModel.documents[index].toName.isEmpty
+                            ? "-"
+                            : state.draftsMemoModel.documents[index].toName,
+                      ),
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 12),
+                      itemCount: state.draftsMemoModel.documents.length,
+                    ),
+                  );
+                },
               ),
             )
           ],
