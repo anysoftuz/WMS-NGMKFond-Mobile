@@ -258,9 +258,6 @@ class _MainViewState extends State<MainView> {
               BlocBuilder<AuthBloc, AuthState>(
                 builder: (context, state) {
                   return ListTile(
-                    // onTap: () {
-                    //   context.read<AuthBloc>().add(LogOutEvent());
-                    // },
                     leading: CircleAvatar(
                       radius: 28,
                       backgroundImage: CachedNetworkImageProvider(
@@ -275,6 +272,28 @@ class _MainViewState extends State<MainView> {
                   );
                 },
               ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: WScaleAnimation(
+                  onTap: () {
+                    context.read<AuthBloc>().add(LogOutEvent());
+                  },
+                  child: Row(
+                    spacing: 4,
+                    children: [
+                      AppIcons.logout.svg(),
+                      const Text(
+                        'Выход',
+                        style: TextStyle(
+                          color: red,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         ),
