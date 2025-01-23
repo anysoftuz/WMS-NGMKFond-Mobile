@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sklad/app/auth/auth_bloc.dart';
+import 'package:sklad/app/home/home_bloc.dart';
 import 'package:sklad/assets/colors/colors.dart';
 import 'package:sklad/assets/icons.dart';
 import 'package:sklad/assets/images.dart';
@@ -249,51 +250,7 @@ class _MainViewState extends State<MainView> {
                           ),
                         ),
                       ),
-                      Theme(
-                        data: ThemeData(dividerColor: Colors.transparent),
-                        child: ExpansionTile(
-                          iconColor: secondary500,
-                          collapsedIconColor: secondary500,
-                          leading: AppIcons.buildingWarehouse.svg(),
-                          title: const Text("Базы складов"),
-                          initiallyExpanded:
-                              widget.navigationShell.currentIndex > 8 &&
-                                  widget.navigationShell.currentIndex < 12,
-                          children: [
-                            DrawerTapIteam(
-                              onTap: (index) {
-                                _onTap(context, index);
-                              },
-                              index: 9,
-                              currentIndex: widget.navigationShell.currentIndex,
-                              title: 'Мясной склад',
-                            ),
-                            DrawerTapIteam(
-                              onTap: (index) {
-                                _onTap(context, index);
-                              },
-                              index: 10,
-                              currentIndex: widget.navigationShell.currentIndex,
-                              title: 'Овощной склад',
-                            ),
-                            DrawerTapIteam(
-                              onTap: (index) {
-                                _onTap(context, index);
-                              },
-                              index: 11,
-                              currentIndex: widget.navigationShell.currentIndex,
-                              title: 'Рисовый склад',
-                            ),
-                          ],
-                        ),
-                      ),
-                      ListTile(
-                        onTap: () {
-                          _onTap(context, 12);
-                        },
-                        leading: AppIcons.kitchen.svg(),
-                        title: const Text("Склад кухни"),
-                      ),
+                      BaseIteam(widget: widget),
                     ],
                   ),
                 ),
@@ -301,9 +258,9 @@ class _MainViewState extends State<MainView> {
               BlocBuilder<AuthBloc, AuthState>(
                 builder: (context, state) {
                   return ListTile(
-                    onTap: () {
-                      context.read<AuthBloc>().add(LogOutEvent());
-                    },
+                    // onTap: () {
+                    //   context.read<AuthBloc>().add(LogOutEvent());
+                    // },
                     leading: CircleAvatar(
                       radius: 28,
                       backgroundImage: CachedNetworkImageProvider(
@@ -323,6 +280,88 @@ class _MainViewState extends State<MainView> {
         ),
       ),
       body: widget.navigationShell,
+    );
+  }
+}
+
+class BaseIteam extends StatelessWidget {
+  const BaseIteam({
+    super.key,
+    required this.widget,
+  });
+
+  final MainView widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        return Theme(
+          data: ThemeData(dividerColor: Colors.transparent),
+          child: ExpansionTile(
+            iconColor: secondary500,
+            collapsedIconColor: secondary500,
+            leading: AppIcons.buildingWarehouse.svg(),
+            title: const Text("Базы складов"),
+            initiallyExpanded: widget.navigationShell.currentIndex > 8 &&
+                widget.navigationShell.currentIndex < 12,
+            children: List.generate(
+              state.managementsBasesModel.managements.length,
+              (index) => ExpansionTile(
+                iconColor: secondary500,
+                collapsedIconColor: secondary500,
+                title: Text(
+                  state.managementsBasesModel.managements[index].name,
+                ),
+                children: List.generate(
+                  state.managementsBasesModel.managements[index].bases.length,
+                  (index2) => WScaleAnimation(
+                    onTap: () {
+                      context.push(
+                        AppRouteName.meatWarehouse,
+                        extra: state.managementsBasesModel.managements[index]
+                            .bases[index2],
+                      );
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.only(
+                        left: 24,
+                        right: 12,
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 10,
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              state.managementsBasesModel.managements[index]
+                                  .bases[index2].name,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: backgroundText,
+                              ),
+                            ),
+                          ),
+                          const Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 16,
+                            color: backgroundText,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

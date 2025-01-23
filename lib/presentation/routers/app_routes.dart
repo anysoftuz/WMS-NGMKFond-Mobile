@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sklad/app/home/home_bloc.dart';
+import 'package:sklad/data/models/managements_bases_model.dart';
 import 'package:sklad/infrastructure/core/service_locator.dart';
 import 'package:sklad/infrastructure/repo/apis_repo_impl.dart';
 import 'package:sklad/presentation/routers/route_name.dart';
@@ -159,7 +160,9 @@ sealed class AppRouts {
         routes: [
           GoRoute(
             path: AppRouteName.meatWarehouse,
-            builder: (context, state) => const MeatWarehouseView(),
+            builder: (context, state) => MeatWarehouseView(
+              model: state.extra as Base,
+            ),
           ),
         ],
       ),

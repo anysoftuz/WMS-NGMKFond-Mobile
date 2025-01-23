@@ -14,6 +14,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
+    context.read<HomeBloc>().add(GetBranchEvent());
     context.read<HomeBloc>().add(GetVisitorsEvent());
     context.read<HomeBloc>().add(GetWarehouseCapacityEvent());
     super.initState();

@@ -2,9 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:sklad/data/abstract_repo/apis_repo.dart';
 import 'package:sklad/data/common/response_model.dart';
 import 'package:sklad/data/models/drafts_memo_model.dart';
+import 'package:sklad/data/models/managements_bases_model.dart';
+import 'package:sklad/data/models/products_bases_model.dart';
 import 'package:sklad/data/models/respondents_list_model.dart';
 import 'package:sklad/data/models/visitors_model.dart';
 import 'package:sklad/data/models/warehouse_capacity_model.dart';
+import 'package:sklad/data/models/warehouses_bases_model.dart';
 import 'package:sklad/infrastructure/apis/apis_datasource.dart';
 import 'package:sklad/infrastructure/core/exceptions/exceptions.dart';
 import 'package:sklad/infrastructure/core/exceptions/failures.dart';
@@ -111,6 +114,98 @@ class ApisRepoImpl implements ApisRepo {
       getRespondentsList() async {
     try {
       final result = await datasourceImpl.getRespondentsList();
+      return Right(result);
+    } on DioException {
+      return Left(DioFailure());
+    } on ParsingException catch (e) {
+      return Left(ParsingFailure(errorMessage: e.errorMessage));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(
+        errorMessage: e.errorMessage,
+        statusCode: e.statusCode,
+      ));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ResponseModel<ManagementsBasesModel>>>
+      getManagementsBases() async {
+    try {
+      final result = await datasourceImpl.getManagementsBases();
+      return Right(result);
+    } on DioException {
+      return Left(DioFailure());
+    } on ParsingException catch (e) {
+      return Left(ParsingFailure(errorMessage: e.errorMessage));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(
+        errorMessage: e.errorMessage,
+        statusCode: e.statusCode,
+      ));
+    }
+  }
+
+  @override
+  Future<Either<Failure, num>> getFillingPercentage(int id) async {
+    try {
+      final result = await datasourceImpl.getFillingPercentage(id);
+      return Right(result);
+    } on DioException {
+      return Left(DioFailure());
+    } on ParsingException catch (e) {
+      return Left(ParsingFailure(errorMessage: e.errorMessage));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(
+        errorMessage: e.errorMessage,
+        statusCode: e.statusCode,
+      ));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ResponseModel<ProductsBasesModel>>> getProductBese(
+    int id,
+  ) async {
+    try {
+      final result = await datasourceImpl.getProductBese(id);
+      return Right(result);
+    } on DioException {
+      return Left(DioFailure());
+    } on ParsingException catch (e) {
+      return Left(ParsingFailure(errorMessage: e.errorMessage));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(
+        errorMessage: e.errorMessage,
+        statusCode: e.statusCode,
+      ));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ResponseModel<WarehousesBasesModel>>> getWarehouses(
+    int id,
+  ) async {
+    try {
+      final result = await datasourceImpl.getWarehouses(id);
+      return Right(result);
+    } on DioException {
+      return Left(DioFailure());
+    } on ParsingException catch (e) {
+      return Left(ParsingFailure(errorMessage: e.errorMessage));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(
+        errorMessage: e.errorMessage,
+        statusCode: e.statusCode,
+      ));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ResponseModel<ProductsBasesModel>>> getInvoicesBese(
+    int id,
+  ) async {
+    try {
+      final result = await datasourceImpl.getInvoicesBese(id);
       return Right(result);
     } on DioException {
       return Left(DioFailure());
