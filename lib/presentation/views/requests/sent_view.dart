@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sklad/app/home/home_bloc.dart';
+import 'package:sklad/data/models/filter_model.dart';
 import 'package:sklad/presentation/routers/route_name.dart';
 import 'package:sklad/presentation/widgets/information_iteam.dart';
 import 'package:sklad/presentation/widgets/title_filter.dart';
@@ -20,7 +21,9 @@ class SentView extends StatefulWidget {
 class _SentViewState extends State<SentView> {
   @override
   void initState() {
-    context.read<HomeBloc>().add(GetSentEvent(docType: 'simple_demand'));
+    context
+        .read<HomeBloc>()
+        .add(GetSentEvent(model: FilterModel(docType: 'simple_demand')));
     super.initState();
   }
 
@@ -31,9 +34,27 @@ class _SentViewState extends State<SentView> {
       child: Column(
         children: [
           const SizedBox(height: 16),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: TitileFilter(text: 'Отправленные запро...'),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: TitileFilter(
+              text: 'Отправленные запро...',
+              onFilter: (
+                controllerNumber,
+                controllerTema,
+                controllerKomu,
+                controllerOtp,
+                controllerDate1,
+                controllerDate2,
+              ) {
+                context.read<HomeBloc>().add(GetSentEvent(
+                      model: FilterModel(
+                        docType: 'simple_demand',
+                        number: controllerNumber.text,
+                        subject: controllerOtp.text,
+                      ),
+                    ));
+              },
+            ),
           ),
           const SizedBox(height: 12),
           Padding(
@@ -41,17 +62,14 @@ class _SentViewState extends State<SentView> {
             child: WTabBar(
               onTap: (p0) {
                 if (p0 == 0) {
-                  context
-                      .read<HomeBloc>()
-                      .add(GetSentEvent(docType: 'simple_demand'));
+                  context.read<HomeBloc>().add(GetSentEvent(
+                      model: FilterModel(docType: 'simple_demand')));
                 } else if (p0 == 1) {
-                  context
-                      .read<HomeBloc>()
-                      .add(GetSentEvent(docType: 'monthly_demand'));
+                  context.read<HomeBloc>().add(GetSentEvent(
+                      model: FilterModel(docType: 'monthly_demand')));
                 } else {
-                  context
-                      .read<HomeBloc>()
-                      .add(GetSentEvent(docType: 'yearly_demand'));
+                  context.read<HomeBloc>().add(GetSentEvent(
+                      model: FilterModel(docType: 'yearly_demand')));
                 }
               },
               tabs: const [
@@ -80,9 +98,8 @@ class _SentViewState extends State<SentView> {
                     }
                     return RefreshIndicator.adaptive(
                       onRefresh: () async {
-                        context
-                            .read<HomeBloc>()
-                            .add(GetSentEvent(docType: 'simple_demand'));
+                        context.read<HomeBloc>().add(GetSentEvent(
+                            model: FilterModel(docType: 'simple_demand')));
                         await Future.delayed(Duration.zero);
                       },
                       child: ListView.separated(
@@ -112,7 +129,7 @@ class _SentViewState extends State<SentView> {
                         ),
                         separatorBuilder: (context, index) =>
                             const SizedBox(height: 12),
-                        itemCount: 12,
+                        itemCount: state.draftsMemoModel.documents.length,
                       ),
                     );
                   },
@@ -132,9 +149,9 @@ class _SentViewState extends State<SentView> {
                     }
                     return RefreshIndicator.adaptive(
                       onRefresh: () async {
-                        context
-                            .read<HomeBloc>()
-                            .add(GetSentEvent(docType: 'monthly_demand'));
+                        context.read<HomeBloc>().add(GetSentEvent(
+                            model: FilterModel(docType: 'monthly_demand')));
+
                         await Future.delayed(Duration.zero);
                       },
                       child: ListView.separated(
@@ -164,7 +181,7 @@ class _SentViewState extends State<SentView> {
                         ),
                         separatorBuilder: (context, index) =>
                             const SizedBox(height: 12),
-                        itemCount: 12,
+                        itemCount: state.draftsMemoModel.documents.length,
                       ),
                     );
                   },
@@ -184,9 +201,8 @@ class _SentViewState extends State<SentView> {
                     }
                     return RefreshIndicator.adaptive(
                       onRefresh: () async {
-                        context
-                            .read<HomeBloc>()
-                            .add(GetSentEvent(docType: 'yearly_demand'));
+                        context.read<HomeBloc>().add(GetSentEvent(
+                            model: FilterModel(docType: 'yearly_demand')));
                         await Future.delayed(Duration.zero);
                       },
                       child: ListView.separated(
@@ -216,7 +232,7 @@ class _SentViewState extends State<SentView> {
                         ),
                         separatorBuilder: (context, index) =>
                             const SizedBox(height: 12),
-                        itemCount: 12,
+                        itemCount: state.draftsMemoModel.documents.length,
                       ),
                     );
                   },

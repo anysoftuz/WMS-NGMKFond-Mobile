@@ -1,8 +1,10 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:sklad/data/abstract_repo/apis_repo.dart';
 import 'package:sklad/data/models/drafts_memo_model.dart';
+import 'package:sklad/data/models/filter_model.dart';
 import 'package:sklad/data/models/managements_bases_model.dart';
 import 'package:sklad/data/models/products_bases_model.dart';
 import 'package:sklad/data/models/respondents_list_model.dart';
@@ -16,6 +18,16 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final ApisRepo _repository;
   HomeBloc(this._repository) : super(const HomeState()) {
+    on<CreateDocEvent>((event, emit) async {
+      emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+      final result = await _repository.postDocument(event.data);
+      if (result.isRight) {
+        emit(state.copyWith(status: FormzSubmissionStatus.success));
+        event.onSucces();
+      } else {
+        emit(state.copyWith(status: FormzSubmissionStatus.failure));
+      }
+    });
     on<GetWarehousesChengeEvent>((event, emit) async {
       emit(state.copyWith(warehousesSel: event.index));
       add(GetFillingPercentageEvent(
@@ -110,11 +122,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
     on<GetReceivedEvent>((event, emit) async {
       emit(state.copyWith(statusDraftsMemo: FormzSubmissionStatus.inProgress));
-      Map<String, dynamic> query = {};
-      if (event.docType != null) {
-        query['doc_type'] = 'memo';
-      }
-      final result = await _repository.getReceived(query);
+      final result = await _repository.getReceived(event.model.toJson());
       if (result.isRight) {
         emit(state.copyWith(
           statusDraftsMemo: FormzSubmissionStatus.success,
@@ -127,11 +135,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     on<GetSentEvent>((event, emit) async {
       emit(state.copyWith(statusDraftsMemo: FormzSubmissionStatus.inProgress));
-      Map<String, dynamic> query = {};
-      if (event.docType != null) {
-        query['doc_type'] = 'memo';
-      }
-      final result = await _repository.getSent(query);
+      final result = await _repository.getSent(event.model.toJson());
       if (result.isRight) {
         emit(state.copyWith(
           statusDraftsMemo: FormzSubmissionStatus.success,
@@ -144,11 +148,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     on<GetDraftsEvent>((event, emit) async {
       emit(state.copyWith(statusDraftsMemo: FormzSubmissionStatus.inProgress));
-      Map<String, dynamic> query = {};
-      if (event.docType != null) {
-        query['doc_type'] = 'memo';
-      }
-      final result = await _repository.getDrafts(query);
+      final result = await _repository.getDrafts(event.model.toJson());
       if (result.isRight) {
         emit(state.copyWith(
           statusDraftsMemo: FormzSubmissionStatus.success,

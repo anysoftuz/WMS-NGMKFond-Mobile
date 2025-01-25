@@ -13,7 +13,11 @@ class CreateParishView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Служебная записка")),
-      bottomNavigationBar: const BottomInfoButton(),
+      bottomNavigationBar: BottomInfoButton(
+        onTap2: () {},
+        onTap1: () {},
+        isLoading: false,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(

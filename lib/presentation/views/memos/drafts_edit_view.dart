@@ -12,7 +12,11 @@ class DraftsEditView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      bottomNavigationBar: const BottomInfoButton(),
+      bottomNavigationBar: BottomInfoButton(
+        onTap1: () {},
+        onTap2: () {},
+        isLoading: false,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(

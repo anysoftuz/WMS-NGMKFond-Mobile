@@ -24,6 +24,7 @@ abstract class ApisDatasource {
   Future<ResponseModel<ProductsBasesModel>> getProductBese(int id);
   Future<ResponseModel<WarehousesBasesModel>> getWarehouses(int id);
   Future<ResponseModel<ProductsBasesModel>> getInvoicesBese(int id);
+  Future<bool> postDocument(Map<String, dynamic> data);
 }
 
 class ApisDatasourceImpl implements ApisDatasource {
@@ -138,7 +139,7 @@ class ApisDatasourceImpl implements ApisDatasource {
       ),
     );
   }
-  
+
   @override
   Future<ResponseModel<ProductsBasesModel>> getInvoicesBese(int id) {
     return _handle.apiCantrol(
@@ -147,6 +148,14 @@ class ApisDatasourceImpl implements ApisDatasource {
         response,
         (p0) => ProductsBasesModel.fromJson(p0 as Map<String, dynamic>),
       ),
+    );
+  }
+
+  @override
+  Future<bool> postDocument(Map<String, dynamic> data) {
+    return _handle.apiCantrol(
+      request: () => dio.post('documents', data: data),
+      body: (response) => (response as Map<String, dynamic>)['success'],
     );
   }
 }

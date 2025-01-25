@@ -127,6 +127,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
+    on<RefreshEvent>((event, emit) async {
+      await _repository.refreshToken();
+    });
+
     on<LoginEvent>((event, emit) async {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
       final result = await _repository.postLogin(LoginModel(

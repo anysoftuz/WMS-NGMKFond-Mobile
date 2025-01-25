@@ -38,4 +38,5 @@ abstract class ApisRepo {
   Future<Either<Failure, ResponseModel<WarehousesBasesModel>>> getWarehouses(
     int id,
   );
+  Future<Either<Failure, bool>> postDocument(Map<String, dynamic> data);
 }

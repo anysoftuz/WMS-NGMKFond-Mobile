@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sklad/app/home/home_bloc.dart';
+import 'package:sklad/data/models/filter_model.dart';
 import 'package:sklad/presentation/routers/route_name.dart';
 import 'package:sklad/presentation/widgets/information_iteam.dart';
 import 'package:sklad/presentation/widgets/title_filter.dart';
@@ -19,7 +20,9 @@ class OverheadOutgoingView extends StatefulWidget {
 class _OverheadOutgoingViewState extends State<OverheadOutgoingView> {
   @override
   void initState() {
-    context.read<HomeBloc>().add(GetSentEvent(docType: 'invoice'));
+    context
+        .read<HomeBloc>()
+        .add(GetSentEvent(model: FilterModel(docType: 'invoice')));
     super.initState();
   }
 
@@ -33,7 +36,25 @@ class _OverheadOutgoingViewState extends State<OverheadOutgoingView> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            const TitileFilter(text: 'Исходящие нак.'),
+            TitileFilter(
+              text: 'Исходящие нак.',
+              onFilter: (
+                controllerNumber,
+                controllerTema,
+                controllerKomu,
+                controllerOtp,
+                controllerDate1,
+                controllerDate2,
+              ) {
+                context.read<HomeBloc>().add(GetSentEvent(
+                      model: FilterModel(
+                        docType: 'invoice',
+                        number: controllerNumber.text,
+                        subject: controllerOtp.text,
+                      ),
+                    ));
+              },
+            ),
             const SizedBox(height: 12),
             Expanded(
               child: BlocBuilder<HomeBloc, HomeState>(
@@ -51,9 +72,9 @@ class _OverheadOutgoingViewState extends State<OverheadOutgoingView> {
                   }
                   return RefreshIndicator.adaptive(
                     onRefresh: () async {
-                      context
-                          .read<HomeBloc>()
-                          .add(GetSentEvent(docType: 'invoice'));
+                      context.read<HomeBloc>().add(GetSentEvent(
+                            model: FilterModel(docType: 'invoice'),
+                          ));
                       await Future.delayed(Duration.zero);
                     },
                     child: ListView.separated(

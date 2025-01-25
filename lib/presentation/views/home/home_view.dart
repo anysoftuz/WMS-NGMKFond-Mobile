@@ -17,6 +17,7 @@ class _HomeViewState extends State<HomeView> {
     context.read<HomeBloc>().add(GetBranchEvent());
     context.read<HomeBloc>().add(GetVisitorsEvent());
     context.read<HomeBloc>().add(GetWarehouseCapacityEvent());
+    context.read<HomeBloc>().add(GetRespondentsListEvent());
     super.initState();
   }
 

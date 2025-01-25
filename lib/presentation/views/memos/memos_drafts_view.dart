@@ -4,6 +4,7 @@ import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sklad/app/home/home_bloc.dart';
 import 'package:sklad/assets/colors/colors.dart';
+import 'package:sklad/data/models/filter_model.dart';
 import 'package:sklad/presentation/routers/route_name.dart';
 import 'package:sklad/presentation/widgets/information_iteam.dart';
 import 'package:sklad/presentation/widgets/title_filter.dart';
@@ -21,7 +22,9 @@ class MemosDraftsView extends StatefulWidget {
 class _MemosDraftsViewState extends State<MemosDraftsView> {
   @override
   void initState() {
-    context.read<HomeBloc>().add(GetDraftsEvent(docType: 'memo'));
+    context.read<HomeBloc>().add(GetDraftsEvent(
+          model: FilterModel(docType: 'memo'),
+        ));
     super.initState();
   }
 
@@ -32,7 +35,25 @@ class _MemosDraftsViewState extends State<MemosDraftsView> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            const TitileFilter(text: 'Черновики'),
+            TitileFilter(
+              text: 'Черновики',
+              onFilter: (
+                controllerNumber,
+                controllerTema,
+                controllerKomu,
+                controllerOtp,
+                controllerDate1,
+                controllerDate2,
+              ) {
+                context.read<HomeBloc>().add(GetDraftsEvent(
+                      model: FilterModel(
+                        docType: 'memo',
+                        number: controllerNumber.text,
+                        subject: controllerOtp.text,
+                      ),
+                    ));
+              },
+            ),
             const SizedBox(height: 12),
             Expanded(
               child: BlocBuilder<HomeBloc, HomeState>(
@@ -50,9 +71,9 @@ class _MemosDraftsViewState extends State<MemosDraftsView> {
                   }
                   return RefreshIndicator.adaptive(
                     onRefresh: () async {
-                      context
-                          .read<HomeBloc>()
-                          .add(GetDraftsEvent(docType: 'memo'));
+                      context.read<HomeBloc>().add(GetDraftsEvent(
+                            model: FilterModel(docType: 'memo'),
+                          ));
                       await Future.delayed(Duration.zero);
                     },
                     child: ListView.separated(

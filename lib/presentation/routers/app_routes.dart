@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sklad/app/home/home_bloc.dart';
 import 'package:sklad/data/models/managements_bases_model.dart';
-import 'package:sklad/infrastructure/core/service_locator.dart';
-import 'package:sklad/infrastructure/repo/apis_repo_impl.dart';
 import 'package:sklad/presentation/routers/route_name.dart';
 import 'package:sklad/presentation/views/auth/auth_view.dart';
 import 'package:sklad/presentation/views/common/pdf_view.dart';
@@ -51,7 +47,14 @@ sealed class AppRouts {
       ),
       GoRoute(
         path: AppRouteName.filter,
-        builder: (context, state) => const FilterView(),
+        builder: (context, state) => FilterView(
+          controllerDate1: (state.extra as Map<String, dynamic>)['date1'],
+          controllerNumber: (state.extra as Map<String, dynamic>)['number'],
+          controllerTema: (state.extra as Map<String, dynamic>)['tema'],
+          controllerKomu: (state.extra as Map<String, dynamic>)['komu'],
+          controllerOtp: (state.extra as Map<String, dynamic>)['otp'],
+          controllerDate2: (state.extra as Map<String, dynamic>)['date2'],
+        ),
       ),
       GoRoute(
         path: AppRouteName.create,
@@ -78,10 +81,7 @@ sealed class AppRouts {
 
   static final mainView = StatefulShellRoute.indexedStack(
     builder: (context, state, navigationShell) {
-      return BlocProvider(
-        create: (context) => HomeBloc(serviceLocator<ApisRepoImpl>()),
-        child: MainView(navigationShell: navigationShell),
-      );
+      return MainView(navigationShell: navigationShell);
     },
     branches: <StatefulShellBranch>[
       StatefulShellBranch(

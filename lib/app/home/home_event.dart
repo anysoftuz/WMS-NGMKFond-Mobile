@@ -45,31 +45,29 @@ class GetRespondentsListEvent extends HomeEvent {}
 class GetWarehouseCapacityEvent extends HomeEvent {}
 
 class GetDraftsEvent extends HomeEvent {
-  final String? docType;
-  final String? search;
+  final FilterModel model;
 
-  GetDraftsEvent({
-    this.docType,
-    this.search,
-  });
+  GetDraftsEvent({required this.model});
 }
 
 class GetSentEvent extends HomeEvent {
-  final String? docType;
-  final String? search;
+  final FilterModel model;
 
-  GetSentEvent({
-    this.docType,
-    this.search,
-  });
+  GetSentEvent({required this.model});
 }
 
 class GetReceivedEvent extends HomeEvent {
-  final String? docType;
-  final String? search;
+  final FilterModel model;
 
-  GetReceivedEvent({
-    this.docType,
-    this.search,
+  GetReceivedEvent({required this.model});
+}
+
+class CreateDocEvent extends HomeEvent {
+  final Map<String, dynamic> data;
+  final VoidCallback onSucces;
+
+  CreateDocEvent({
+    required this.data,
+    required this.onSucces,
   });
 }

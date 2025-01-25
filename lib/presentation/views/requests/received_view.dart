@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sklad/app/home/home_bloc.dart';
+import 'package:sklad/data/models/filter_model.dart';
 import 'package:sklad/presentation/routers/route_name.dart';
 import 'package:sklad/presentation/widgets/information_iteam.dart';
 import 'package:sklad/presentation/widgets/title_filter.dart';
@@ -20,7 +21,9 @@ class ReceivedView extends StatefulWidget {
 class _ReceivedViewState extends State<ReceivedView> {
   @override
   void initState() {
-    context.read<HomeBloc>().add(GetReceivedEvent(docType: 'simple_demand'));
+    context
+        .read<HomeBloc>()
+        .add(GetReceivedEvent(model: FilterModel(docType: 'simple_demand')));
     super.initState();
   }
 
@@ -32,9 +35,27 @@ class _ReceivedViewState extends State<ReceivedView> {
         child: Column(
           children: [
             const SizedBox(height: 16),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: TitileFilter(text: 'Исходящие запросы'),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: TitileFilter(
+                text: 'Исходящие запросы',
+                onFilter: (
+                  controllerNumber,
+                  controllerTema,
+                  controllerKomu,
+                  controllerOtp,
+                  controllerDate1,
+                  controllerDate2,
+                ) {
+                  context.read<HomeBloc>().add(GetReceivedEvent(
+                        model: FilterModel(
+                          docType: 'simple_demand',
+                          number: controllerNumber.text,
+                          subject: controllerOtp.text,
+                        ),
+                      ));
+                },
+              ),
             ),
             const SizedBox(height: 12),
             Padding(
@@ -42,17 +63,14 @@ class _ReceivedViewState extends State<ReceivedView> {
               child: WTabBar(
                 onTap: (p0) {
                   if (p0 == 0) {
-                    context
-                        .read<HomeBloc>()
-                        .add(GetReceivedEvent(docType: 'simple_demand'));
+                    context.read<HomeBloc>().add(GetReceivedEvent(
+                        model: FilterModel(docType: 'simple_demand')));
                   } else if (p0 == 1) {
-                    context
-                        .read<HomeBloc>()
-                        .add(GetReceivedEvent(docType: 'monthly_demand'));
+                    context.read<HomeBloc>().add(GetReceivedEvent(
+                        model: FilterModel(docType: 'monthly_demand')));
                   } else {
-                    context
-                        .read<HomeBloc>()
-                        .add(GetReceivedEvent(docType: 'yearly_demand'));
+                    context.read<HomeBloc>().add(GetReceivedEvent(
+                        model: FilterModel(docType: 'yearly_demand')));
                   }
                 },
                 tabs: const [
@@ -81,9 +99,9 @@ class _ReceivedViewState extends State<ReceivedView> {
                       }
                       return RefreshIndicator.adaptive(
                         onRefresh: () async {
-                          context
-                              .read<HomeBloc>()
-                              .add(GetReceivedEvent(docType: 'simple_demand'));
+                          context.read<HomeBloc>().add(GetReceivedEvent(
+                              model: FilterModel(docType: 'simple_demand')));
+
                           await Future.delayed(Duration.zero);
                         },
                         child: ListView.separated(
@@ -120,7 +138,7 @@ class _ReceivedViewState extends State<ReceivedView> {
                                 ? "-"
                                 : state.draftsMemoModel.documents[index].toName,
                           ),
-                          itemCount: 12,
+                          itemCount: state.draftsMemoModel.documents.length,
                         ),
                       );
                     },
@@ -140,9 +158,9 @@ class _ReceivedViewState extends State<ReceivedView> {
                       }
                       return RefreshIndicator.adaptive(
                         onRefresh: () async {
-                          context
-                              .read<HomeBloc>()
-                              .add(GetReceivedEvent(docType: 'monthly_demand'));
+                          context.read<HomeBloc>().add(GetReceivedEvent(
+                              model: FilterModel(docType: 'monthly_demand')));
+
                           await Future.delayed(Duration.zero);
                         },
                         child: ListView.separated(
@@ -179,7 +197,7 @@ class _ReceivedViewState extends State<ReceivedView> {
                                 ? "-"
                                 : state.draftsMemoModel.documents[index].toName,
                           ),
-                          itemCount: 12,
+                          itemCount: state.draftsMemoModel.documents.length,
                         ),
                       );
                     },
@@ -199,9 +217,8 @@ class _ReceivedViewState extends State<ReceivedView> {
                       }
                       return RefreshIndicator.adaptive(
                         onRefresh: () async {
-                          context
-                              .read<HomeBloc>()
-                              .add(GetReceivedEvent(docType: 'yearly_demand'));
+                          context.read<HomeBloc>().add(GetReceivedEvent(
+                              model: FilterModel(docType: 'yearly_demand')));
                           await Future.delayed(Duration.zero);
                         },
                         child: ListView.separated(
@@ -238,7 +255,7 @@ class _ReceivedViewState extends State<ReceivedView> {
                                 ? "-"
                                 : state.draftsMemoModel.documents[index].toName,
                           ),
-                          itemCount: 12,
+                          itemCount: state.draftsMemoModel.documents.length,
                         ),
                       );
                     },

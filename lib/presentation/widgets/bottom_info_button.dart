@@ -4,7 +4,16 @@ import 'package:sklad/presentation/widgets/w_button.dart';
 import 'package:sklad/presentation/widgets/w_show_dialog.dart';
 
 class BottomInfoButton extends StatelessWidget {
-  const BottomInfoButton({super.key});
+  const BottomInfoButton({
+    super.key,
+    required this.onTap1,
+    required this.onTap2,
+    required this.isLoading,
+  });
+  final Function() onTap1;
+  final Function() onTap2;
+  final bool isLoading;
+
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +93,8 @@ class BottomInfoButton extends StatelessWidget {
                 const SizedBox(width: 16),
                 Expanded(
                   child: WButton(
-                    onTap: () {},
+                    onTap: onTap1,
+                    isLoading: isLoading,
                     text: 'Отправить',
                     color: green,
                   ),
@@ -93,7 +103,8 @@ class BottomInfoButton extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             WButton(
-              onTap: () {},
+              onTap: onTap2,
+              isLoading: isLoading,
               text: 'Сохранить как черновик',
             )
           ],

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sklad/assets/colors/colors.dart';
 import 'package:sklad/assets/icons.dart';
-import 'package:sklad/presentation/views/home/create_parish_view.dart';
 import 'package:sklad/presentation/views/home/create_request_view.dart';
 import 'package:sklad/presentation/views/home/memo_create_view.dart';
 import 'package:sklad/presentation/widgets/w_scale_animation.dart';
@@ -31,16 +30,16 @@ class _CreateViewState extends State<CreateView> {
                 ));
               },
             ),
-            const SizedBox(height: 16),
-            CreateIteam(
-              icon: AppIcons.fileSymlink,
-              text: "Приход",
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const CreateParishView(),
-                ));
-              },
-            ),
+            // const SizedBox(height: 16),
+            // CreateIteam(
+            //   icon: AppIcons.fileSymlink,
+            //   text: "Приход",
+            //   onTap: () {
+            //     Navigator.of(context).push(MaterialPageRoute(
+            //       builder: (context) => const CreateParishView(),
+            //     ));
+            //   },
+            // ),
             const SizedBox(height: 16),
             CreateIteam(
               icon: AppIcons.request,

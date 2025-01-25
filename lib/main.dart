@@ -4,10 +4,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sklad/app/auth/auth_bloc.dart';
+import 'package:sklad/app/home/home_bloc.dart';
 import 'package:sklad/assets/constants/storage_keys.dart';
 import 'package:sklad/assets/themes/theme.dart';
 import 'package:sklad/assets/themes/theme_changer.dart';
 import 'package:sklad/infrastructure/core/service_locator.dart';
+import 'package:sklad/infrastructure/repo/apis_repo_impl.dart';
 import 'package:sklad/infrastructure/repo/auth_repo_impl.dart';
 import 'package:sklad/infrastructure/repo/storage_repository.dart';
 import 'package:sklad/presentation/routers/app_routes.dart';
@@ -40,9 +42,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          AuthBloc(serviceLocator<AuthRepoImpl>())..add(CheckUserEvent()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) =>
+              AuthBloc(serviceLocator<AuthRepoImpl>())..add(CheckUserEvent()),
+        ),
+        BlocProvider(
+          create: (context) => HomeBloc(serviceLocator<ApisRepoImpl>()),
+        ),
+      ],
       child: MaterialApp.router(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
@@ -52,7 +61,7 @@ class MyApp extends StatelessWidget {
         themeMode: AppScope.of(context).themeMode,
         builder: (context, child) => BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
-            debugPrint('STATE LISTENER ============> ${state.statusAuth}');
+            debugPrint('STATE LISTENER ============> //${state.statusAuth}');
             switch (state.statusAuth) {
               case AuthenticationStatus.unauthenticated:
                 AppRouts.router.pushReplacement(AppRouteName.auth);

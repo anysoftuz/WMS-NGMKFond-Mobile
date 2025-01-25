@@ -21,9 +21,19 @@ class _KitchenWarehouseViewState extends State<KitchenWarehouseView> {
       child: Column(
         children: [
           const SizedBox(height: 16),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: TitileFilter(text: 'Пахлавон'),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: TitileFilter(
+              text: 'Пахлавон',
+              onFilter: (
+                controllerNumber,
+                controllerTema,
+                controllerKomu,
+                controllerOtp,
+                controllerDate1,
+                controllerDate2,
+              ) {},
+            ),
           ),
           const SizedBox(height: 12),
           const Padding(

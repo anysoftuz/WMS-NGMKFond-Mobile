@@ -41,7 +41,17 @@ class _MeatWarehouseViewState extends State<MeatWarehouseView> {
                   const SizedBox(height: 16),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: TitileFilter(text: widget.model.name),
+                    child: TitileFilter(
+                      text: widget.model.name,
+                      onFilter: (
+                        controllerNumber,
+                        controllerTema,
+                        controllerKomu,
+                        controllerOtp,
+                        controllerDate1,
+                        controllerDate2,
+                      ) {},
+                    ),
                   ),
                   const SizedBox(height: 12),
                   BlocBuilder<HomeBloc, HomeState>(

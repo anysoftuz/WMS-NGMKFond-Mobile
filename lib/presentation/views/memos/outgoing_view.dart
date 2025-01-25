@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sklad/app/home/home_bloc.dart';
+import 'package:sklad/data/models/filter_model.dart';
 import 'package:sklad/presentation/routers/route_name.dart';
 import 'package:sklad/presentation/widgets/information_iteam.dart';
 import 'package:sklad/presentation/widgets/title_filter.dart';
@@ -19,7 +20,9 @@ class OutgoingView extends StatefulWidget {
 class _OutgoingViewState extends State<OutgoingView> {
   @override
   void initState() {
-    context.read<HomeBloc>().add(GetSentEvent(docType: 'memo'));
+    context.read<HomeBloc>().add(GetSentEvent(
+          model: FilterModel(docType: 'memo'),
+        ));
     super.initState();
   }
 
@@ -30,7 +33,25 @@ class _OutgoingViewState extends State<OutgoingView> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            const TitileFilter(text: 'Исходящие'),
+            TitileFilter(
+              text: 'Исходящие',
+              onFilter: (
+                controllerNumber,
+                controllerTema,
+                controllerKomu,
+                controllerOtp,
+                controllerDate1,
+                controllerDate2,
+              ) {
+                context.read<HomeBloc>().add(GetSentEvent(
+                      model: FilterModel(
+                        docType: 'memo',
+                        number: controllerNumber.text,
+                        subject: controllerOtp.text,
+                      ),
+                    ));
+              },
+            ),
             const SizedBox(height: 12),
             Expanded(
               child: BlocBuilder<HomeBloc, HomeState>(
@@ -48,9 +69,9 @@ class _OutgoingViewState extends State<OutgoingView> {
                   }
                   return RefreshIndicator.adaptive(
                     onRefresh: () async {
-                      context
-                          .read<HomeBloc>()
-                          .add(GetSentEvent(docType: 'memo'));
+                      context.read<HomeBloc>().add(GetSentEvent(
+                            model: FilterModel(docType: 'memo'),
+                          ));
                       await Future.delayed(Duration.zero);
                     },
                     child: ListView.separated(
@@ -85,7 +106,7 @@ class _OutgoingViewState extends State<OutgoingView> {
                       ),
                       separatorBuilder: (context, index) =>
                           const SizedBox(height: 12),
-                      itemCount: 12,
+                      itemCount: state.draftsMemoModel.documents.length,
                     ),
                   );
                 },
