@@ -1,7 +1,7 @@
 name: sklad
 description: "A new Flutter project."
 
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -12,6 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
+  flutter_localizations:
+    sdk: flutter
   flutter_bloc: ^9.0.0
   url_launcher: ^6.3.1
   device_info_plus: ^11.2.1
@@ -35,6 +37,7 @@ dependencies:
   intl: ^0.19.0
   flex_dropdown: ^0.2.0
   flutter_cached_pdfview: ^0.4.3
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
@@ -51,7 +54,7 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/fonts/
-    
+
   # fonts:
   #   - family: Schyler
   #     fonts:

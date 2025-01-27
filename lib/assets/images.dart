@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class AppImages {
   static const logo = "assets/images/logo.png";
   static const rus = "assets/images/rus.png";
+  static const uz = "assets/images/uz.jpg";
   static const banner = "assets/images/banner.png";
 }
 

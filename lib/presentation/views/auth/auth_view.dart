@@ -1,15 +1,19 @@
+import 'package:flex_dropdown/flex_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:provider/provider.dart';
 import 'package:sklad/app/auth/auth_bloc.dart';
 import 'package:sklad/assets/colors/colors.dart';
 import 'package:sklad/assets/icons.dart';
 import 'package:sklad/assets/images.dart';
+import 'package:sklad/l10n/localizations.dart';
 import 'package:sklad/presentation/views/auth/forgot_password_phone.dart';
 import 'package:sklad/presentation/widgets/custom_snackbar.dart';
 import 'package:sklad/presentation/widgets/custom_text_field.dart';
 import 'package:sklad/presentation/widgets/w_button.dart';
 import 'package:sklad/presentation/widgets/w_scale_animation.dart';
+import 'package:sklad/src/settings/local_provider.dart';
 import 'package:sklad/utils/formatters.dart';
 import 'package:sklad/utils/my_function.dart';
 
@@ -21,9 +25,11 @@ class AuthView extends StatefulWidget {
 }
 
 class _AuthViewState extends State<AuthView> {
+  final OverlayPortalController _controller = OverlayPortalController();
   late TextEditingController controllerPhone;
   late TextEditingController controllerPassword;
   ValueNotifier<bool> valueNotifier = ValueNotifier(true);
+  ValueNotifier<bool> uzFlag = ValueNotifier(false);
 
   @override
   void initState() {
@@ -45,24 +51,104 @@ class _AuthViewState extends State<AuthView> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: [
-          TextButton(
-            onPressed: () {},
-            child: Row(
-              children: [
-                AppImages.rus.imgAsset(),
-                const SizedBox(width: 8),
-                const Text(
-                  'Русский',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: blue,
+          ValueListenableBuilder(
+            valueListenable: uzFlag,
+            builder: (context, _, __) {
+              return RawFlexDropDown(
+                controller: _controller,
+                buttonBuilder: (context, onTap) => TextButton(
+                  onPressed: onTap,
+                  child: Row(
+                    children: [
+                      uzFlag.value
+                          ? AppImages.uz.imgAsset(height: 20, width: 20)
+                          : AppImages.rus.imgAsset(),
+                      const SizedBox(width: 8),
+                      Text(
+                        uzFlag.value ? "O'zbek" : 'Русский',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: blue,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      AppIcons.chevronDown.svg(color: blue),
+                    ],
                   ),
                 ),
-                const SizedBox(width: 4),
-                AppIcons.chevronDown.svg(color: blue),
-              ],
-            ),
+                menuBuilder: (context, width) => Container(
+                  margin: const EdgeInsets.only(top: 8),
+                  width: width,
+                  padding: const EdgeInsets.all(12),
+                  constraints: const BoxConstraints(
+                    maxHeight: 84,
+                  ),
+                  decoration: BoxDecoration(
+                    color: whiteGrey,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: bg00),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color(0x11000000),
+                        blurRadius: 32,
+                        offset: Offset(0, 20),
+                        spreadRadius: -8,
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    spacing: 16,
+                    children: [
+                      WScaleAnimation(
+                        onTap: () {
+                          uzFlag.value = false;
+                          Provider.of<LocaleProvider>(context, listen: false)
+                              .setLocale(const Locale('ru'));
+                          _controller.hide();
+                        },
+                        child: Row(
+                          children: [
+                            AppImages.rus.imgAsset(height: 20, width: 20),
+                            const SizedBox(width: 8),
+                            const Text(
+                              'Русский',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: blue,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      WScaleAnimation(
+                        onTap: () {
+                          uzFlag.value = true;
+                          Provider.of<LocaleProvider>(context, listen: false)
+                              .setLocale(const Locale('uz'));
+                          _controller.hide();
+                        },
+                        child: Row(
+                          children: [
+                            AppImages.uz.imgAsset(height: 20, width: 20),
+                            const SizedBox(width: 8),
+                            const Text(
+                              "O'zbek",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: blue,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
           const SizedBox(width: 16),
         ],
@@ -100,18 +186,18 @@ class _AuthViewState extends State<AuthView> {
               ],
             ),
             const SizedBox(height: 24),
-            const Text(
-              "Войти в аккаунт",
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context)?.login ?? "",
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(height: 4),
-            const Text(
-              "Введите свои учетные данные для доступа к вашей учетной записи",
+            Text(
+              AppLocalizations.of(context)?.authDes ?? "",
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: secondary500,
@@ -119,7 +205,7 @@ class _AuthViewState extends State<AuthView> {
             ),
             const SizedBox(height: 24),
             CustomTextField(
-              title: 'Номер телефона',
+              title: AppLocalizations.of(context)?.phoneNumer ?? "",
               controller: controllerPhone,
               keyboardType: TextInputType.phone,
               formatter: [Formatters.phoneFormatter],
