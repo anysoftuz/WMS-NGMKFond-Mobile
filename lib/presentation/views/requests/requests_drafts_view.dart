@@ -21,12 +21,6 @@ class RequestsDraftsView extends StatefulWidget {
 
 class _RequestsDraftsViewState extends State<RequestsDraftsView> {
   @override
-  void initState() {
-    context.read<HomeBloc>().add(GetDraftsEvent(model: FilterModel()));
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(

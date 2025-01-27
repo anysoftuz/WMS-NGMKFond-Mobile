@@ -206,6 +206,7 @@ class _MemoCreateViewState extends State<MemoCreateView> {
               minLines: 5,
               maxLines: 5,
               noHeight: true,
+              
               controller: controllerNote,
               onChanged: (value) {},
             ),

@@ -87,6 +87,7 @@ class _SentViewState extends State<SentView> {
                   builder: (context, state) {
                     if (state.statusDraftsMemo.isInProgress) {
                       return ListView.separated(
+                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                         itemBuilder: (context, index) => const WShimmer(
                           height: 220,
                           width: double.infinity,
@@ -103,6 +104,7 @@ class _SentViewState extends State<SentView> {
                         await Future.delayed(Duration.zero);
                       },
                       child: ListView.separated(
+                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                         itemBuilder: (context, index) => InformationIteam(
                           onTap: () {
                             context.push(AppRouteName.pdfView, extra: {
@@ -138,6 +140,7 @@ class _SentViewState extends State<SentView> {
                   builder: (context, state) {
                     if (state.statusDraftsMemo.isInProgress) {
                       return ListView.separated(
+                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                         itemBuilder: (context, index) => const WShimmer(
                           height: 220,
                           width: double.infinity,
@@ -155,6 +158,7 @@ class _SentViewState extends State<SentView> {
                         await Future.delayed(Duration.zero);
                       },
                       child: ListView.separated(
+                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                         itemBuilder: (context, index) => InformationIteam(
                           onTap: () {
                             context.push(AppRouteName.pdfView, extra: {
@@ -190,6 +194,7 @@ class _SentViewState extends State<SentView> {
                   builder: (context, state) {
                     if (state.statusDraftsMemo.isInProgress) {
                       return ListView.separated(
+                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                         itemBuilder: (context, index) => const WShimmer(
                           height: 220,
                           width: double.infinity,
@@ -206,6 +211,7 @@ class _SentViewState extends State<SentView> {
                         await Future.delayed(Duration.zero);
                       },
                       child: ListView.separated(
+                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                         itemBuilder: (context, index) => InformationIteam(
                           onTap: () {
                             context.push(AppRouteName.pdfView, extra: {

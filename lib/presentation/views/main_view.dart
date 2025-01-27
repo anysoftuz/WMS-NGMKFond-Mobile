@@ -7,9 +7,11 @@ import 'package:sklad/app/home/home_bloc.dart';
 import 'package:sklad/assets/colors/colors.dart';
 import 'package:sklad/assets/icons.dart';
 import 'package:sklad/assets/images.dart';
+import 'package:sklad/data/models/filter_model.dart';
 import 'package:sklad/presentation/routers/route_name.dart';
 import 'package:sklad/presentation/widgets/w_button.dart';
 import 'package:sklad/presentation/widgets/w_scale_animation.dart';
+import 'package:sklad/utils/log_service.dart';
 
 class MainView extends StatefulWidget {
   const MainView({super.key, required this.navigationShell});
@@ -22,11 +24,53 @@ class MainView extends StatefulWidget {
 class _MainViewState extends State<MainView> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   void _onTap(BuildContext context, int index) {
+    Log.i(index);
+
     widget.navigationShell.goBranch(
       index,
       initialLocation: index == widget.navigationShell.currentIndex,
     );
     Navigator.pop(context);
+    switch (index) {
+      case 1:
+        context.read<HomeBloc>().add(GetReceivedEvent(
+              model: FilterModel(docType: 'memo'),
+            ));
+        break;
+      case 2:
+        context.read<HomeBloc>().add(GetSentEvent(
+              model: FilterModel(docType: 'memo'),
+            ));
+        break;
+      case 3:
+        context.read<HomeBloc>().add(GetDraftsEvent(
+              model: FilterModel(docType: 'memo'),
+            ));
+        break;
+      case 4:
+        context.read<HomeBloc>().add(
+            GetReceivedEvent(model: FilterModel(docType: 'simple_demand')));
+        break;
+      case 5:
+        context
+            .read<HomeBloc>()
+            .add(GetSentEvent(model: FilterModel(docType: 'simple_demand')));
+        break;
+      case 6:
+        context.read<HomeBloc>().add(GetDraftsEvent(model: FilterModel()));
+        break;
+      case 7:
+        context.read<HomeBloc>().add(GetReceivedEvent(
+              model: FilterModel(docType: 'invoice'),
+            ));
+        break;
+      case 8:
+        context
+            .read<HomeBloc>()
+            .add(GetSentEvent(model: FilterModel(docType: 'invoice')));
+        break;
+      default:
+    }
   }
 
   @override

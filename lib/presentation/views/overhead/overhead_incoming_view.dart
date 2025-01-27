@@ -18,13 +18,7 @@ class OverheadIncomingView extends StatefulWidget {
 }
 
 class _OverheadIncomingViewState extends State<OverheadIncomingView> {
-  @override
-  void initState() {
-    context.read<HomeBloc>().add(GetReceivedEvent(
-          model: FilterModel(docType: 'invoice'),
-        ));
-    super.initState();
-  }
+
 
   @override
   Widget build(BuildContext context) {

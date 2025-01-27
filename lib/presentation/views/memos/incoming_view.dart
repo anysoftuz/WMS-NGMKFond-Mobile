@@ -19,14 +19,6 @@ class IncomingView extends StatefulWidget {
 
 class _IncomingViewState extends State<IncomingView> {
   @override
-  void initState() {
-    context.read<HomeBloc>().add(GetReceivedEvent(
-          model: FilterModel(docType: 'memo'),
-        ));
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
@@ -45,11 +37,10 @@ class _IncomingViewState extends State<IncomingView> {
               ) {
                 context.read<HomeBloc>().add(GetReceivedEvent(
                       model: FilterModel(
-                        docType: 'memo',
-                        number: controllerNumber.text,
-                        subject: controllerOtp.text,
-                        fromDate: controllerDate1.text
-                      ),
+                          docType: 'memo',
+                          number: controllerNumber.text,
+                          subject: controllerOtp.text,
+                          fromDate: controllerDate1.text),
                     ));
               },
             ),

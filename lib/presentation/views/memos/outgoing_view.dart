@@ -19,14 +19,6 @@ class OutgoingView extends StatefulWidget {
 
 class _OutgoingViewState extends State<OutgoingView> {
   @override
-  void initState() {
-    context.read<HomeBloc>().add(GetSentEvent(
-          model: FilterModel(docType: 'memo'),
-        ));
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:sklad/assets/colors/colors.dart';
 
 class PDFViewerPage extends StatefulWidget {
   final String title;
@@ -15,14 +16,24 @@ class PDFViewerPage extends StatefulWidget {
 }
 
 class _PDFViewerPageState extends State<PDFViewerPage> {
-  final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
-      body: SfPdfViewer.network(
-        "https://wms-api.ngmkfond.uz/api/v1/documents/get-pdf/${widget.id}",
-        key: _pdfViewerKey,
+      body: const PDF().cachedFromUrl(
+        'https://wms-api.ngmkfond.uz/api/v1/documents/get-pdf/${widget.id}',
+        placeholder: (progress) => Center(
+          child: Text(
+            '$progress %',
+            style: const TextStyle(color: dark),
+          ),
+        ),
+        errorWidget: (error) => Center(
+          child: Text(
+            error.toString(),
+            style: const TextStyle(color: dark),
+          ),
+        ),
       ),
     );
   }

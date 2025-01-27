@@ -20,13 +20,7 @@ class MemosDraftsView extends StatefulWidget {
 }
 
 class _MemosDraftsViewState extends State<MemosDraftsView> {
-  @override
-  void initState() {
-    context.read<HomeBloc>().add(GetDraftsEvent(
-          model: FilterModel(docType: 'memo'),
-        ));
-    super.initState();
-  }
+
 
   @override
   Widget build(BuildContext context) {

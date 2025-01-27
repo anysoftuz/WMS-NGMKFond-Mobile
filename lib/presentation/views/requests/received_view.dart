@@ -19,13 +19,7 @@ class ReceivedView extends StatefulWidget {
 }
 
 class _ReceivedViewState extends State<ReceivedView> {
-  @override
-  void initState() {
-    context
-        .read<HomeBloc>()
-        .add(GetReceivedEvent(model: FilterModel(docType: 'simple_demand')));
-    super.initState();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +82,7 @@ class _ReceivedViewState extends State<ReceivedView> {
                     builder: (context, state) {
                       if (state.statusDraftsMemo.isInProgress) {
                         return ListView.separated(
+                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                           itemBuilder: (context, index) => const WShimmer(
                             height: 220,
                             width: double.infinity,
@@ -147,6 +142,7 @@ class _ReceivedViewState extends State<ReceivedView> {
                     builder: (context, state) {
                       if (state.statusDraftsMemo.isInProgress) {
                         return ListView.separated(
+                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                           itemBuilder: (context, index) => const WShimmer(
                             height: 220,
                             width: double.infinity,
@@ -206,6 +202,7 @@ class _ReceivedViewState extends State<ReceivedView> {
                     builder: (context, state) {
                       if (state.statusDraftsMemo.isInProgress) {
                         return ListView.separated(
+                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                           itemBuilder: (context, index) => const WShimmer(
                             height: 220,
                             width: double.infinity,

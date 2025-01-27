@@ -144,6 +144,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     fontWeight: FontWeight.w400,
                     color: widget.textColor,
                   ),
+              textCapitalization: TextCapitalization.words,
               obscureText: widget.obscureText,
               keyboardType: widget.keyboardType,
               validator: widget.validator,
