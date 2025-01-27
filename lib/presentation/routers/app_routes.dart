@@ -71,8 +71,10 @@ sealed class AppRouts {
       GoRoute(
         path: AppRouteName.pdfView,
         builder: (context, state) => PDFViewerPage(
-          title: (state.extra as Map<String, String>)['title'] ?? '',
-          id: (state.extra as Map<String, String>)['id'] ?? '',
+          title: (state.extra as Map<String, dynamic>)['title'] ?? '',
+          id: (state.extra as Map<String, dynamic>)['id'] ?? '',
+          onCancel: (state.extra as Map<String, dynamic>)['onCancel'],
+          onSucces: (state.extra as Map<String, dynamic>)['onSucces'],
         ),
       ),
       mainView,

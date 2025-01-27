@@ -7,6 +7,7 @@ import 'package:sklad/app/home/home_bloc.dart';
 // import 'package:intl/intl.dart';
 import 'package:sklad/assets/colors/colors.dart';
 import 'package:sklad/assets/icons.dart';
+import 'package:sklad/data/models/respondents_list_model.dart';
 import 'package:sklad/presentation/widgets/custom_text_field.dart';
 import 'package:sklad/presentation/widgets/w_button.dart';
 import 'package:sklad/presentation/widgets/w_scale_animation.dart';
@@ -38,6 +39,8 @@ class _FilterViewState extends State<FilterView> {
   final OverlayPortalController _controller2 = OverlayPortalController();
   late DateTime dateTime;
   late DateTime dateTime1;
+  Respondent? respondent1;
+  Respondent? respondent2;
 
   @override
   void initState() {
@@ -192,6 +195,8 @@ class _FilterViewState extends State<FilterView> {
                           itemBuilder: (context, index) => WScaleAnimation(
                             onTap: () {
                               _controller1.hide();
+                              respondent1 = state
+                                  .respondentsListModel.respondents[index];
                               widget.controllerKomu.text = state
                                   .respondentsListModel.respondents[index].name;
                             },
@@ -243,6 +248,8 @@ class _FilterViewState extends State<FilterView> {
                           itemBuilder: (context, index) => WScaleAnimation(
                             onTap: () {
                               _controller2.hide();
+                              respondent2 = state
+                                  .respondentsListModel.respondents[index];
                               widget.controllerOtp.text = state
                                   .respondentsListModel.respondents[index].name;
                             },

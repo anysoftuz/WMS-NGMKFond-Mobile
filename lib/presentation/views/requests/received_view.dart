@@ -19,8 +19,6 @@ class ReceivedView extends StatefulWidget {
 }
 
 class _ReceivedViewState extends State<ReceivedView> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,6 +107,8 @@ class _ReceivedViewState extends State<ReceivedView> {
                                 'title': state
                                     .draftsMemoModel.documents[index].number,
                                 'id': state.draftsMemoModel.documents[index].id,
+                                'onCancel': () {},
+                                'onSucces': () {},
                               });
                             },
                             mainTitle:

@@ -218,6 +218,7 @@ class _SentViewState extends State<SentView> {
                               'title':
                                   state.draftsMemoModel.documents[index].number,
                               'id': state.draftsMemoModel.documents[index].id,
+                              'onCancel': () {},
                             });
                           },
                           mainTitle:
