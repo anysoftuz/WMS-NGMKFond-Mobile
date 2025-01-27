@@ -59,6 +59,7 @@ class _MainViewState extends State<MainView> {
             width: 52,
             borderRadius: 20,
             color: whiteGrey,
+            isDisabled: true,
             child: AppIcons.bell.svg(),
           ),
           const SizedBox(width: 12),

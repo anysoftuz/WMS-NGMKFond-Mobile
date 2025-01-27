@@ -48,6 +48,7 @@ class _IncomingViewState extends State<IncomingView> {
                         docType: 'memo',
                         number: controllerNumber.text,
                         subject: controllerOtp.text,
+                        fromDate: controllerDate1.text
                       ),
                     ));
               },

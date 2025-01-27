@@ -116,131 +116,129 @@ class _MeatWarehouseViewState extends State<MeatWarehouseView> {
                       if (state.warehousesBasesModel.baseWarehouses.isEmpty) {
                         return const SizedBox();
                       }
-                      return Padding(
+                      return Container(
+                        height: 48,
+                        width: double.infinity,
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Row(
-                          spacing: 16,
-                          children: [
-                            Expanded(
-                              child: WButton(
-                                onTap: () {},
-                                color: bg00,
-                                textColor: backgroundText,
-                                text: state.warehousesBasesModel
-                                    .baseWarehouses[state.warehousesSel].name,
+                        child: RawFlexDropDown(
+                          controller: _controller,
+                          buttonBuilder: (context, onTap) {
+                            return WButton(
+                              onTap: onTap,
+                              color: white,
+                              border: Border.all(color: bg00),
+                              textColor: backgroundText,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
                               ),
-                            ),
-                            Expanded(
-                              child: RawFlexDropDown(
-                                controller: _controller,
-                                buttonBuilder: (context, onTap) {
-                                  return WButton(
-                                    onTap: onTap,
-                                    color: white,
-                                    border: Border.all(color: bg00),
-                                    textColor: backgroundText,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 16,
+                              child: Row(
+                                spacing: 8,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      state
+                                          .warehousesBasesModel
+                                          .baseWarehouses[state.warehousesSel]
+                                          .name,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    child: Row(
-                                      spacing: 8,
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            state
-                                                .warehousesBasesModel
-                                                .baseWarehouses[
-                                                    state.warehousesSel]
-                                                .name,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                        AppIcons.chevronDown.svg(),
-                                      ],
+                                  ),
+                                  AppIcons.chevronDown.svg(),
+                                ],
+                              ),
+                            );
+                          },
+                          menuBuilder: (context, width) {
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: Container(
+                                width: width,
+                                padding: const EdgeInsets.all(12),
+                                constraints: const BoxConstraints(
+                                  maxHeight: 200,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: whiteGrey,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(color: bg00),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Color(0x11000000),
+                                      blurRadius: 32,
+                                      offset: Offset(0, 20),
+                                      spreadRadius: -8,
                                     ),
-                                  );
-                                },
-                                menuBuilder: (context, width) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(top: 8),
+                                  ],
+                                ),
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) =>
+                                      WScaleAnimation(
+                                    onTap: () {
+                                      _controller.hide();
+                                      context
+                                          .read<HomeBloc>()
+                                          .add(GetWarehousesChengeEvent(
+                                            id: widget.model.id,
+                                            index: index,
+                                          ));
+                                    },
                                     child: Container(
-                                      width: width,
-                                      padding: const EdgeInsets.all(12),
-                                      constraints: const BoxConstraints(
-                                        maxHeight: 200,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 10,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: whiteGrey,
                                         borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(color: bg00),
-                                        boxShadow: const [
-                                          BoxShadow(
-                                            color: Color(0x11000000),
-                                            blurRadius: 32,
-                                            offset: Offset(0, 20),
-                                            spreadRadius: -8,
-                                          ),
-                                        ],
+                                        color: state.warehousesSel == index
+                                            ? white
+                                            : null,
+                                        boxShadow: state.warehousesSel == index
+                                            ? [
+                                                BoxShadow(
+                                                  color: const Color(0xFF0A090B)
+                                                      .withValues(
+                                                    alpha: .07,
+                                                  ),
+                                                  blurRadius: 4,
+                                                  offset: const Offset(0, 1.5),
+                                                  spreadRadius: -1,
+                                                ),
+                                              ]
+                                            : null,
                                       ),
-                                      child: ListView.builder(
-                                        shrinkWrap: true,
-                                        itemBuilder: (context, index) =>
-                                            WScaleAnimation(
-                                          onTap: () {
-                                            _controller.hide();
-                                            context
-                                                .read<HomeBloc>()
-                                                .add(GetWarehousesChengeEvent(
-                                                  id: widget.model.id,
-                                                  index: index,
-                                                ));
-                                          },
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 12,
-                                              vertical: 10,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              color:
-                                                  state.warehousesSel == index
-                                                      ? white
-                                                      : null,
-                                              boxShadow: state.warehousesSel ==
-                                                      index
-                                                  ? [
-                                                      BoxShadow(
-                                                        color: const Color(
-                                                                0xFF0A090B)
-                                                            .withValues(
-                                                          alpha: .07,
-                                                        ),
-                                                        blurRadius: 4,
-                                                        offset: const Offset(
-                                                            0, 1.5),
-                                                        spreadRadius: -1,
-                                                      ),
-                                                    ]
-                                                  : null,
-                                            ),
-                                            child: Text(
-                                              state.warehousesBasesModel
-                                                  .baseWarehouses[index].name,
-                                            ),
-                                          ),
-                                        ),
-                                        itemCount: state.warehousesBasesModel
-                                            .baseWarehouses.length,
+                                      child: Text(
+                                        state.warehousesBasesModel
+                                            .baseWarehouses[index].name,
                                       ),
                                     ),
-                                  );
-                                },
+                                  ),
+                                  itemCount: state.warehousesBasesModel
+                                      .baseWarehouses.length,
+                                ),
                               ),
-                            ),
-                          ],
+                            );
+                          },
                         ),
                       );
+
+                      // return Padding(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 16),
+                      //   child: Row(
+                      //     spacing: 16,
+                      //     children: [
+                      //       // Expanded(
+                      //       //   child: WButton(
+                      //       //     onTap: () {},
+                      //       //     color: bg00,
+                      //       //     textColor: backgroundText,
+                      //       //     text: state.warehousesBasesModel
+                      //       //         .baseWarehouses[state.warehousesSel].name,
+                      //       //   ),
+                      //       // ),
+                      //         ],
+                      //   ),
+                      // );
                     },
                   ),
                   const SizedBox(height: 4),
