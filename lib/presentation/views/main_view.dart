@@ -95,18 +95,18 @@ class _MainViewState extends State<MainView> {
           ],
         ),
         actions: [
-          WButton(
-            onTap: () {
-              context.push(AppRouteName.notification);
-            },
-            height: 52,
-            width: 52,
-            borderRadius: 20,
-            color: whiteGrey,
-            isDisabled: true,
-            child: AppIcons.bell.svg(),
-          ),
-          const SizedBox(width: 12),
+          // WButton(
+          //   onTap: () {
+          //     context.push(AppRouteName.notification);
+          //   },
+          //   height: 52,
+          //   width: 52,
+          //   borderRadius: 20,
+          //   color: whiteGrey,
+          //   isDisabled: true,
+          //   child: AppIcons.bell.svg(),
+          // ),
+          // const SizedBox(width: 12),
           WButton(
             onTap: () {
               context.push(AppRouteName.create);
