@@ -6,6 +6,7 @@ import 'package:sklad/assets/colors/colors.dart';
 import 'package:sklad/assets/icons.dart';
 import 'package:sklad/data/models/managements_bases_model.dart';
 import 'package:sklad/presentation/views/warehouse_bases/widget/dele.dart';
+import 'package:sklad/presentation/widgets/empty_iteam.dart';
 import 'package:sklad/presentation/widgets/information_iteam.dart';
 import 'package:sklad/presentation/widgets/title_filter.dart';
 import 'package:sklad/presentation/widgets/w_button.dart';
@@ -268,6 +269,9 @@ class _MeatWarehouseViewState extends State<MeatWarehouseView> {
             children: [
               BlocBuilder<HomeBloc, HomeState>(
                 builder: (context, state) {
+                  if (state.productsBasesModel.warehouseProducts.isEmpty) {
+                    return const SingleChildScrollView(child: EmptyIteam());
+                  }
                   return ListView.separated(
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
                     itemBuilder: (context, index) => InformationIteam(
@@ -294,6 +298,9 @@ class _MeatWarehouseViewState extends State<MeatWarehouseView> {
               ),
               BlocBuilder<HomeBloc, HomeState>(
                 builder: (context, state) {
+                  if (state.invoicesBasesModel.warehouseProducts.isEmpty) {
+                    return const SingleChildScrollView(child: EmptyIteam());
+                  }
                   return ListView.separated(
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
                     itemBuilder: (context, index) => InformationIteam(

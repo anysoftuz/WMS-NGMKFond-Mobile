@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sklad/app/home/home_bloc.dart';
 import 'package:sklad/data/models/filter_model.dart';
 import 'package:sklad/presentation/routers/route_name.dart';
+import 'package:sklad/presentation/widgets/empty_iteam.dart';
 import 'package:sklad/presentation/widgets/information_iteam.dart';
 import 'package:sklad/presentation/widgets/title_filter.dart';
 import 'package:sklad/presentation/widgets/w_shimmer.dart';
@@ -90,6 +91,9 @@ class _ReceivedViewState extends State<ReceivedView> {
                           itemCount: 12,
                         );
                       }
+                      if (state.draftsMemoModel.documents.isEmpty) {
+                        return const EmptyIteam();
+                      }
                       return RefreshIndicator.adaptive(
                         onRefresh: () async {
                           context.read<HomeBloc>().add(GetReceivedEvent(
@@ -165,6 +169,9 @@ class _ReceivedViewState extends State<ReceivedView> {
                           itemCount: 12,
                         );
                       }
+                      if (state.draftsMemoModel.documents.isEmpty) {
+                        return const EmptyIteam();
+                      }
                       return RefreshIndicator.adaptive(
                         onRefresh: () async {
                           context.read<HomeBloc>().add(GetReceivedEvent(
@@ -237,6 +244,9 @@ class _ReceivedViewState extends State<ReceivedView> {
                               const SizedBox(height: 12),
                           itemCount: 12,
                         );
+                      }
+                      if (state.draftsMemoModel.documents.isEmpty) {
+                        return const EmptyIteam();
                       }
                       return RefreshIndicator.adaptive(
                         onRefresh: () async {

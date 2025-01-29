@@ -26,6 +26,7 @@ class AppIcons {
   static const buildingWarehouse = "assets/icons/building-warehouse.svg";
   static const brandCodepen = "assets/icons/brand-codepen.svg";
   static const logout = "assets/icons/logout.svg";
+  static const empty = "assets/icons/empty.svg";
 }
 
 extension SvgExt on String {

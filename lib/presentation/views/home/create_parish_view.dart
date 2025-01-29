@@ -1,13 +1,54 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sklad/assets/colors/colors.dart';
 import 'package:sklad/assets/icons.dart';
 import 'package:sklad/presentation/widgets/bottom_info_button.dart';
 import 'package:sklad/presentation/widgets/custom_text_field.dart';
 import 'package:sklad/presentation/widgets/w_button.dart';
 import 'package:sklad/presentation/widgets/w_preview_button.dart';
+import 'package:sklad/utils/my_function.dart';
+import 'package:sklad/utils/utils.dart';
 
-class CreateParishView extends StatelessWidget {
+class CreateParishView extends StatefulWidget {
   const CreateParishView({super.key});
+
+  @override
+  State<CreateParishView> createState() => _CreateParishViewState();
+}
+
+class _CreateParishViewState extends State<CreateParishView> {
+  late TextEditingController controllerNumber;
+  late TextEditingController throughWhom;
+  late TextEditingController foundation;
+  late TextEditingController methodOfDispatch;
+  late TextEditingController controllerActNumber;
+  late TextEditingController controllerActDes;
+  late TextEditingController controllerDate;
+  DateTime dateTime = DateTime.now();
+  @override
+  void initState() {
+    controllerNumber = TextEditingController();
+    throughWhom = TextEditingController();
+    foundation = TextEditingController();
+    methodOfDispatch = TextEditingController();
+    controllerActNumber = TextEditingController();
+    controllerActDes = TextEditingController();
+    controllerDate = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controllerNumber.dispose();
+    throughWhom.dispose();
+    foundation.dispose();
+    methodOfDispatch.dispose();
+    controllerActNumber.dispose();
+    controllerActDes.dispose();
+    controllerDate.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,19 +66,25 @@ class CreateParishView extends StatelessWidget {
             CustomTextField(
               title: 'Название документа',
               hintText: 'Входящий накладной',
+              readOnly: true,
+              fillColor: scaffoldSecondaryBackground,
               onChanged: (value) {},
             ),
             const SizedBox(height: 16),
             CustomTextField(
               title: 'Дата создания документа',
-              hintText: '27.11.2024',
+              hintText: MyFunction.dateFormatDate(DateTime.now().toString()),
               prefixIcon: AppIcons.calendarMinus.svg(),
+              readOnly: true,
+              fillColor: scaffoldSecondaryBackground,
               onChanged: (value) {},
             ),
             const SizedBox(height: 16),
             CustomTextField(
               title: '№ накладной в системе',
               hintText: 'Автоматически',
+              readOnly: true,
+              fillColor: scaffoldSecondaryBackground,
               onChanged: (value) {},
             ),
             const SizedBox(height: 16),
@@ -47,6 +94,7 @@ class CreateParishView extends StatelessWidget {
                   child: CustomTextField(
                     title: '№ накладной',
                     hintText: 'Введите',
+                    controller: controllerNumber,
                     onChanged: (value) {},
                   ),
                 ),
@@ -56,6 +104,29 @@ class CreateParishView extends StatelessWidget {
                     title: 'Дата создания документа',
                     hintText: 'дд.мм.гггг',
                     prefixIcon: AppIcons.calendarMinus.svg(),
+                    controller: controllerDate,
+                    onprefixIconPressed: () {
+                      Utils.showSheet(
+                        context,
+                        child: SizedBox(
+                          height: 180,
+                          child: CupertinoDatePicker(
+                            minimumYear: 2015,
+                            maximumYear: DateTime.now().year,
+                            initialDateTime: dateTime,
+                            mode: CupertinoDatePickerMode.date,
+                            onDateTimeChanged: (dateTime) =>
+                                setState(() => this.dateTime = dateTime),
+                          ),
+                        ),
+                        onClicked: () {
+                          final value =
+                              DateFormat('dd.MM.yyyy').format(dateTime);
+                          controllerDate.text = value;
+                          Navigator.pop(context);
+                        },
+                      );
+                    },
                     onChanged: (value) {},
                   ),
                 ),
@@ -77,18 +148,21 @@ class CreateParishView extends StatelessWidget {
             CustomTextField(
               title: 'Через кого',
               hintText: 'Введите',
+              controller: throughWhom,
               onChanged: (value) {},
             ),
             const SizedBox(height: 16),
             CustomTextField(
               title: 'Основание',
               hintText: 'Введите',
+              controller: foundation,
               onChanged: (value) {},
             ),
             const SizedBox(height: 16),
             CustomTextField(
               title: 'Способ отправления',
               hintText: 'Введите',
+              controller: methodOfDispatch,
               onChanged: (value) {},
             ),
             const SizedBox(height: 16),
@@ -194,18 +268,23 @@ class CreateParishView extends StatelessWidget {
             CustomTextField(
               title: 'АКТ',
               hintText: 'АКТ',
+              readOnly: true,
+              fillColor: scaffoldSecondaryBackground,
               onChanged: (value) {},
             ),
             const SizedBox(height: 16),
             CustomTextField(
               title: '№ накладной в системе',
               hintText: 'Автоматически',
+              readOnly: true,
+              fillColor: scaffoldSecondaryBackground,
               onChanged: (value) {},
             ),
             const SizedBox(height: 16),
             CustomTextField(
               title: '№ Акта',
               hintText: 'Введите',
+              controller: controllerActNumber,
               onChanged: (value) {},
             ),
             const SizedBox(height: 16),
@@ -215,6 +294,7 @@ class CreateParishView extends StatelessWidget {
               minLines: 5,
               maxLines: 5,
               noHeight: true,
+              controller: controllerActDes,
               onChanged: (value) {},
             ),
             const SizedBox(height: 16),
