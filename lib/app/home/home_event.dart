@@ -6,6 +6,13 @@ class GetVisitorsEvent extends HomeEvent {}
 
 class GetBranchEvent extends HomeEvent {}
 
+class GetDocumentShowEvent extends HomeEvent {
+  final String id;
+  final Function(DocumentShowModel model) onSucces;
+
+  GetDocumentShowEvent({required this.id, required this.onSucces});
+}
+
 class GetFillingPercentageEvent extends HomeEvent {
   final int id;
 
@@ -67,6 +74,18 @@ class CreateDocEvent extends HomeEvent {
   final VoidCallback onSucces;
 
   CreateDocEvent({
+    required this.data,
+    required this.onSucces,
+  });
+}
+
+class UpdateDocEvent extends HomeEvent {
+  final String id;
+  final Map<String, dynamic> data;
+  final VoidCallback onSucces;
+
+  UpdateDocEvent({
+    required this.id,
     required this.data,
     required this.onSucces,
   });

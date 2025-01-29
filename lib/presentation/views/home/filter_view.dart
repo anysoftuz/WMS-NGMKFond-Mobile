@@ -169,6 +169,7 @@ class _FilterViewState extends State<FilterView> {
                         controller: widget.controllerKomu,
                         readOnly: true,
                         suffixIcon: AppIcons.chevronDown.svg(),
+                        onsuffixIconPressed: onTap,
                         onChanged: (value) {},
                       ),
                       menuBuilder: (context, width) => Container(
@@ -195,8 +196,8 @@ class _FilterViewState extends State<FilterView> {
                           itemBuilder: (context, index) => WScaleAnimation(
                             onTap: () {
                               _controller1.hide();
-                              respondent1 = state
-                                  .respondentsListModel.respondents[index];
+                              respondent1 =
+                                  state.respondentsListModel.respondents[index];
                               widget.controllerKomu.text = state
                                   .respondentsListModel.respondents[index].name;
                             },
@@ -222,6 +223,7 @@ class _FilterViewState extends State<FilterView> {
                         controller: widget.controllerOtp,
                         readOnly: true,
                         suffixIcon: AppIcons.chevronDown.svg(),
+                        onsuffixIconPressed: onTap,
                         onChanged: (value) {},
                       ),
                       menuBuilder: (context, width) => Container(
@@ -248,8 +250,8 @@ class _FilterViewState extends State<FilterView> {
                           itemBuilder: (context, index) => WScaleAnimation(
                             onTap: () {
                               _controller2.hide();
-                              respondent2 = state
-                                  .respondentsListModel.respondents[index];
+                              respondent2 =
+                                  state.respondentsListModel.respondents[index];
                               widget.controllerOtp.text = state
                                   .respondentsListModel.respondents[index].name;
                             },

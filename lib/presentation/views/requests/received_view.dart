@@ -101,7 +101,7 @@ class _ReceivedViewState extends State<ReceivedView> {
                           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                           separatorBuilder: (context, index) =>
                               const SizedBox(height: 12),
-                          itemBuilder: (context, index) => InformationIteam(
+                          itemBuilder: (context, index) => GestureDetector(
                             onTap: () {
                               context.push(AppRouteName.pdfView, extra: {
                                 'title': state
@@ -111,27 +111,40 @@ class _ReceivedViewState extends State<ReceivedView> {
                                 'onSucces': () {},
                               });
                             },
-                            mainTitle:
-                                state.draftsMemoModel.documents[index].number,
-                            title1: 'Дата:',
-                            subtitle1: MyFunction.dateFormatDate(
-                              state.draftsMemoModel.documents[index].date
-                                  .toString(),
+                            child: InformationIteam(
+                              onTap: () {
+                                context.push(AppRouteName.pdfView, extra: {
+                                  'title': state
+                                      .draftsMemoModel.documents[index].number,
+                                  'id':
+                                      state.draftsMemoModel.documents[index].id,
+                                  'onCancel': () {},
+                                  'onSucces': () {},
+                                });
+                              },
+                              mainTitle:
+                                  state.draftsMemoModel.documents[index].number,
+                              title1: 'Дата:',
+                              subtitle1: MyFunction.dateFormatDate(
+                                state.draftsMemoModel.documents[index].date
+                                    .toString(),
+                              ),
+                              title2: 'Тема:',
+                              subtitle2: state
+                                  .draftsMemoModel.documents[index].subject,
+                              title3: 'Отправитель:',
+                              subtitle3: state.draftsMemoModel.documents[index]
+                                      .fromName.isEmpty
+                                  ? "-"
+                                  : state.draftsMemoModel.documents[index]
+                                      .fromName,
+                              title4: 'Тип запроса:',
+                              subtitle4: state.draftsMemoModel.documents[index]
+                                      .toName.isEmpty
+                                  ? "-"
+                                  : state
+                                      .draftsMemoModel.documents[index].toName,
                             ),
-                            title2: 'Тема:',
-                            subtitle2:
-                                state.draftsMemoModel.documents[index].subject,
-                            title3: 'Отправитель:',
-                            subtitle3: state.draftsMemoModel.documents[index]
-                                    .fromName.isEmpty
-                                ? "-"
-                                : state
-                                    .draftsMemoModel.documents[index].fromName,
-                            title4: 'Тип запроса:',
-                            subtitle4: state.draftsMemoModel.documents[index]
-                                    .toName.isEmpty
-                                ? "-"
-                                : state.draftsMemoModel.documents[index].toName,
                           ),
                           itemCount: state.draftsMemoModel.documents.length,
                         ),
@@ -163,35 +176,48 @@ class _ReceivedViewState extends State<ReceivedView> {
                           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                           separatorBuilder: (context, index) =>
                               const SizedBox(height: 12),
-                          itemBuilder: (context, index) => InformationIteam(
+                          itemBuilder: (context, index) => GestureDetector(
                             onTap: () {
                               context.push(AppRouteName.pdfView, extra: {
                                 'title': state
                                     .draftsMemoModel.documents[index].number,
                                 'id': state.draftsMemoModel.documents[index].id,
+                                'onCancel': () {},
+                                'onSucces': () {},
                               });
                             },
-                            mainTitle:
-                                state.draftsMemoModel.documents[index].number,
-                            title1: 'Дата:',
-                            subtitle1: MyFunction.dateFormatDate(
-                              state.draftsMemoModel.documents[index].date
-                                  .toString(),
+                            child: InformationIteam(
+                              onTap: () {
+                                context.push(AppRouteName.pdfView, extra: {
+                                  'title': state
+                                      .draftsMemoModel.documents[index].number,
+                                  'id':
+                                      state.draftsMemoModel.documents[index].id,
+                                });
+                              },
+                              mainTitle:
+                                  state.draftsMemoModel.documents[index].number,
+                              title1: 'Дата:',
+                              subtitle1: MyFunction.dateFormatDate(
+                                state.draftsMemoModel.documents[index].date
+                                    .toString(),
+                              ),
+                              title2: 'Тема:',
+                              subtitle2: state
+                                  .draftsMemoModel.documents[index].subject,
+                              title3: 'Отправитель:',
+                              subtitle3: state.draftsMemoModel.documents[index]
+                                      .fromName.isEmpty
+                                  ? "-"
+                                  : state.draftsMemoModel.documents[index]
+                                      .fromName,
+                              title4: 'Тип запроса:',
+                              subtitle4: state.draftsMemoModel.documents[index]
+                                      .toName.isEmpty
+                                  ? "-"
+                                  : state
+                                      .draftsMemoModel.documents[index].toName,
                             ),
-                            title2: 'Тема:',
-                            subtitle2:
-                                state.draftsMemoModel.documents[index].subject,
-                            title3: 'Отправитель:',
-                            subtitle3: state.draftsMemoModel.documents[index]
-                                    .fromName.isEmpty
-                                ? "-"
-                                : state
-                                    .draftsMemoModel.documents[index].fromName,
-                            title4: 'Тип запроса:',
-                            subtitle4: state.draftsMemoModel.documents[index]
-                                    .toName.isEmpty
-                                ? "-"
-                                : state.draftsMemoModel.documents[index].toName,
                           ),
                           itemCount: state.draftsMemoModel.documents.length,
                         ),
@@ -222,35 +248,48 @@ class _ReceivedViewState extends State<ReceivedView> {
                           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                           separatorBuilder: (context, index) =>
                               const SizedBox(height: 12),
-                          itemBuilder: (context, index) => InformationIteam(
+                          itemBuilder: (context, index) => GestureDetector(
                             onTap: () {
                               context.push(AppRouteName.pdfView, extra: {
                                 'title': state
                                     .draftsMemoModel.documents[index].number,
                                 'id': state.draftsMemoModel.documents[index].id,
+                                'onCancel': () {},
+                                'onSucces': () {},
                               });
                             },
-                            mainTitle:
-                                state.draftsMemoModel.documents[index].number,
-                            title1: 'Дата:',
-                            subtitle1: MyFunction.dateFormatDate(
-                              state.draftsMemoModel.documents[index].date
-                                  .toString(),
+                            child: InformationIteam(
+                              onTap: () {
+                                context.push(AppRouteName.pdfView, extra: {
+                                  'title': state
+                                      .draftsMemoModel.documents[index].number,
+                                  'id':
+                                      state.draftsMemoModel.documents[index].id,
+                                });
+                              },
+                              mainTitle:
+                                  state.draftsMemoModel.documents[index].number,
+                              title1: 'Дата:',
+                              subtitle1: MyFunction.dateFormatDate(
+                                state.draftsMemoModel.documents[index].date
+                                    .toString(),
+                              ),
+                              title2: 'Тема:',
+                              subtitle2: state
+                                  .draftsMemoModel.documents[index].subject,
+                              title3: 'Отправитель:',
+                              subtitle3: state.draftsMemoModel.documents[index]
+                                      .fromName.isEmpty
+                                  ? "-"
+                                  : state.draftsMemoModel.documents[index]
+                                      .fromName,
+                              title4: 'Тип запроса:',
+                              subtitle4: state.draftsMemoModel.documents[index]
+                                      .toName.isEmpty
+                                  ? "-"
+                                  : state
+                                      .draftsMemoModel.documents[index].toName,
                             ),
-                            title2: 'Тема:',
-                            subtitle2:
-                                state.draftsMemoModel.documents[index].subject,
-                            title3: 'Отправитель:',
-                            subtitle3: state.draftsMemoModel.documents[index]
-                                    .fromName.isEmpty
-                                ? "-"
-                                : state
-                                    .draftsMemoModel.documents[index].fromName,
-                            title4: 'Тип запроса:',
-                            subtitle4: state.draftsMemoModel.documents[index]
-                                    .toName.isEmpty
-                                ? "-"
-                                : state.draftsMemoModel.documents[index].toName,
                           ),
                           itemCount: state.draftsMemoModel.documents.length,
                         ),

@@ -1,4 +1,5 @@
 import 'package:sklad/data/common/response_model.dart';
+import 'package:sklad/data/models/document_show_model.dart';
 import 'package:sklad/data/models/drafts_memo_model.dart';
 import 'package:sklad/data/models/managements_bases_model.dart';
 import 'package:sklad/data/models/products_bases_model.dart';
@@ -39,4 +40,11 @@ abstract class ApisRepo {
     int id,
   );
   Future<Either<Failure, bool>> postDocument(Map<String, dynamic> data);
+  Future<Either<Failure, bool>> putDocument(
+    String id,
+    Map<String, dynamic> data,
+  );
+  Future<Either<Failure, ResponseModel<DocumentShowModel>>> getDocumentShow(
+    String id,
+  );
 }

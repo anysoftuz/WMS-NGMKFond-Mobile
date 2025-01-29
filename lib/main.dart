@@ -4,6 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:keyboard_dismisser/keyboard_dismisser.dart';
+import 'package:provider/provider.dart';
+
 import 'package:sklad/app/auth/auth_bloc.dart';
 import 'package:sklad/app/home/home_bloc.dart';
 import 'package:sklad/assets/constants/storage_keys.dart';
@@ -13,14 +16,12 @@ import 'package:sklad/infrastructure/core/service_locator.dart';
 import 'package:sklad/infrastructure/repo/apis_repo_impl.dart';
 import 'package:sklad/infrastructure/repo/auth_repo_impl.dart';
 import 'package:sklad/infrastructure/repo/storage_repository.dart';
-import 'package:sklad/src/settings/local_provider.dart';
 import 'package:sklad/l10n/localizations.dart';
 import 'package:sklad/presentation/routers/app_routes.dart';
 import 'package:sklad/presentation/routers/route_name.dart';
+import 'package:sklad/src/settings/local_provider.dart';
 import 'package:sklad/utils/bloc_logger.dart';
-import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:sklad/utils/device_info.dart';
-import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

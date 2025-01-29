@@ -18,7 +18,6 @@ class OverheadOutgoingView extends StatefulWidget {
 }
 
 class _OverheadOutgoingViewState extends State<OverheadOutgoingView> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +70,7 @@ class _OverheadOutgoingViewState extends State<OverheadOutgoingView> {
                       await Future.delayed(Duration.zero);
                     },
                     child: ListView.separated(
-                      itemBuilder: (context, index) => InformationIteam(
+                      itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
                           context.push(AppRouteName.pdfView, extra: {
                             'title':
@@ -79,21 +78,30 @@ class _OverheadOutgoingViewState extends State<OverheadOutgoingView> {
                             'id': state.draftsMemoModel.documents[index].id,
                           });
                         },
-                        mainTitle:
-                            state.draftsMemoModel.documents[index].number,
-                        title1: 'Дата:',
-                        subtitle1: MyFunction.dateFormatDate(
-                          state.draftsMemoModel.documents[index].date
-                              .toString(),
+                        child: InformationIteam(
+                          onTap: () {
+                            context.push(AppRouteName.pdfView, extra: {
+                              'title':
+                                  state.draftsMemoModel.documents[index].number,
+                              'id': state.draftsMemoModel.documents[index].id,
+                            });
+                          },
+                          mainTitle:
+                              state.draftsMemoModel.documents[index].number,
+                          title1: 'Дата:',
+                          subtitle1: MyFunction.dateFormatDate(
+                            state.draftsMemoModel.documents[index].date
+                                .toString(),
+                          ),
+                          title2: 'Основание:',
+                          subtitle2: 'Назначение №2392',
+                          title3: 'От кого:',
+                          subtitle3: 'Зарафшан',
+                          title4: 'Кому:',
+                          subtitle4: 'Фонд',
+                          title5: 'Способ отправления:',
+                          subtitle5: '85 897 VAA',
                         ),
-                        title2: 'Основание:',
-                        subtitle2: 'Назначение №2392',
-                        title3: 'От кого:',
-                        subtitle3: 'Зарафшан',
-                        title4: 'Кому:',
-                        subtitle4: 'Фонд',
-                        title5: 'Способ отправления:',
-                        subtitle5: '85 897 VAA',
                       ),
                       separatorBuilder: (context, index) =>
                           const SizedBox(height: 12),

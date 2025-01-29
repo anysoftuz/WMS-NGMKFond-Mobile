@@ -11,6 +11,7 @@ class HomeState extends Equatable {
   final FormzSubmissionStatus statusBaseInvoices;
   final FormzSubmissionStatus statusWarehouses;
   final FormzSubmissionStatus status;
+  final FormzSubmissionStatus statusShow;
   final VisitorsModel visitorsModel;
   final WarehouseCapacityModel warehouseCapacityModel;
   final DraftsMemoModel draftsMemoModel;
@@ -23,6 +24,7 @@ class HomeState extends Equatable {
   final int warehousesSel;
   const HomeState({
     this.status = FormzSubmissionStatus.initial,
+    this.statusShow = FormzSubmissionStatus.initial,
     this.statusVisitors = FormzSubmissionStatus.initial,
     this.statusWarehouseCapacity = FormzSubmissionStatus.initial,
     this.statusDraftsMemo = FormzSubmissionStatus.initial,
@@ -46,6 +48,7 @@ class HomeState extends Equatable {
   @override
   List<Object> get props => [
         status,
+        statusShow,
         statusVisitors,
         statusWarehouseCapacity,
         statusDraftsMemo,
@@ -76,6 +79,7 @@ class HomeState extends Equatable {
     FormzSubmissionStatus? statusBaseInvoices,
     FormzSubmissionStatus? statusWarehouses,
     FormzSubmissionStatus? status,
+    FormzSubmissionStatus? statusShow,
     VisitorsModel? visitorsModel,
     WarehouseCapacityModel? warehouseCapacityModel,
     DraftsMemoModel? draftsMemoModel,
@@ -97,6 +101,7 @@ class HomeState extends Equatable {
       statusBaseInvoices: statusBaseInvoices ?? this.statusBaseInvoices,
       statusWarehouses: statusWarehouses ?? this.statusWarehouses,
       status: status ?? this.status,
+      statusShow: statusShow ?? this.statusShow,
       visitorsModel: visitorsModel ?? this.visitorsModel,
       warehouseCapacityModel: warehouseCapacityModel ?? this.warehouseCapacityModel,
       draftsMemoModel: draftsMemoModel ?? this.draftsMemoModel,

@@ -18,8 +18,6 @@ class OverheadIncomingView extends StatefulWidget {
 }
 
 class _OverheadIncomingViewState extends State<OverheadIncomingView> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +70,7 @@ class _OverheadIncomingViewState extends State<OverheadIncomingView> {
                       await Future.delayed(Duration.zero);
                     },
                     child: ListView.separated(
-                      itemBuilder: (context, index) => InformationIteam(
+                      itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
                           context.push(AppRouteName.pdfView, extra: {
                             'title':
@@ -80,31 +78,40 @@ class _OverheadIncomingViewState extends State<OverheadIncomingView> {
                             'id': state.draftsMemoModel.documents[index].id,
                           });
                         },
-                        mainTitle:
-                            state.draftsMemoModel.documents[index].number,
-                        title1: 'Дата:',
-                        subtitle1: MyFunction.dateFormatDate(
-                          state.draftsMemoModel.documents[index].date
-                              .toString(),
+                        child: InformationIteam(
+                          onTap: () {
+                            context.push(AppRouteName.pdfView, extra: {
+                              'title':
+                                  state.draftsMemoModel.documents[index].number,
+                              'id': state.draftsMemoModel.documents[index].id,
+                            });
+                          },
+                          mainTitle:
+                              state.draftsMemoModel.documents[index].number,
+                          title1: 'Дата:',
+                          subtitle1: MyFunction.dateFormatDate(
+                            state.draftsMemoModel.documents[index].date
+                                .toString(),
+                          ),
+                          title2: '№ документа:',
+                          subtitle2: '247',
+                          title3: 'Дата накладной:',
+                          subtitle3: '23.08.2024',
+                          title4: 'Основание:',
+                          subtitle4: 'Назначение №2392',
+                          title5: 'От кого:',
+                          subtitle5: state.draftsMemoModel.documents[index]
+                                  .fromName.isEmpty
+                              ? "-"
+                              : state.draftsMemoModel.documents[index].fromName,
+                          title6: 'Кому:',
+                          subtitle6: state.draftsMemoModel.documents[index]
+                                  .toName.isEmpty
+                              ? "-"
+                              : state.draftsMemoModel.documents[index].toName,
+                          title7: 'Способ отправления:',
+                          subtitle7: '85 897 VAA',
                         ),
-                        title2: '№ документа:',
-                        subtitle2: '247',
-                        title3: 'Дата накладной:',
-                        subtitle3: '23.08.2024',
-                        title4: 'Основание:',
-                        subtitle4: 'Назначение №2392',
-                        title5: 'От кого:',
-                        subtitle5: state.draftsMemoModel.documents[index]
-                                .fromName.isEmpty
-                            ? "-"
-                            : state.draftsMemoModel.documents[index].fromName,
-                        title6: 'Кому:',
-                        subtitle6: state
-                                .draftsMemoModel.documents[index].toName.isEmpty
-                            ? "-"
-                            : state.draftsMemoModel.documents[index].toName,
-                        title7: 'Способ отправления:',
-                        subtitle7: '85 897 VAA',
                       ),
                       separatorBuilder: (context, index) =>
                           const SizedBox(height: 12),

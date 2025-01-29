@@ -67,7 +67,7 @@ class _OutgoingViewState extends State<OutgoingView> {
                       await Future.delayed(Duration.zero);
                     },
                     child: ListView.separated(
-                      itemBuilder: (context, index) => InformationIteam(
+                      itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
                           context.push(AppRouteName.pdfView, extra: {
                             'title':
@@ -75,26 +75,35 @@ class _OutgoingViewState extends State<OutgoingView> {
                             'id': state.draftsMemoModel.documents[index].id,
                           });
                         },
-                        mainTitle:
-                            state.draftsMemoModel.documents[index].number,
-                        title1: 'Дата:',
-                        subtitle1: MyFunction.dateFormatDate(
-                          state.draftsMemoModel.documents[index].date
-                              .toString(),
+                        child: InformationIteam(
+                          onTap: () {
+                            context.push(AppRouteName.pdfView, extra: {
+                              'title':
+                                  state.draftsMemoModel.documents[index].number,
+                              'id': state.draftsMemoModel.documents[index].id,
+                            });
+                          },
+                          mainTitle:
+                              state.draftsMemoModel.documents[index].number,
+                          title1: 'Дата:',
+                          subtitle1: MyFunction.dateFormatDate(
+                            state.draftsMemoModel.documents[index].date
+                                .toString(),
+                          ),
+                          title2: 'Тема:',
+                          subtitle2:
+                              state.draftsMemoModel.documents[index].subject,
+                          title3: 'Отправитель:',
+                          subtitle3: state.draftsMemoModel.documents[index]
+                                  .fromName.isEmpty
+                              ? "-"
+                              : state.draftsMemoModel.documents[index].fromName,
+                          title4: 'Получатель:',
+                          subtitle4: state.draftsMemoModel.documents[index]
+                                  .toName.isEmpty
+                              ? "-"
+                              : state.draftsMemoModel.documents[index].toName,
                         ),
-                        title2: 'Тема:',
-                        subtitle2:
-                            state.draftsMemoModel.documents[index].subject,
-                        title3: 'Отправитель:',
-                        subtitle3: state.draftsMemoModel.documents[index]
-                                .fromName.isEmpty
-                            ? "-"
-                            : state.draftsMemoModel.documents[index].fromName,
-                        title4: 'Получатель:',
-                        subtitle4: state
-                                .draftsMemoModel.documents[index].toName.isEmpty
-                            ? "-"
-                            : state.draftsMemoModel.documents[index].toName,
                       ),
                       separatorBuilder: (context, index) =>
                           const SizedBox(height: 12),

@@ -118,9 +118,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             status: FormzSubmissionStatus.success,
           ));
         } else {
-          emit(state.copyWith(
-            statusAuth: AuthenticationStatus.unauthenticated,
-          ));
+          add(RefreshEvent());
         }
       } else {
         emit(state.copyWith(statusAuth: AuthenticationStatus.unauthenticated));
@@ -128,7 +126,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<RefreshEvent>((event, emit) async {
-      await _repository.refreshToken();
+      final result = await _repository.refreshToken();
+      if (result.isRight) {
+        add(GetMeEvent());
+      } else {
+        emit(state.copyWith(
+          statusAuth: AuthenticationStatus.unauthenticated,
+        ));
+      }
     });
 
     on<LoginEvent>((event, emit) async {

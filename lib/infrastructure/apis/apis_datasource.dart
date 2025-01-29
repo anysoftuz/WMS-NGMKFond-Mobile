@@ -1,5 +1,6 @@
 import 'package:sklad/data/common/error_handle.dart';
 import 'package:sklad/data/common/response_model.dart';
+import 'package:sklad/data/models/document_show_model.dart';
 import 'package:sklad/data/models/drafts_memo_model.dart';
 import 'package:sklad/data/models/managements_bases_model.dart';
 import 'package:sklad/data/models/products_bases_model.dart';
@@ -25,6 +26,8 @@ abstract class ApisDatasource {
   Future<ResponseModel<WarehousesBasesModel>> getWarehouses(int id);
   Future<ResponseModel<ProductsBasesModel>> getInvoicesBese(int id);
   Future<bool> postDocument(Map<String, dynamic> data);
+  Future<bool> putDocument(String id, Map<String, dynamic> data);
+  Future<ResponseModel<DocumentShowModel>> getDocumentShow(String id);
 }
 
 class ApisDatasourceImpl implements ApisDatasource {
@@ -155,6 +158,25 @@ class ApisDatasourceImpl implements ApisDatasource {
   Future<bool> postDocument(Map<String, dynamic> data) {
     return _handle.apiCantrol(
       request: () => dio.post('documents', data: data),
+      body: (response) => (response as Map<String, dynamic>)['success'],
+    );
+  }
+
+  @override
+  Future<ResponseModel<DocumentShowModel>> getDocumentShow(String id) {
+    return _handle.apiCantrol(
+      request: () => dio.get('documents/$id'),
+      body: (response) => ResponseModel.fromJson(
+        response,
+        (p0) => DocumentShowModel.fromJson(p0 as Map<String, dynamic>),
+      ),
+    );
+  }
+
+  @override
+  Future<bool> putDocument(String id, Map<String, dynamic> data) {
+    return _handle.apiCantrol(
+      request: () => dio.put('documents/$id', data: data),
       body: (response) => (response as Map<String, dynamic>)['success'],
     );
   }

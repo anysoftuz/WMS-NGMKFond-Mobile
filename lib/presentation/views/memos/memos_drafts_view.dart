@@ -3,12 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sklad/app/home/home_bloc.dart';
-import 'package:sklad/assets/colors/colors.dart';
 import 'package:sklad/data/models/filter_model.dart';
 import 'package:sklad/presentation/routers/route_name.dart';
+import 'package:sklad/presentation/views/memos/drafts_edit_view.dart';
 import 'package:sklad/presentation/widgets/information_iteam.dart';
 import 'package:sklad/presentation/widgets/title_filter.dart';
-import 'package:sklad/presentation/widgets/w_button.dart';
 import 'package:sklad/presentation/widgets/w_shimmer.dart';
 import 'package:sklad/utils/my_function.dart';
 
@@ -20,8 +19,6 @@ class MemosDraftsView extends StatefulWidget {
 }
 
 class _MemosDraftsViewState extends State<MemosDraftsView> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,26 +79,35 @@ class _MemosDraftsViewState extends State<MemosDraftsView> {
                         child: InformationIteam(
                           isEdit: true,
                           onTapEdit: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                backgroundColor: white,
-                                content: const Text(
-                                  'Редактирование данного типа запроса недоступно в мобильной версии приложения. Пожалуйста, воспользуйтесь веб-версией системы.',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: secondary500,
-                                  ),
+                            Navigator.of(context, rootNavigator: true).push(
+                              MaterialPageRoute(
+                                builder: (context) => DraftsEditView(
+                                  document:
+                                      state.draftsMemoModel.documents[index],
                                 ),
-                                actions: [
-                                  WButton(
-                                    text: 'Понятно',
-                                    onTap: () => Navigator.pop(context),
-                                  )
-                                ],
                               ),
                             );
+
+                            // showDialog(
+                            //   context: context,
+                            //   builder: (context) => AlertDialog(
+                            //     backgroundColor: white,
+                            //     content: const Text(
+                            //       'Редактирование данного типа запроса недоступно в мобильной версии приложения. Пожалуйста, воспользуйтесь веб-версией системы.',
+                            //       style: TextStyle(
+                            //         fontSize: 14,
+                            //         fontWeight: FontWeight.w400,
+                            //         color: secondary500,
+                            //       ),
+                            //     ),
+                            //     actions: [
+                            //       WButton(
+                            //         text: 'Понятно',
+                            //         onTap: () => Navigator.pop(context),
+                            //       )
+                            //     ],
+                            //   ),
+                            // );
                           },
                           mainTitle:
                               state.draftsMemoModel.documents[index].number,

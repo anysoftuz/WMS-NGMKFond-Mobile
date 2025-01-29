@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:sklad/data/abstract_repo/apis_repo.dart';
 import 'package:sklad/data/common/response_model.dart';
+import 'package:sklad/data/models/document_show_model.dart';
 import 'package:sklad/data/models/drafts_memo_model.dart';
 import 'package:sklad/data/models/managements_bases_model.dart';
 import 'package:sklad/data/models/products_bases_model.dart';
@@ -223,6 +224,45 @@ class ApisRepoImpl implements ApisRepo {
   Future<Either<Failure, bool>> postDocument(Map<String, dynamic> data) async {
     try {
       final result = await datasourceImpl.postDocument(data);
+      return Right(result);
+    } on DioException {
+      return Left(DioFailure());
+    } on ParsingException catch (e) {
+      return Left(ParsingFailure(errorMessage: e.errorMessage));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(
+        errorMessage: e.errorMessage,
+        statusCode: e.statusCode,
+      ));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ResponseModel<DocumentShowModel>>> getDocumentShow(
+    String id,
+  ) async {
+    try {
+      final result = await datasourceImpl.getDocumentShow(id);
+      return Right(result);
+    } on DioException {
+      return Left(DioFailure());
+    } on ParsingException catch (e) {
+      return Left(ParsingFailure(errorMessage: e.errorMessage));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(
+        errorMessage: e.errorMessage,
+        statusCode: e.statusCode,
+      ));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> putDocument(
+    String id,
+    Map<String, dynamic> data,
+  ) async {
+    try {
+      final result = await datasourceImpl.putDocument(id, data);
       return Right(result);
     } on DioException {
       return Left(DioFailure());

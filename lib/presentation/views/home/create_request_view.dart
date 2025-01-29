@@ -7,6 +7,7 @@ import 'package:sklad/app/home/home_bloc.dart';
 import 'package:sklad/assets/colors/colors.dart';
 import 'package:sklad/assets/icons.dart';
 import 'package:sklad/presentation/widgets/bottom_info_button.dart';
+import 'package:sklad/presentation/widgets/custom_snackbar.dart';
 import 'package:sklad/presentation/widgets/custom_text_field.dart';
 import 'package:sklad/presentation/widgets/w_preview_button.dart';
 import 'package:sklad/presentation/widgets/w_scale_animation.dart';
@@ -49,54 +50,66 @@ class _CreateRequestViewState extends State<CreateRequestView> {
         builder: (context, state) {
           return BottomInfoButton(
             onTap1: () {
-              context.read<HomeBloc>().add(CreateDocEvent(
-                    data: {
-                      'content': controllerNote.text,
-                      'date':
-                          MyFunction.dateFormatDate(DateTime.now().toString()),
-                      'doc_type_id': 3,
-                      'from': "43_user",
-                      'from_id':
-                          context.read<AuthBloc>().state.userModel.user?.id,
-                      'from_type': "kitchenWarehouse",
-                      'number': '',
-                      'status': "draft",
-                      'subject': controllerTema.text,
-                      'to_id': state.respondentsListModel
-                          .respondents[valueNotifier.value].id,
-                      'to_type': "user"
-                    },
-                    onSucces: () {
-                      Navigator.of(context)
-                        ..pop()
-                        ..pop();
-                    },
-                  ));
+              if (controllerKomu.text.isNotEmpty &&
+                  controllerNote.text.isNotEmpty &&
+                  controllerTema.text.isNotEmpty) {
+                context.read<HomeBloc>().add(CreateDocEvent(
+                      data: {
+                        'content': controllerNote.text,
+                        'date': MyFunction.dateFormatDate(
+                            DateTime.now().toString()),
+                        'doc_type_id': 3,
+                        'from': "43_user",
+                        'from_id':
+                            context.read<AuthBloc>().state.userModel.user?.id,
+                        'from_type': "kitchenWarehouse",
+                        'number': '',
+                        'status': "draft",
+                        'subject': controllerTema.text,
+                        'to_id': state.respondentsListModel
+                            .respondents[valueNotifier.value].id,
+                        'to_type': "user"
+                      },
+                      onSucces: () {
+                        Navigator.of(context)
+                          ..pop()
+                          ..pop();
+                      },
+                    ));
+              } else {
+                CustomSnackbar.show(context, "Malumotni to'liq kirgazing");
+              }
             },
             onTap2: () {
-              context.read<HomeBloc>().add(CreateDocEvent(
-                    data: {
-                      'content': controllerNote.text,
-                      'date':
-                          MyFunction.dateFormatDate(DateTime.now().toString()),
-                      'doc_type_id': 3,
-                      'from': "43_user",
-                      'from_id':
-                          context.read<AuthBloc>().state.userModel.user?.id,
-                      'from_type': "kitchenWarehouse",
-                      'number': '',
-                      'status': "sent",
-                      'subject': controllerTema.text,
-                      'to_id': state.respondentsListModel
-                          .respondents[valueNotifier.value].id,
-                      'to_type': "user"
-                    },
-                    onSucces: () {
-                      Navigator.of(context)
-                        ..pop()
-                        ..pop();
-                    },
-                  ));
+              if (controllerKomu.text.isNotEmpty &&
+                  controllerNote.text.isNotEmpty &&
+                  controllerTema.text.isNotEmpty) {
+                context.read<HomeBloc>().add(CreateDocEvent(
+                      data: {
+                        'content': controllerNote.text,
+                        'date': MyFunction.dateFormatDate(
+                            DateTime.now().toString()),
+                        'doc_type_id': 3,
+                        'from': "43_user",
+                        'from_id':
+                            context.read<AuthBloc>().state.userModel.user?.id,
+                        'from_type': "kitchenWarehouse",
+                        'number': '',
+                        'status': "sent",
+                        'subject': controllerTema.text,
+                        'to_id': state.respondentsListModel
+                            .respondents[valueNotifier.value].id,
+                        'to_type': "user"
+                      },
+                      onSucces: () {
+                        Navigator.of(context)
+                          ..pop()
+                          ..pop();
+                      },
+                    ));
+              } else {
+                CustomSnackbar.show(context, "Malumotni to'liq kirgazing");
+              }
             },
             isLoading: state.status.isInProgress,
           );
@@ -142,6 +155,7 @@ class _CreateRequestViewState extends State<CreateRequestView> {
                     controller: controllerKomu,
                     readOnly: true,
                     suffixIcon: AppIcons.chevronDown.svg(),
+                    onsuffixIconPressed: onTap,
                     onChanged: (value) {},
                   ),
                   menuBuilder: (context, width) => Container(

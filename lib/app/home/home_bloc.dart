@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:sklad/data/abstract_repo/apis_repo.dart';
+import 'package:sklad/data/models/document_show_model.dart';
 import 'package:sklad/data/models/drafts_memo_model.dart';
 import 'package:sklad/data/models/filter_model.dart';
 import 'package:sklad/data/models/managements_bases_model.dart';
@@ -18,6 +19,26 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final ApisRepo _repository;
   HomeBloc(this._repository) : super(const HomeState()) {
+    on<UpdateDocEvent>((event, emit) async {
+      emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+      final result = await _repository.putDocument(event.id, event.data);
+      if (result.isRight) {
+        emit(state.copyWith(status: FormzSubmissionStatus.success));
+        event.onSucces();
+      } else {
+        emit(state.copyWith(status: FormzSubmissionStatus.failure));
+      }
+    });
+    on<GetDocumentShowEvent>((event, emit) async {
+      emit(state.copyWith(statusShow: FormzSubmissionStatus.inProgress));
+      final result = await _repository.getDocumentShow(event.id);
+      if (result.isRight) {
+        emit(state.copyWith(statusShow: FormzSubmissionStatus.success));
+        event.onSucces(result.right.data ?? const DocumentShowModel());
+      } else {
+        emit(state.copyWith(statusShow: FormzSubmissionStatus.failure));
+      }
+    });
     on<CreateDocEvent>((event, emit) async {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
       final result = await _repository.postDocument(event.data);
