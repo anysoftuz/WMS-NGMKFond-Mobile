@@ -6,6 +6,7 @@ import 'package:sklad/app/auth/auth_bloc.dart';
 import 'package:sklad/app/home/home_bloc.dart';
 import 'package:sklad/assets/colors/colors.dart';
 import 'package:sklad/assets/icons.dart';
+import 'package:sklad/presentation/views/home/created_request_pdf_view.dart';
 import 'package:sklad/presentation/widgets/bottom_info_button.dart';
 import 'package:sklad/presentation/widgets/custom_snackbar.dart';
 import 'package:sklad/presentation/widgets/custom_text_field.dart';
@@ -28,6 +29,9 @@ class _CreateRequestViewState extends State<CreateRequestView> {
   ValueNotifier<int> valueNotifier = ValueNotifier(-1);
   @override
   void initState() {
+    context
+        .read<HomeBloc>()
+        .add(GetRespondentsListEvent(query: {'type[]': 'user'}));
     controllerKomu = TextEditingController();
     controllerTema = TextEditingController();
     controllerNote = TextEditingController();
@@ -226,7 +230,16 @@ class _CreateRequestViewState extends State<CreateRequestView> {
             ),
             const SizedBox(height: 16),
             WPreviewButton(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => CreatedRequestPdfView(
+                    komu: controllerKomu.text,
+                    tema: controllerTema.text,
+                    docNum: 'Z-00000',
+                    note: controllerNote.text,
+                  ),
+                ));
+              },
             ),
           ],
         ),

@@ -62,7 +62,13 @@ class _MemosDraftsViewState extends State<MemosDraftsView> {
                     );
                   }
                   if (state.draftsMemoModel.documents.isEmpty) {
-                    return const EmptyIteam();
+                    return EmptyIteam(
+                      onRefresh: () {
+                        context.read<HomeBloc>().add(GetDraftsEvent(
+                              model: FilterModel(docType: 'memo'),
+                            ));
+                      },
+                    );
                   }
                   return RefreshIndicator.adaptive(
                     onRefresh: () async {

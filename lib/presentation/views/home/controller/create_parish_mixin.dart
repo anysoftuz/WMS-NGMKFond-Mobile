@@ -79,7 +79,7 @@ mixin CreateParishMixin on State<CreateParishView> {
     return controllers.any((controller) => controller.text.trim().isEmpty);
   }
 
-    Future<dynamic> popDialog(BuildContext context) {
+  Future<dynamic> popDialog(BuildContext context) {
     return wshowDialog(
       context: context,
       child: Column(
@@ -138,16 +138,19 @@ mixin CreateParishMixin on State<CreateParishView> {
     );
   }
 
-
   DocumentModel getDoc(DocCreateState state) {
     return DocumentModel(
       document: Document(
         docTypeId: 7,
         date: MyFunction.dateFormatCreate(DateTime.now()),
         number: controllerNumber.text,
-        fromId: state.respondentsProvider.respondents[indexProvider].id,
+        fromId: indexProvider != -1
+            ? state.respondentsProvider.respondents[indexProvider].id
+            : 0,
         fromType: "provider",
-        toId: state.respondentsBase.respondents[indexBase].id,
+        toId: indexBase != -1
+            ? state.respondentsBase.respondents[indexBase].id
+            : 0,
         toType: "base",
         subject: '',
         throughWhom: throughWhom.text,
@@ -157,10 +160,14 @@ mixin CreateParishMixin on State<CreateParishView> {
         products: List.generate(
           productInfo.length,
           (index) => Product(
-            categoryId: state
-                .productCategoriesModel.productCategories[indexCategories].id,
-            productTypeId:
-                tableOfReceivedProducts[index].productType[indexType].id,
+            name: tableOfReceivedProducts[index].productType[indexType].name,
+            categoryId: indexCategories != -1
+                ? state.productCategoriesModel
+                    .productCategories[indexCategories].id
+                : 0,
+            productTypeId: indexType != -1
+                ? tableOfReceivedProducts[index].productType[indexType].id
+                : 0,
             quantity: tableOfReceivedProducts[index].controllerQuantity.text,
             unitId: productInfo[index].productType?.unitId ?? 0,
             price: int.tryParse(
@@ -193,10 +200,13 @@ mixin CreateParishMixin on State<CreateParishView> {
             quality: productInfo[index].qualityCertificateNumber.text,
             qualityDate: productInfo[index].qualityCertificateDate.text,
             quantity: tableOfReceivedProducts[index].controllerQuantity.text,
-            categoryId: state
-                .productCategoriesModel.productCategories[indexCategories].id,
-            productTypeId:
-                tableOfReceivedProducts[index].productType[indexType].id,
+            categoryId: indexCategories == -1
+                ? 0
+                : state.productCategoriesModel
+                    .productCategories[indexCategories].id,
+            productTypeId: indexType == -1
+                ? 0
+                : tableOfReceivedProducts[index].productType[indexType].id,
             unitId: productInfo[index].productType?.unitId ?? 0,
             price: int.tryParse(
                     tableOfReceivedProducts[index].controllerPrice.text) ??
@@ -206,13 +216,19 @@ mixin CreateParishMixin on State<CreateParishView> {
         ),
         docSigners: [
           DocSigner(
-            signerId: state.usersMerchandiser.users[indexMerchandiser].id,
+            signerId: indexMerchandiser == -1
+                ? 0
+                : state.usersMerchandiser.users[indexMerchandiser].id,
           ),
           DocSigner(
-            signerId: state.usersHeadWarehouse.users[indexHeadWarehouse].id,
+            signerId: indexHeadWarehouse == -1
+                ? 0
+                : state.usersHeadWarehouse.users[indexHeadWarehouse].id,
           ),
           DocSigner(
-            signerId: state.usersManagerBase.users[indexManagerBase].id,
+            signerId: indexManagerBase == -1
+                ? 0
+                : state.usersManagerBase.users[indexManagerBase].id,
           )
         ],
       ),

@@ -132,7 +132,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     on<GetRespondentsListEvent>((event, emit) async {
       emit(state.copyWith(statusRespondents: FormzSubmissionStatus.inProgress));
-      final result = await _repository.getRespondentsList({});
+      final result = await _repository.getRespondentsList(event.query ?? {});
       if (result.isRight) {
         emit(state.copyWith(
           statusRespondents: FormzSubmissionStatus.success,
@@ -142,7 +142,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(state.copyWith(statusRespondents: FormzSubmissionStatus.failure));
       }
     });
-   
+
     on<GetReceivedEvent>((event, emit) async {
       emit(state.copyWith(statusDraftsMemo: FormzSubmissionStatus.inProgress));
       final result = await _repository.getReceived(event.model.toJson());

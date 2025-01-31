@@ -234,6 +234,7 @@ class Product extends Equatable {
   final int unitId;
   final int price;
   final String unit;
+  final String? name;
 
   const Product({
     required this.categoryId,
@@ -242,6 +243,7 @@ class Product extends Equatable {
     required this.unitId,
     required this.price,
     required this.unit,
+    this.name,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {

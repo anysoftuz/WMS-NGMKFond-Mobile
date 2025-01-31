@@ -2,9 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:sklad/assets/colors/colors.dart';
 import 'package:sklad/assets/icons.dart';
 import 'package:sklad/assets/images.dart';
+import 'package:sklad/data/models/overhead_model.dart';
+import 'package:sklad/utils/my_function.dart';
 
 class ReceiptPreview extends StatelessWidget {
-  const ReceiptPreview({super.key});
+  const ReceiptPreview({
+    super.key,
+    required this.document,
+    required this.fromUser,
+    required this.toUser,
+    required this.freight,
+    required this.warehouseManager,
+    required this.managerBase,
+  });
+  final DocumentModel document;
+  final String fromUser;
+  final String toUser;
+  final String freight;
+  final String warehouseManager;
+  final String managerBase;
 
   @override
   Widget build(BuildContext context) {
@@ -73,19 +89,20 @@ class ReceiptPreview extends StatelessWidget {
                   const SizedBox(height: 20),
 
                   // Receipt details
-                  _buildDetailRow('Дата создания в системе:', '24.08.2024'),
+                  _buildDetailRow(
+                      'Дата создания в системе:', document.document.date),
                   _buildDetailRow('№ накладной в системе:', 'NK-00000'),
-                  _buildDetailRow('Дата накладной:', '24.08.2024'),
-                  _buildDetailRow('№ накладной:', '247'),
-                  _buildDetailRow('Вид документа:', 'Входящий накладной'),
-                  _buildDetailRow('От кого:',
-                      'Руководитель группы отдела координации общественного питания'),
-                  _buildDetailRow('Кому:',
-                      '«Фонд НКМК» ДМ «Навоийской» областной администрации, руководитель комплекса общественного питания Баракаеву Д.'),
-                  _buildDetailRow('Через кого:',
-                      '«Фонд НКМК» ДМ «Навоийской» областной администрации, руководитель комплекса общественного питания Баракаеву Д.'),
-                  _buildDetailRow('Основание:', 'Назначение №2392'),
-                  _buildDetailRow('Способ отправления:', '85 897 VAA'),
+                  _buildDetailRow('Дата накладной:', document.document.date),
+                  _buildDetailRow('№ накладной:', document.document.number),
+                  _buildDetailRow('Вид документа:', 'Накладные'),
+                  _buildDetailRow('От кого:', fromUser),
+                  _buildDetailRow('Кому:', toUser),
+                  _buildDetailRow('Через кого:', document.document.throughWhom),
+                  _buildDetailRow('Основание:', document.document.basis),
+                  _buildDetailRow(
+                    'Способ отправления:',
+                    document.document.shippingMethod,
+                  ),
 
                   const SizedBox(height: 20),
 
@@ -109,41 +126,31 @@ class ReceiptPreview extends StatelessWidget {
                             },
                             children: [
                               _buildTableHeader(),
-                              _buildTableRow(
-                                'Картофель',
-                                '80',
-                                'кг',
-                                '22 000',
-                                '1 760 000',
-                              ),
-                              _buildTableRow(
-                                'Говядина',
-                                '30',
-                                'кг',
-                                '86 000',
-                                '2 580 000',
-                              ),
-                              _buildTableRow(
-                                'Горох',
-                                '50',
-                                'кг',
-                                '34 000',
-                                '1 700 000',
-                              ),
-                              _buildTableRow(
-                                'Морковь',
-                                '50',
-                                'кг',
-                                '20 000',
-                                '1 000 000',
-                              ),
+                              ...List.generate(
+                                document.document.products.length,
+                                (index) => _buildTableRow(
+                                  index,
+                                  document.document.products[index].name ??
+                                      "Nomalum",
+                                  document.document.products[index].quantity,
+                                  document.document.products[index].unit,
+                                  MyFunction.priceFormat(
+                                      document.document.products[index].price),
+                                  MyFunction.priceFormat(
+                                    document.document.products[index].price *
+                                        (int.tryParse(document.document
+                                                .products[index].quantity) ??
+                                            1),
+                                  ),
+                                ),
+                              )
                             ],
                           ),
-                          const Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             spacing: 12,
                             children: [
-                              Text(
+                              const Text(
                                 'Общая сумма: ',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
@@ -152,11 +159,25 @@ class ReceiptPreview extends StatelessWidget {
                                 ),
                               ),
                               Padding(
-                                padding:
-                                    EdgeInsets.fromLTRB(0, 7.19, 8.21, 7.19),
+                                padding: const EdgeInsets.fromLTRB(
+                                  0,
+                                  7.19,
+                                  8.21,
+                                  7.19,
+                                ),
                                 child: Text(
-                                  '7 040 000 сум',
-                                  style: TextStyle(
+                                  '${MyFunction.priceFormat(
+                                    MyFunction.allList(
+                                      document.document.products
+                                          .map(
+                                            (e) =>
+                                                e.price *
+                                                (int.tryParse(e.quantity) ?? 1),
+                                          )
+                                          .toList(),
+                                    ),
+                                  )} сум',
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 7.19,
                                     color: backgroundText,
@@ -231,17 +252,17 @@ class ReceiptPreview extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       RichText(
-                        text: const TextSpan(
-                          text: "№:",
-                          style: TextStyle(
+                        text: TextSpan(
+                          text: "№: ",
+                          style: const TextStyle(
                             color: backgroundText,
                             fontSize: 10.27,
                             fontWeight: FontWeight.w600,
                           ),
                           children: [
                             TextSpan(
-                              text: ' 04-04-01/463',
-                              style: TextStyle(
+                              text: document.act.number,
+                              style: const TextStyle(
                                 color: secondary500,
                                 fontSize: 10.27,
                                 fontWeight: FontWeight.w500,
@@ -251,17 +272,17 @@ class ReceiptPreview extends StatelessWidget {
                         ),
                       ),
                       RichText(
-                        text: const TextSpan(
-                          text: "Дата:",
-                          style: TextStyle(
+                        text: TextSpan(
+                          text: "Дата: ",
+                          style: const TextStyle(
                             color: backgroundText,
                             fontSize: 10.27,
                             fontWeight: FontWeight.w600,
                           ),
                           children: [
                             TextSpan(
-                              text: ' 24.08.2024',
-                              style: TextStyle(
+                              text: document.document.date,
+                              style: const TextStyle(
                                 color: secondary500,
                                 fontSize: 10.27,
                                 fontWeight: FontWeight.w500,
@@ -272,44 +293,54 @@ class ReceiptPreview extends StatelessWidget {
                       ),
                     ],
                   ),
+                  if (document.act.content.isNotEmpty)
+                    const SizedBox(height: 12),
+                  if (document.act.content.isNotEmpty)
+                    Text(
+                      document.act.content,
+                      style: const TextStyle(
+                        fontSize: 6.75,
+                        fontWeight: FontWeight.w400,
+                        color: backgroundText,
+                      ),
+                    ),
                   const SizedBox(height: 12),
-                  const Text(
-                    'На основании данного документа мы подтверждаем, что следующая продукция принята в соответствии с правилами приемки продукции по количеству и качеству.',
-                    style: TextStyle(
-                      fontSize: 6.75,
-                      fontWeight: FontWeight.w400,
-                      color: backgroundText,
+                  ...List.generate(
+                    document.act.products.length,
+                    (index) => _buildProductExpansionTile(
+                      'Продукт ${index + 1}',
+                      {
+                        'Название продукта':
+                            document.document.products[index].name ?? "nomalum",
+                        'Количество продукта':
+                            document.act.products[index].quantity,
+                        'Единица измерения': document.act.products[index].unit,
+                        'Номер и дата договора о поставке':
+                            document.act.products[index].contractDetails,
+                        'Номер и дата накладной': '№ 365 26.08.2024',
+                        'Производитель продукта':
+                            document.act.products[index].manufacturer,
+                        'Поставщик': fromUser,
+                        'Получатель': toUser,
+                        'Транспорт':
+                            document.act.products[index].shippingMethod,
+                        'Номер и дата лицензии':
+                            '${document.act.products[index].licence} от ${document.act.products[index].licenceDate}',
+                        'Номер и дата заключение\nСанитарно-эпидемиологического центра':
+                            '${document.act.products[index].sanitary} от ${document.act.products[index].sanitaryDate} ',
+                        'Номер и дата удостоверения ветеринарии':
+                            '${document.act.products[index].vetirinary}  от ${document.act.products[index].vetirinaryDate} ',
+                        'Номер и дата удостоверения качества':
+                            '${document.act.products[index].quality}  от ${document.act.products[index].qualityDate} ',
+                      },
                     ),
                   ),
                   const SizedBox(height: 12),
-                  _buildProductExpansionTile(
-                    'Продукт 1',
-                    {
-                      'Название продукта': 'Картофель',
-                      'Количество продукта': '265',
-                      'Единица измерения': 'кг',
-                      'Номер и дата договора о поставке':
-                          'К1029745 от 25.07.2024',
-                      'Номер и дата накладной': '№ 365 26.08.2024',
-                      'Производитель продукта': 'ООО "Brend"',
-                      'Поставщик': 'ООО "Yuksalish"',
-                      'Получатель': 'РУ "Зарафшан"',
-                      'Транспорт': '85 085 RRR',
-                      'Номер и дата лицензии': '№ L-86978576 от 05.02.2022',
-                      'Номер и дата заключение\nСанитарно-эпидемиологического центра':
-                          '№ SM-069788 от 05.01.2024',
-                      'Номер и дата удостоверения ветеринарии':
-                          '№ ВТ-0365 от 10.01.2024',
-                      'Номер и дата удостоверения качества':
-                          '№ УК-0614 от 07.02.2024',
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  _buildSignatureRow('Кладовщик:', 'Эргашева Л.'),
-                  _buildSignatureRow('Товаровед:', 'Жалилов М.'),
-                  _buildSignatureRow('Экспедитор:', 'Акромов О.'),
-                  _buildSignatureRow('Зав. склад', 'Каххоров А.'),
-                  _buildSignatureRow('Начальник\nбазы', 'Маликов Б.'),
+                  // _buildSignatureRow('Кладовщик:', 'Эргашева Л.'),
+                  _buildSignatureRow('Товаровед:', freight),
+                  // _buildSignatureRow('Экспедитор:', 'Акромов О.'),
+                  _buildSignatureRow('Зав. склад', warehouseManager),
+                  _buildSignatureRow('Начальник базы', managerBase),
                 ],
               ),
             ),
@@ -507,6 +538,7 @@ class ReceiptPreview extends StatelessWidget {
   }
 
   TableRow _buildTableRow(
+    int index,
     String name,
     String quantity,
     String unit,
@@ -514,6 +546,10 @@ class ReceiptPreview extends StatelessWidget {
     String total,
   ) {
     return TableRow(
+      decoration: BoxDecoration(
+        color: index % 2 == 0 ? null : whiteGrey,
+        border: const Border(bottom: BorderSide(color: bg00)),
+      ),
       children: [
         TableCell(
           child: Padding(

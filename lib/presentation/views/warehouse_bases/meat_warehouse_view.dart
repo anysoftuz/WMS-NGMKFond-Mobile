@@ -270,7 +270,15 @@ class _MeatWarehouseViewState extends State<MeatWarehouseView> {
               BlocBuilder<HomeBloc, HomeState>(
                 builder: (context, state) {
                   if (state.productsBasesModel.warehouseProducts.isEmpty) {
-                    return const SingleChildScrollView(child: EmptyIteam());
+                    return SingleChildScrollView(
+                      child: EmptyIteam(
+                        onRefresh: () {
+                          context
+                              .read<HomeBloc>()
+                              .add(GetWarehousesBeseEvent(id: widget.model.id));
+                        },
+                      ),
+                    );
                   }
                   return ListView.separated(
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
@@ -299,7 +307,15 @@ class _MeatWarehouseViewState extends State<MeatWarehouseView> {
               BlocBuilder<HomeBloc, HomeState>(
                 builder: (context, state) {
                   if (state.invoicesBasesModel.warehouseProducts.isEmpty) {
-                    return const SingleChildScrollView(child: EmptyIteam());
+                    return SingleChildScrollView(
+                      child: EmptyIteam(
+                        onRefresh: () {
+                          context
+                              .read<HomeBloc>()
+                              .add(GetWarehousesBeseEvent(id: widget.model.id));
+                        },
+                      ),
+                    );
                   }
                   return ListView.separated(
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),

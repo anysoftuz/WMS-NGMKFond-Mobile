@@ -9,7 +9,6 @@ import 'package:sklad/assets/colors/colors.dart';
 import 'package:sklad/assets/icons.dart';
 import 'package:sklad/data/models/overhead_model.dart';
 import 'package:sklad/data/models/product_types_model.dart';
-import 'package:sklad/presentation/views/home/act.dart';
 import 'package:sklad/presentation/views/home/receipt.dart';
 import 'package:sklad/presentation/widgets/custom_snackbar.dart';
 import 'package:sklad/presentation/widgets/custom_text_field.dart';
@@ -503,7 +502,10 @@ class _CreateParishViewState extends State<CreateParishView>
                                     Expanded(
                                       child: CustomTextField(
                                         title: 'Ед. измерения',
-                                        hintText: 'Выберите',
+                                        hintText: productInfo[index]
+                                                .productType
+                                                ?.unit ??
+                                            'Выберите',
                                         fillColor: scaffoldSecondaryBackground,
                                         readOnly: true,
                                         onChanged: (value) {},
@@ -559,12 +561,25 @@ class _CreateParishViewState extends State<CreateParishView>
                   ],
                 ),
               ),
-              WPreviewButton(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ReceiptPreview()),
+              BlocBuilder<DocCreateBloc, DocCreateState>(
+                builder: (context, state) {
+                  return WPreviewButton(
+                    onTap: () {
+                      final document = getDoc(state);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ReceiptPreview(
+                            document: document,
+                            fromUser: controllerKogo.text,
+                            toUser: controllerKomu.text,
+                            freight: controllerFreight.text,
+                            warehouseManager: controllerWarehouseManager.text,
+                            managerBase: controllerManagerBase.text,
+                          ),
+                        ),
+                      );
+                    },
                   );
                 },
               ),
@@ -903,13 +918,25 @@ class _CreateParishViewState extends State<CreateParishView>
                   ),
                 ),
               ),
-              WPreviewButton(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ActDocument(),
-                    ),
+              BlocBuilder<DocCreateBloc, DocCreateState>(
+                builder: (context, state) {
+                  return WPreviewButton(
+                    onTap: () {
+                      final document = getDoc(state);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ReceiptPreview(
+                            document: document,
+                            fromUser: controllerKogo.text,
+                            toUser: controllerKomu.text,
+                            freight: controllerFreight.text,
+                            warehouseManager: controllerWarehouseManager.text,
+                            managerBase: controllerManagerBase.text,
+                          ),
+                        ),
+                      );
+                    },
                   );
                 },
               ),

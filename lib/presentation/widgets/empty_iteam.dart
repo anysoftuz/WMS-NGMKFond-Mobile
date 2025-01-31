@@ -1,10 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:sklad/assets/colors/colors.dart';
 import 'package:sklad/assets/icons.dart';
+import 'package:sklad/presentation/widgets/w_button.dart';
 
 class EmptyIteam extends StatelessWidget {
-  const EmptyIteam({super.key});
+  const EmptyIteam({super.key, required this.onRefresh});
+  final VoidCallback onRefresh;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +26,12 @@ class EmptyIteam extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
+          WButton(
+            onTap: () {
+              onRefresh();
+            },
+            text: 'Обновить',
+          )
         ],
       ),
     );

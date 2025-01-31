@@ -64,7 +64,13 @@ class _OverheadOutgoingViewState extends State<OverheadOutgoingView> {
                     );
                   }
                   if (state.draftsMemoModel.documents.isEmpty) {
-                    return const EmptyIteam();
+                    return EmptyIteam(
+                      onRefresh: () {
+                        context.read<HomeBloc>().add(GetSentEvent(
+                              model: FilterModel(docType: 'invoice'),
+                            ));
+                      },
+                    );
                   }
                   return RefreshIndicator.adaptive(
                     onRefresh: () async {

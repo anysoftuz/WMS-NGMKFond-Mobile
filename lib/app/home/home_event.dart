@@ -47,9 +47,11 @@ class GetWarehousesChengeEvent extends HomeEvent {
   });
 }
 
-class GetRespondentsListEvent extends HomeEvent {}
+class GetRespondentsListEvent extends HomeEvent {
+  final Map<String, dynamic>? query;
 
-
+  GetRespondentsListEvent({this.query});
+}
 
 class GetWarehouseCapacityEvent extends HomeEvent {}
 

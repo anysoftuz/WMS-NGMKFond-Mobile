@@ -6,9 +6,11 @@ import 'package:sklad/app/auth/auth_bloc.dart';
 import 'package:sklad/app/home/home_bloc.dart';
 import 'package:sklad/assets/colors/colors.dart';
 import 'package:sklad/assets/icons.dart';
+import 'package:sklad/presentation/views/home/memo_pdf_view.dart';
 import 'package:sklad/presentation/widgets/bottom_info_button.dart';
 import 'package:sklad/presentation/widgets/custom_snackbar.dart';
 import 'package:sklad/presentation/widgets/custom_text_field.dart';
+import 'package:sklad/presentation/widgets/w_preview_button.dart';
 import 'package:sklad/presentation/widgets/w_scale_animation.dart';
 import 'package:sklad/utils/my_function.dart';
 
@@ -28,6 +30,9 @@ class _MemoCreateViewState extends State<MemoCreateView> {
   ValueNotifier<int> valueNotifier = ValueNotifier(-1);
   @override
   void initState() {
+    context
+        .read<HomeBloc>()
+        .add(GetRespondentsListEvent(query: {'type[]': 'user'}));
     controllerKomu = TextEditingController();
     controllerTema = TextEditingController();
     controllerDocNum = TextEditingController();
@@ -137,6 +142,7 @@ class _MemoCreateViewState extends State<MemoCreateView> {
                   child: CustomTextField(
                     title: '№ документа',
                     hintText: 'Введите',
+                    isRequired: true,
                     controller: controllerDocNum,
                     onChanged: (value) {},
                   ),
@@ -166,6 +172,7 @@ class _MemoCreateViewState extends State<MemoCreateView> {
                     hintText: 'Выберите',
                     controller: controllerKomu,
                     readOnly: true,
+                    isRequired: true,
                     suffixIcon: AppIcons.chevronDown.svg(),
                     onsuffixIconPressed: onTap,
                     onChanged: (value) {},
@@ -215,6 +222,7 @@ class _MemoCreateViewState extends State<MemoCreateView> {
               title: 'Тема',
               hintText: 'О получении товара',
               controller: controllerTema,
+              isRequired: true,
               onChanged: (value) {},
             ),
             const SizedBox(height: 16),
@@ -223,6 +231,7 @@ class _MemoCreateViewState extends State<MemoCreateView> {
               hintText: 'Отображение сообщения служебки',
               minLines: 5,
               maxLines: 5,
+              isRequired: true,
               noHeight: true,
               controller: controllerNote,
               onChanged: (value) {},
@@ -237,9 +246,21 @@ class _MemoCreateViewState extends State<MemoCreateView> {
               onChanged: (value) {},
             ),
             const SizedBox(height: 16),
-            // WPreviewButton(
-            //   onTap: () {},
-            // ),
+            WPreviewButton(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MemoPdfView(
+                      komu: controllerKomu.text,
+                      tema: controllerTema.text,
+                      docNum: controllerDocNum.text,
+                      note: controllerNote.text,
+                    ),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),

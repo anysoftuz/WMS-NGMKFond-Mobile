@@ -62,7 +62,13 @@ class _RequestsDraftsViewState extends State<RequestsDraftsView> {
                     );
                   }
                   if (state.draftsMemoModel.documents.isEmpty) {
-                    return const EmptyIteam();
+                    return EmptyIteam(
+                      onRefresh: () {
+                        context
+                            .read<HomeBloc>()
+                            .add(GetDraftsEvent(model: FilterModel()));
+                      },
+                    );
                   }
                   return RefreshIndicator.adaptive(
                     onRefresh: () async {

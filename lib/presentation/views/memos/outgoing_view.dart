@@ -61,7 +61,13 @@ class _OutgoingViewState extends State<OutgoingView> {
                     );
                   }
                   if (state.draftsMemoModel.documents.isEmpty) {
-                    return const EmptyIteam();
+                    return EmptyIteam(
+                      onRefresh: () {
+                        context.read<HomeBloc>().add(GetSentEvent(
+                              model: FilterModel(docType: 'memo'),
+                            ));
+                      },
+                    );
                   }
                   return RefreshIndicator.adaptive(
                     onRefresh: () async {

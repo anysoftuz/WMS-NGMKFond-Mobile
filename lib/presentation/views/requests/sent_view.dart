@@ -99,7 +99,12 @@ class _SentViewState extends State<SentView> {
                       );
                     }
                     if (state.draftsMemoModel.documents.isEmpty) {
-                      return const EmptyIteam();
+                      return EmptyIteam(
+                        onRefresh: () {
+                          context.read<HomeBloc>().add(GetSentEvent(
+                              model: FilterModel(docType: 'simple_demand')));
+                        },
+                      );
                     }
                     return RefreshIndicator.adaptive(
                       onRefresh: () async {
@@ -165,7 +170,12 @@ class _SentViewState extends State<SentView> {
                       );
                     }
                     if (state.draftsMemoModel.documents.isEmpty) {
-                      return const EmptyIteam();
+                      return EmptyIteam(
+                        onRefresh: () {
+                          context.read<HomeBloc>().add(GetSentEvent(
+                              model: FilterModel(docType: 'monthly_demand')));
+                        },
+                      );
                     }
                     return RefreshIndicator.adaptive(
                       onRefresh: () async {
@@ -232,7 +242,12 @@ class _SentViewState extends State<SentView> {
                       );
                     }
                     if (state.draftsMemoModel.documents.isEmpty) {
-                      return const EmptyIteam();
+                      return EmptyIteam(
+                        onRefresh: () {
+                          context.read<HomeBloc>().add(GetSentEvent(
+                              model: FilterModel(docType: 'yearly_demand')));
+                        },
+                      );
                     }
                     return RefreshIndicator.adaptive(
                       onRefresh: () async {

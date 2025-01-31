@@ -109,7 +109,13 @@ class _MainViewState extends State<MainView> {
           // const SizedBox(width: 12),
           WButton(
             onTap: () {
-              context.push(AppRouteName.create);
+              context.push(AppRouteName.create).then(
+                (value) {
+                  if (context.mounted) {
+                    context.read<HomeBloc>().add(GetRespondentsListEvent());
+                  }
+                },
+              );
             },
             height: 52,
             width: 52,
