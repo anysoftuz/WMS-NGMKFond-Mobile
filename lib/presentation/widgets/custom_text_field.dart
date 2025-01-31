@@ -41,6 +41,8 @@ class CustomTextField extends StatefulWidget {
   final String? initialValue;
   final bool noHeight;
   final bool autofocus;
+  final bool isRequired;
+  final bool onePress;
 
   const CustomTextField({
     super.key,
@@ -67,6 +69,7 @@ class CustomTextField extends StatefulWidget {
     this.prefixIcon,
     this.maxLength,
     this.obscureText = false,
+    this.onePress = false,
     this.error,
     this.titleHintText = '',
     this.readOnly = false,
@@ -82,6 +85,7 @@ class CustomTextField extends StatefulWidget {
     this.titleColor = secondary500,
     this.textColor,
     this.autofocus = false,
+    this.isRequired = false,
   });
 
   @override
@@ -96,18 +100,41 @@ class _CustomTextFieldState extends State<CustomTextField> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          widget.title.isNotEmpty
-              ? Text(
-                  widget.title,
-                  maxLines: 1,
+          widget.isRequired
+              ? RichText(
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        color: widget.titleColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
+                  text: TextSpan(
+                    text: '* ',
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                          color: red,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                    children: [
+                      TextSpan(
+                        text: widget.title,
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                              color: widget.titleColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                      )
+                    ],
+                  ),
                 )
-              : const SizedBox(),
+              : widget.title.isNotEmpty
+                  ? Text(
+                      widget.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                            color: widget.titleColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                    )
+                  : const SizedBox(),
           widget.title.isNotEmpty
               ? const SizedBox(height: 4)
               : const SizedBox(),
@@ -153,13 +180,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 suffixIcon: widget.suffixIcon != null
                     ? IconButton(
                         icon: widget.suffixIcon!,
-                        onPressed: widget.onsuffixIconPressed ?? () {},
+                        onPressed: widget.onePress
+                            ? widget.onPressed ?? () {}
+                            : widget.onsuffixIconPressed ?? () {},
                       )
                     : null,
                 prefixIcon: widget.prefixIcon != null
                     ? IconButton(
                         icon: widget.prefixIcon!,
-                        onPressed: widget.onprefixIconPressed ?? () {})
+                        onPressed: widget.onePress
+                            ? widget.onPressed ?? () {}
+                            : widget.onprefixIconPressed ?? () {})
                     : null,
                 focusColor: Colors.transparent,
                 fillColor: widget.fillColor ?? Colors.transparent,

@@ -3,8 +3,11 @@ import 'package:sklad/data/common/response_model.dart';
 import 'package:sklad/data/models/document_show_model.dart';
 import 'package:sklad/data/models/drafts_memo_model.dart';
 import 'package:sklad/data/models/managements_bases_model.dart';
+import 'package:sklad/data/models/product_categories_model.dart';
+import 'package:sklad/data/models/product_types_model.dart';
 import 'package:sklad/data/models/products_bases_model.dart';
 import 'package:sklad/data/models/respondents_list_model.dart';
+import 'package:sklad/data/models/users_model.dart';
 import 'package:sklad/data/models/visitors_model.dart';
 import 'package:sklad/data/models/warehouse_capacity_model.dart';
 import 'package:sklad/data/models/warehouses_bases_model.dart';
@@ -19,15 +22,19 @@ abstract class ApisDatasource {
   Future<ResponseModel<DraftsMemoModel>> getReceived(
     Map<String, dynamic> query,
   );
-  Future<ResponseModel<RespondentsListModel>> getRespondentsList();
+  Future<ResponseModel<RespondentsListModel>> getRespondentsList(
+      Map<String, dynamic> query);
   Future<ResponseModel<ManagementsBasesModel>> getManagementsBases();
   Future<num> getFillingPercentage(int id);
   Future<ResponseModel<ProductsBasesModel>> getProductBese(int id);
+  Future<ResponseModel<ProductCategoriesModel>> getProductCategories();
+  Future<ResponseModel<ProductTypesModel>> getProducTypes(int id);
   Future<ResponseModel<WarehousesBasesModel>> getWarehouses(int id);
   Future<ResponseModel<ProductsBasesModel>> getInvoicesBese(int id);
   Future<bool> postDocument(Map<String, dynamic> data);
   Future<bool> putDocument(String id, Map<String, dynamic> data);
   Future<ResponseModel<DocumentShowModel>> getDocumentShow(String id);
+  Future<ResponseModel<UsersModel>> getUsers(Map<String, dynamic> query);
 }
 
 class ApisDatasourceImpl implements ApisDatasource {
@@ -91,9 +98,13 @@ class ApisDatasourceImpl implements ApisDatasource {
   }
 
   @override
-  Future<ResponseModel<RespondentsListModel>> getRespondentsList() {
+  Future<ResponseModel<RespondentsListModel>> getRespondentsList(
+      Map<String, dynamic> query) {
     return _handle.apiCantrol(
-      request: () => dio.get('documents/respondents-list'),
+      request: () => dio.get(
+        'documents/respondents-list',
+        queryParameters: query,
+      ),
       body: (response) => ResponseModel.fromJson(
         response,
         (p0) => RespondentsListModel.fromJson(p0 as Map<String, dynamic>),
@@ -178,6 +189,39 @@ class ApisDatasourceImpl implements ApisDatasource {
     return _handle.apiCantrol(
       request: () => dio.put('documents/$id', data: data),
       body: (response) => (response as Map<String, dynamic>)['success'],
+    );
+  }
+
+  @override
+  Future<ResponseModel<ProductCategoriesModel>> getProductCategories() {
+    return _handle.apiCantrol(
+      request: () => dio.get('product-types/categories'),
+      body: (response) => ResponseModel.fromJson(
+        response,
+        (p0) => ProductCategoriesModel.fromJson(p0 as Map<String, dynamic>),
+      ),
+    );
+  }
+
+  @override
+  Future<ResponseModel<ProductTypesModel>> getProducTypes(int id) {
+    return _handle.apiCantrol(
+      request: () => dio.get('product-types?parent_id=$id'),
+      body: (response) => ResponseModel.fromJson(
+        response,
+        (p0) => ProductTypesModel.fromJson(p0 as Map<String, dynamic>),
+      ),
+    );
+  }
+
+  @override
+  Future<ResponseModel<UsersModel>> getUsers(Map<String, dynamic> query) {
+    return _handle.apiCantrol(
+      request: () => dio.get('users', queryParameters: query),
+      body: (response) => ResponseModel.fromJson(
+        response,
+        (p0) => UsersModel.fromJson(p0 as Map<String, dynamic>),
+      ),
     );
   }
 }

@@ -98,6 +98,19 @@ class MyFunction {
     return DateFormat('yyyy-MM-dd').format(dateTime);
   }
 
+  static DateTime dateToDate(String date) {
+    if (date.isEmpty) {
+      return DateTime.now();
+    } else {
+      DateFormat dateFormat = DateFormat("dd.MM.yyyy");
+      return dateFormat.parse(date);
+    }
+  }
+
+  static String dateFormatCreate(DateTime date) {
+    return DateFormat('yyyy-MM-dd').format(date);
+  }
+
   static String dateFormatDate(String date) {
     DateTime dateTime = DateTime.parse(date);
 

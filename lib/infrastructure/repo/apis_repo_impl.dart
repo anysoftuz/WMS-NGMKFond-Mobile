@@ -4,8 +4,11 @@ import 'package:sklad/data/common/response_model.dart';
 import 'package:sklad/data/models/document_show_model.dart';
 import 'package:sklad/data/models/drafts_memo_model.dart';
 import 'package:sklad/data/models/managements_bases_model.dart';
+import 'package:sklad/data/models/product_categories_model.dart';
+import 'package:sklad/data/models/product_types_model.dart';
 import 'package:sklad/data/models/products_bases_model.dart';
 import 'package:sklad/data/models/respondents_list_model.dart';
+import 'package:sklad/data/models/users_model.dart';
 import 'package:sklad/data/models/visitors_model.dart';
 import 'package:sklad/data/models/warehouse_capacity_model.dart';
 import 'package:sklad/data/models/warehouses_bases_model.dart';
@@ -112,9 +115,9 @@ class ApisRepoImpl implements ApisRepo {
 
   @override
   Future<Either<Failure, ResponseModel<RespondentsListModel>>>
-      getRespondentsList() async {
+      getRespondentsList(Map<String, dynamic> query) async {
     try {
-      final result = await datasourceImpl.getRespondentsList();
+      final result = await datasourceImpl.getRespondentsList(query);
       return Right(result);
     } on DioException {
       return Left(DioFailure());
@@ -263,6 +266,62 @@ class ApisRepoImpl implements ApisRepo {
   ) async {
     try {
       final result = await datasourceImpl.putDocument(id, data);
+      return Right(result);
+    } on DioException {
+      return Left(DioFailure());
+    } on ParsingException catch (e) {
+      return Left(ParsingFailure(errorMessage: e.errorMessage));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(
+        errorMessage: e.errorMessage,
+        statusCode: e.statusCode,
+      ));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ResponseModel<ProductTypesModel>>> getProducTypes(
+    int id,
+  ) async {
+    try {
+      final result = await datasourceImpl.getProducTypes(id);
+      return Right(result);
+    } on DioException {
+      return Left(DioFailure());
+    } on ParsingException catch (e) {
+      return Left(ParsingFailure(errorMessage: e.errorMessage));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(
+        errorMessage: e.errorMessage,
+        statusCode: e.statusCode,
+      ));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ResponseModel<ProductCategoriesModel>>>
+      getProductCategories() async {
+    try {
+      final result = await datasourceImpl.getProductCategories();
+      return Right(result);
+    } on DioException {
+      return Left(DioFailure());
+    } on ParsingException catch (e) {
+      return Left(ParsingFailure(errorMessage: e.errorMessage));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(
+        errorMessage: e.errorMessage,
+        statusCode: e.statusCode,
+      ));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ResponseModel<UsersModel>>> getUsers(
+    Map<String, dynamic> query,
+  ) async {
+    try {
+      final result = await datasourceImpl.getUsers(query);
       return Right(result);
     } on DioException {
       return Left(DioFailure());

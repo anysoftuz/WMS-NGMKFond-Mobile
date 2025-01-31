@@ -1,0 +1,66 @@
+{
+  "Document": {
+    "doc_type_id": 7,
+    "date": "2025-01-31",
+    "number": "",
+    "from_id": 1,
+    "from_type": "provider",
+    "to_id": 2,
+    "to_type": "base",
+    "subject": "",
+    "through_whom": "",
+    "basis": "",
+    "shipping_method": "",
+    "status": "",
+    "products": [
+      {
+        "category_id": 4,
+        "product_type_id": 148,
+        "quantity": "1",
+        "unit_id": 1,
+        "price": 1,
+        "unit": "килограмм"
+      }
+    ]
+  },
+  "Act": {
+    "number": "1",
+    "subject": "",
+    "content": "",
+    "shipping_method": "",
+    "products": [
+      {
+        "count_product": null,
+        "contract_details": "",
+        "contract_details_date": "",
+        "manufacturer": "",
+        "shipping_method": "",
+        "licence": "",
+        "licence_date": "",
+        "sanitary": "",
+        "sanitary_date": "",
+        "vetirinary": "",
+        "vetirinary_date": "",
+        "quality": "",
+        "quality_date": "",
+        "quantity": "1",
+        "category_id": 4,
+        "product_type_id": 148,
+        "unit_id": 1,
+        "price": 1,
+        "unit": "килограмм"
+      }
+    ],
+    "doc_signers": [
+      {
+        "signer_id": 44
+      },
+      {
+        "signer_id": 30
+      },
+      {
+        "signer_id": 18
+      }
+    ]
+  }
+}

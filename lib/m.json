@@ -1,5 +1,89 @@
 {
-  "phone": "998909345670",
-  "code": "379013",
-  "otp_session_id": "1CKJ8Lkv9eqgWZVwD7ciRz"
+  "Document": {
+    "doc_type_id": 7,
+    "date": "2025-01-30",
+    "number": "TEST-1",
+    "from_id": 1,
+    "from_type": "provider",
+    "to_id": 2,
+    "to_type": "base",
+    "subject": "",
+    "through_whom": "TEST-2",
+    "basis": "TEST-3",
+    "shipping_method": "TEST-4",
+    "status": "",
+    "products": [
+      {
+        "category_id": 4,
+        "product_type_id": 148,
+        "quantity": "1",
+        "unit_id": 1,
+        "price": 1,
+        "unit": "kilogramm"
+      },
+      {
+        "category_id": 5,
+        "product_type_id": 146,
+        "quantity": "2",
+        "unit_id": 7,
+        "unit": "dona",
+        "price": 1
+      }
+    ]
+  },
+  "Act": {
+    "number": "Nima",
+    "subject": "",
+    "content": "asdfd",
+    "shipping_method": "",
+    "products": [
+      {
+        "count_product": null,
+        "contract_details": "1",
+        "contract_details_date": "2025-01-31",
+        "manufacturer": "2",
+        "shipping_method": "3",
+        "licence": "4",
+        "licence_date": "2025-01-31",
+        "sanitary": "5",
+        "sanitary_date": "2025-01-31",
+        "vetirinary": "6",
+        "vetirinary_date": "2025-01-31",
+        "quality": "7",
+        "quality_date": "2025-01-31",
+        "quantity": "1",
+        "category_id": 4,
+        "product_type_id": 148,
+        "unit_id": 1,
+        "price": 1,
+        "unit": "kilogramm"
+      },
+      {
+        "count_product": null,
+        "contract_details": "12",
+        "contract_details_date": "2025-01-31",
+        "manufacturer": "TEST-7",
+        "shipping_method": "TEST-8",
+        "licence": "1",
+        "licence_date": "2025-01-31",
+        "sanitary": "2",
+        "sanitary_date": "2025-01-31",
+        "vetirinary": "3",
+        "vetirinary_date": "2025-01-31",
+        "quality": "4",
+        "quality_date": "2025-01-31",
+        "quantity": "2",
+        "category_id": 5,
+        "product_type_id": 146,
+        "unit_id": 7,
+        "unit": "dona",
+        "price": 1
+      }
+    ],
+    "doc_signers": [
+      { "signer_id": 44 },
+      { "signer_id": 18 },
+      { "signer_id": 32 }
+    ]
+  }
 }

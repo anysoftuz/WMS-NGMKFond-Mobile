@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sklad/app/bloc/doc_create_bloc.dart';
 import 'package:sklad/assets/colors/colors.dart';
 import 'package:sklad/assets/icons.dart';
+import 'package:sklad/infrastructure/core/service_locator.dart';
+import 'package:sklad/infrastructure/repo/apis_repo_impl.dart';
 import 'package:sklad/presentation/views/home/create_parish_view.dart';
 import 'package:sklad/presentation/views/home/create_request_view.dart';
 import 'package:sklad/presentation/views/home/memo_create_view.dart';
@@ -18,41 +22,58 @@ class _CreateViewState extends State<CreateView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Создать")),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            CreateIteam(
-              icon: AppIcons.notes,
-              text: "Служебная записка",
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const MemoCreateView(),
-                ));
-              },
+      body: BlocProvider(
+        create: (context) => DocCreateBloc(serviceLocator<ApisRepoImpl>()),
+        child: Builder(builder: (context) {
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                CreateIteam(
+                  icon: AppIcons.notes,
+                  text: "Служебная записка",
+                  onTap: () {
+                    final bloc = context.read<DocCreateBloc>();
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => BlocProvider.value(
+                        value: bloc,
+                        child: const MemoCreateView(),
+                      ),
+                    ));
+                  },
+                ),
+                const SizedBox(height: 16),
+                CreateIteam(
+                  icon: AppIcons.fileSymlink,
+                  text: "Приход",
+                  onTap: () {
+                    final bloc = context.read<DocCreateBloc>();
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => BlocProvider.value(
+                        value: bloc,
+                        child: const CreateParishView(),
+                      ),
+                    ));
+                  },
+                ),
+                const SizedBox(height: 16),
+                CreateIteam(
+                  icon: AppIcons.request,
+                  text: "Запросы",
+                  onTap: () {
+                    final bloc = context.read<DocCreateBloc>();
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => BlocProvider.value(
+                        value: bloc,
+                        child: const CreateRequestView(),
+                      ),
+                    ));
+                  },
+                ),
+              ],
             ),
-            const SizedBox(height: 16),
-            CreateIteam(
-              icon: AppIcons.fileSymlink,
-              text: "Приход",
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const CreateParishView(),
-                ));
-              },
-            ),
-            const SizedBox(height: 16),
-            CreateIteam(
-              icon: AppIcons.request,
-              text: "Запросы",
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const CreateRequestView(),
-                ));
-              },
-            ),
-          ],
-        ),
+          );
+        }),
       ),
     );
   }

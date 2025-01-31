@@ -5,7 +5,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 
-import 'package:sklad/data/models/drafts_memo_model.dart';
+import 'package:sklad/data/models/products_bases_model.dart';
 
 part 'warehouses_bases_model.g.dart';
 

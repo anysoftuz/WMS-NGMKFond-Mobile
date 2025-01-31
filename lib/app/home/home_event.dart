@@ -49,6 +49,8 @@ class GetWarehousesChengeEvent extends HomeEvent {
 
 class GetRespondentsListEvent extends HomeEvent {}
 
+
+
 class GetWarehouseCapacityEvent extends HomeEvent {}
 
 class GetDraftsEvent extends HomeEvent {

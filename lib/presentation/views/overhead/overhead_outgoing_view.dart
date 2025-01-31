@@ -98,13 +98,16 @@ class _OverheadOutgoingViewState extends State<OverheadOutgoingView> {
                                 .toString(),
                           ),
                           title2: 'Основание:',
-                          subtitle2: 'Назначение №2392',
+                          subtitle2:
+                              state.draftsMemoModel.documents[index].basis,
                           title3: 'От кого:',
-                          subtitle3: 'Зарафшан',
+                          subtitle3:
+                              state.draftsMemoModel.documents[index].fromName,
                           title4: 'Кому:',
-                          subtitle4: 'Фонд',
+                          subtitle4:
+                              state.draftsMemoModel.documents[index].toName,
                           title5: 'Способ отправления:',
-                          subtitle5: '85 897 VAA',
+                          subtitle5: '-',
                         ),
                       ),
                       separatorBuilder: (context, index) =>
