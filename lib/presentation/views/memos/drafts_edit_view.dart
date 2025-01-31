@@ -70,11 +70,12 @@ class _DraftsEditViewState extends State<DraftsEditView> {
                         'content': controllerNote.text,
                         'date': MyFunction.dateFormatDate(
                             DateTime.now().toString()),
-                        'from': "43_user",
+                        'from':
+                            "${context.read<AuthBloc>().state.userModel.user?.firstname} ${context.read<AuthBloc>().state.userModel.user?.lastname} ${context.read<AuthBloc>().state.userModel.user?.patronymic}",
                         'from_id':
                             context.read<AuthBloc>().state.userModel.user?.id,
                         'from_type': "user",
-                        'status': "draft",
+                        'status': "sent",
                         'subject': controllerTema.text,
                         'to_id': controllerKomu.text == widget.document.toName
                             ? documentShowModel?.document.toId
@@ -103,11 +104,12 @@ class _DraftsEditViewState extends State<DraftsEditView> {
                         'content': controllerNote.text,
                         'date': MyFunction.dateFormatDate(
                             DateTime.now().toString()),
-                        'from': "43_user",
+                        'from':
+                            "${context.read<AuthBloc>().state.userModel.user?.firstname} ${context.read<AuthBloc>().state.userModel.user?.lastname} ${context.read<AuthBloc>().state.userModel.user?.patronymic}",
                         'from_id':
                             context.read<AuthBloc>().state.userModel.user?.id,
                         'from_type': "user",
-                        'status': "sent",
+                        'status': "draft",
                         'subject': controllerTema.text,
                         'to_id': controllerKomu.text == widget.document.toName
                             ? documentShowModel?.document.toId

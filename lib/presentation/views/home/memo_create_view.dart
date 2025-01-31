@@ -67,12 +67,13 @@ class _MemoCreateViewState extends State<MemoCreateView> {
                         'date': MyFunction.dateFormatDate(
                             DateTime.now().toString()),
                         'doc_type_id': 1,
-                        'from': "43_user",
+                        'from':
+                            "${context.read<AuthBloc>().state.userModel.user?.firstname} ${context.read<AuthBloc>().state.userModel.user?.lastname} ${context.read<AuthBloc>().state.userModel.user?.patronymic}",
                         'from_id':
                             context.read<AuthBloc>().state.userModel.user?.id,
-                        'from_type': "kitchenWarehouse",
+                        'from_type': "user",
                         'number': controllerDocNum.text,
-                        'status': "draft",
+                        'status': "sent",
                         'subject': controllerTema.text,
                         'to_id': state.respondentsListModel
                             .respondents[valueNotifier.value].id,
@@ -99,12 +100,13 @@ class _MemoCreateViewState extends State<MemoCreateView> {
                         'date': MyFunction.dateFormatDate(
                             DateTime.now().toString()),
                         'doc_type_id': 1,
-                        'from': "43_user",
+                        'from':
+                            "${context.read<AuthBloc>().state.userModel.user?.firstname} ${context.read<AuthBloc>().state.userModel.user?.lastname} ${context.read<AuthBloc>().state.userModel.user?.patronymic}",
                         'from_id':
                             context.read<AuthBloc>().state.userModel.user?.id,
-                        'from_type': "kitchenWarehouse",
+                        'from_type': "user",
                         'number': controllerDocNum.text,
-                        'status': "sent",
+                        'status': "draft",
                         'subject': controllerTema.text,
                         'to_id': state.respondentsListModel
                             .respondents[valueNotifier.value].id,

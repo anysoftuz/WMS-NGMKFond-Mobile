@@ -63,12 +63,13 @@ class _CreateRequestViewState extends State<CreateRequestView> {
                         'date': MyFunction.dateFormatDate(
                             DateTime.now().toString()),
                         'doc_type_id': 3,
-                        'from': "43_user",
+                        'from':
+                            "${context.read<AuthBloc>().state.userModel.user?.firstname} ${context.read<AuthBloc>().state.userModel.user?.lastname} ${context.read<AuthBloc>().state.userModel.user?.patronymic}",
                         'from_id':
                             context.read<AuthBloc>().state.userModel.user?.id,
-                        'from_type': "kitchenWarehouse",
+                        'from_type': "user",
                         'number': '',
-                        'status': "draft",
+                        'status': "sent",
                         'subject': controllerTema.text,
                         'to_id': state.respondentsListModel
                             .respondents[valueNotifier.value].id,
@@ -94,12 +95,13 @@ class _CreateRequestViewState extends State<CreateRequestView> {
                         'date': MyFunction.dateFormatDate(
                             DateTime.now().toString()),
                         'doc_type_id': 3,
-                        'from': "43_user",
+                        'from':
+                            "${context.read<AuthBloc>().state.userModel.user?.firstname} ${context.read<AuthBloc>().state.userModel.user?.lastname} ${context.read<AuthBloc>().state.userModel.user?.patronymic}",
                         'from_id':
                             context.read<AuthBloc>().state.userModel.user?.id,
-                        'from_type': "kitchenWarehouse",
+                        'from_type': "user",
                         'number': '',
-                        'status': "sent",
+                        'status': "draft",
                         'subject': controllerTema.text,
                         'to_id': state.respondentsListModel
                             .respondents[valueNotifier.value].id,
