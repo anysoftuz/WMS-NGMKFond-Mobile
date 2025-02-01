@@ -41,7 +41,7 @@ class _CreateParishViewState extends State<CreateParishView>
         popDialog(context);
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text("Служебная записка")),
+        appBar: AppBar(title: const Text("Создать приход")),
         bottomNavigationBar: BlocBuilder<DocCreateBloc, DocCreateState>(
           builder: (context, state) {
             return SafeArea(
@@ -127,7 +127,7 @@ class _CreateParishViewState extends State<CreateParishView>
                   Expanded(
                     child: CustomTextField(
                       title: '№ накладной',
-                      hintText: 'Введите',
+                      hintText: 'Введите № документа',
                       controller: controllerNumber,
                       isRequired: true,
                       onChanged: (value) {},
@@ -201,7 +201,7 @@ class _CreateParishViewState extends State<CreateParishView>
                     buttonBuilder: (context, onTap) => CustomTextField(
                       onPressed: onTap,
                       title: 'От кого',
-                      hintText: 'Выберите',
+                      hintText: 'Выберите отправителя',
                       isRequired: true,
                       controller: controllerKogo,
                       readOnly: true,
@@ -256,7 +256,7 @@ class _CreateParishViewState extends State<CreateParishView>
                     buttonBuilder: (context, onTap) => CustomTextField(
                       onPressed: onTap,
                       title: 'Кому',
-                      hintText: 'DISABLE',
+                      hintText: 'Выберите получателя',
                       isRequired: true,
                       controller: controllerKomu,
                       readOnly: true,
@@ -289,20 +289,20 @@ class _CreateParishViewState extends State<CreateParishView>
               ),
               CustomTextField(
                 title: 'Через кого',
-                hintText: 'Введите',
+                hintText: 'Введите экспедитора',
                 controller: throughWhom,
                 onChanged: (value) {},
               ),
               CustomTextField(
                 title: 'Основание',
-                hintText: 'Введите',
+                hintText: 'Введите основание',
                 isRequired: true,
                 controller: foundation,
                 onChanged: (value) {},
               ),
               CustomTextField(
                 title: 'Способ отправления',
-                hintText: 'Введите',
+                hintText: 'Введите способ отправления',
                 isRequired: true,
                 controller: methodOfDispatch,
                 onChanged: (value) {},
@@ -356,7 +356,7 @@ class _CreateParishViewState extends State<CreateParishView>
                                           CustomTextField(
                                         onPressed: onTap,
                                         title: 'Тип продукта',
-                                        hintText: 'Введите',
+                                        hintText: 'Введите тип продукта',
                                         fillColor: white,
                                         controller:
                                             tableOfReceivedProducts[index]
@@ -433,7 +433,7 @@ class _CreateParishViewState extends State<CreateParishView>
                                           CustomTextField(
                                         onPressed: onTap,
                                         title: 'Вид продукта',
-                                        hintText: 'Выберите',
+                                        hintText: 'Выберите вид продукта',
                                         fillColor: white,
                                         controller:
                                             tableOfReceivedProducts[index]
@@ -488,7 +488,7 @@ class _CreateParishViewState extends State<CreateParishView>
                                     Expanded(
                                       child: CustomTextField(
                                         title: 'Количество',
-                                        hintText: 'Выберите',
+                                        hintText: 'Введите количество продукта',
                                         fillColor: white,
                                         keyboardType: TextInputType.number,
                                         formatter: [Formatters.numberFormat],
@@ -516,7 +516,7 @@ class _CreateParishViewState extends State<CreateParishView>
                                 const SizedBox(height: 12),
                                 CustomTextField(
                                   title: 'Цена',
-                                  hintText: 'Выберите',
+                                  hintText: 'Введите цену за единицу продукта',
                                   fillColor: white,
                                   formatter: [Formatters.numberFormat],
                                   keyboardType: TextInputType.number,
@@ -561,28 +561,6 @@ class _CreateParishViewState extends State<CreateParishView>
                   ],
                 ),
               ),
-              BlocBuilder<DocCreateBloc, DocCreateState>(
-                builder: (context, state) {
-                  return WPreviewButton(
-                    onTap: () {
-                      final document = getDoc(state);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ReceiptPreview(
-                            document: document,
-                            fromUser: controllerKogo.text,
-                            toUser: controllerKomu.text,
-                            freight: controllerFreight.text,
-                            warehouseManager: controllerWarehouseManager.text,
-                            managerBase: controllerManagerBase.text,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
               const Divider(),
               CustomTextField(
                 title: 'АКТ',
@@ -593,21 +571,24 @@ class _CreateParishViewState extends State<CreateParishView>
               ),
               CustomTextField(
                 title: '№ накладной в системе',
-                hintText: 'Автоматически',
+                hintText:
+                    controllerNumber.text.isEmpty || controllerDate.text.isEmpty
+                        ? 'Автоматически'
+                        : "${controllerNumber.text} ${controllerDate.text}",
                 readOnly: true,
                 fillColor: scaffoldSecondaryBackground,
                 onChanged: (value) {},
               ),
               CustomTextField(
                 title: '№ Акта',
-                hintText: 'Введите',
+                hintText: 'Введите номер акта',
                 isRequired: true,
                 controller: controllerActNumber,
                 onChanged: (value) {},
               ),
               CustomTextField(
                 title: 'Содержание акта',
-                hintText: 'Отображение сообщения служебки',
+                hintText: 'Введите содержание акта',
                 minLines: 5,
                 maxLines: 5,
                 noHeight: true,
@@ -627,7 +608,7 @@ class _CreateParishViewState extends State<CreateParishView>
                     children: [
                       CustomTextField(
                         title: 'Номер договора о поставке',
-                        hintText: 'Номер договора о поставке',
+                        hintText: 'Введите номер договора',
                         controller: productInfo[index].supplyContractNumber,
                         isRequired: true,
                         fillColor: white,
@@ -677,7 +658,7 @@ class _CreateParishViewState extends State<CreateParishView>
                       const SizedBox(height: 12),
                       CustomTextField(
                         title: 'Производитель продукта',
-                        hintText: 'Производитель продукта',
+                        hintText: 'Введите производителя',
                         controller: productInfo[index].productManufacturer,
                         isRequired: true,
                         fillColor: white,
@@ -691,7 +672,7 @@ class _CreateParishViewState extends State<CreateParishView>
                       const SizedBox(height: 12),
                       CustomTextField(
                         title: 'Транспорт',
-                        hintText: 'Транспорт',
+                        hintText: 'Введите транспорт',
                         controller: productInfo[index].transportController,
                         isRequired: true,
                         fillColor: white,
@@ -703,7 +684,7 @@ class _CreateParishViewState extends State<CreateParishView>
                           Expanded(
                             child: CustomTextField(
                               title: '№ лицензии',
-                              hintText: '№ лицензии',
+                              hintText: 'Введите № лицензии',
                               controller: productInfo[index].licenseNumber,
                               isRequired: true,
                               fillColor: white,
@@ -753,7 +734,7 @@ class _CreateParishViewState extends State<CreateParishView>
                           Expanded(
                             child: CustomTextField(
                               title: '№ заключения Санитарно',
-                              hintText: '№ заключения Санитарно',
+                              hintText: 'Введите № заключения СЭЦ',
                               controller:
                                   productInfo[index].sanitaryConclusionNumber,
                               isRequired: true,
@@ -809,7 +790,7 @@ class _CreateParishViewState extends State<CreateParishView>
                           Expanded(
                             child: CustomTextField(
                               title: '№ удостоверения ветеринарии',
-                              hintText: '№ удостоверения ветеринарии',
+                              hintText: 'Введите № удостоверения ветеринарии',
                               controller: productInfo[index]
                                   .veterinaryCertificateNumber,
                               isRequired: true,
@@ -865,7 +846,7 @@ class _CreateParishViewState extends State<CreateParishView>
                           Expanded(
                             child: CustomTextField(
                               title: '№ удостоверения качества',
-                              hintText: '№ удостоверения качества',
+                              hintText: 'Введите № удостоверения качества',
                               controller:
                                   productInfo[index].qualityCertificateNumber,
                               isRequired: true,
@@ -966,7 +947,7 @@ class _CreateParishViewState extends State<CreateParishView>
                           controller: _controller3,
                           buttonBuilder: (context, onTap) => CustomTextField(
                             title: 'Товаровед',
-                            hintText: 'Введите',
+                            hintText: 'Выберите товароведа',
                             isRequired: true,
                             fillColor: white,
                             readOnly: true,
@@ -1002,49 +983,10 @@ class _CreateParishViewState extends State<CreateParishView>
                     BlocBuilder<DocCreateBloc, DocCreateState>(
                       builder: (context, state) {
                         return RawFlexDropDown(
-                          controller: _controller4,
-                          buttonBuilder: (context, onTap) => CustomTextField(
-                            title: 'Зав. склад',
-                            hintText: 'Введите',
-                            isRequired: true,
-                            fillColor: white,
-                            readOnly: true,
-                            onPressed: onTap,
-                            controller: controllerWarehouseManager,
-                            suffixIcon: AppIcons.chevronDown.svg(),
-                            onsuffixIconPressed: onTap,
-                            onChanged: (value) {},
-                          ),
-                          menuBuilder: (context, width) => DropContainerIteam(
-                            width: width,
-                            child: ListView.separated(
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) => WScaleAnimation(
-                                onTap: () {
-                                  _controller4.hide();
-                                  indexHeadWarehouse = index;
-                                  controllerWarehouseManager.text =
-                                      '${state.usersHeadWarehouse.users[index].firstname} ${state.usersHeadWarehouse.users[index].lastname} ${state.usersHeadWarehouse.users[index].patronymic}';
-                                },
-                                child: Text(
-                                  '${state.usersHeadWarehouse.users[index].firstname} ${state.usersHeadWarehouse.users[index].lastname} ${state.usersHeadWarehouse.users[index].patronymic}',
-                                ),
-                              ),
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(height: 8),
-                              itemCount: state.usersHeadWarehouse.users.length,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                    BlocBuilder<DocCreateBloc, DocCreateState>(
-                      builder: (context, state) {
-                        return RawFlexDropDown(
                           controller: _controller5,
                           buttonBuilder: (context, onTap) => CustomTextField(
-                            title: 'Начальник базы',
-                            hintText: 'Введите',
+                            title: 'Зав. склад',
+                            hintText: 'Выберите зав. склада',
                             isRequired: true,
                             fillColor: white,
                             readOnly: true,
@@ -1072,6 +1014,45 @@ class _CreateParishViewState extends State<CreateParishView>
                               separatorBuilder: (context, index) =>
                                   const SizedBox(height: 8),
                               itemCount: state.usersManagerBase.users.length,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    BlocBuilder<DocCreateBloc, DocCreateState>(
+                      builder: (context, state) {
+                        return RawFlexDropDown(
+                          controller: _controller4,
+                          buttonBuilder: (context, onTap) => CustomTextField(
+                            title: 'Начальник базы',
+                            hintText: 'Выберите начальника базы',
+                            isRequired: true,
+                            fillColor: white,
+                            readOnly: true,
+                            onPressed: onTap,
+                            controller: controllerWarehouseManager,
+                            suffixIcon: AppIcons.chevronDown.svg(),
+                            onsuffixIconPressed: onTap,
+                            onChanged: (value) {},
+                          ),
+                          menuBuilder: (context, width) => DropContainerIteam(
+                            width: width,
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) => WScaleAnimation(
+                                onTap: () {
+                                  _controller4.hide();
+                                  indexHeadWarehouse = index;
+                                  controllerWarehouseManager.text =
+                                      '${state.usersHeadWarehouse.users[index].firstname} ${state.usersHeadWarehouse.users[index].lastname} ${state.usersHeadWarehouse.users[index].patronymic}';
+                                },
+                                child: Text(
+                                  '${state.usersHeadWarehouse.users[index].firstname} ${state.usersHeadWarehouse.users[index].lastname} ${state.usersHeadWarehouse.users[index].patronymic}',
+                                ),
+                              ),
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(height: 8),
+                              itemCount: state.usersHeadWarehouse.users.length,
                             ),
                           ),
                         );

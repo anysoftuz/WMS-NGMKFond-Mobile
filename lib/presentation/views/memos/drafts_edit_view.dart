@@ -232,8 +232,8 @@ class _DraftsEditViewState extends State<DraftsEditView> {
             ),
             const SizedBox(height: 16),
             CustomTextField(
-              title: 'Сообщения',
-              hintText: 'Отображение сообщения служебки',
+              title: 'Сообщение',
+              hintText: 'Отображение сообщение служебки',
               minLines: 5,
               maxLines: 5,
               noHeight: true,

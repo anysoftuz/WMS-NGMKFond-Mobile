@@ -157,7 +157,7 @@ class _CreateRequestViewState extends State<CreateRequestView> {
                   buttonBuilder: (context, onTap) => CustomTextField(
                     onPressed: onTap,
                     title: 'Получатель',
-                    hintText: 'Выберите',
+                    hintText: 'Выберите получателя',
                     controller: controllerKomu,
                     readOnly: true,
                     suffixIcon: AppIcons.chevronDown.svg(),
@@ -207,14 +207,14 @@ class _CreateRequestViewState extends State<CreateRequestView> {
             const SizedBox(height: 16),
             CustomTextField(
               title: 'Тема',
-              hintText: 'О получении товара',
+              hintText: 'Введите тему запроса',
               controller: controllerTema,
               onChanged: (value) {},
             ),
             const SizedBox(height: 16),
             CustomTextField(
-              title: 'Сообщения',
-              hintText: 'Отображение сообщения служебки',
+              title: 'Содержание запроса',
+              hintText: 'Введите содержание запроса',
               minLines: 5,
               maxLines: 5,
               noHeight: true,

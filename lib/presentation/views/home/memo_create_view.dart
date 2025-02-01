@@ -143,7 +143,7 @@ class _MemoCreateViewState extends State<MemoCreateView> {
                 Expanded(
                   child: CustomTextField(
                     title: '№ документа',
-                    hintText: 'Введите',
+                    hintText: 'Введите № документа',
                     isRequired: true,
                     controller: controllerDocNum,
                     onChanged: (value) {},
@@ -171,7 +171,7 @@ class _MemoCreateViewState extends State<MemoCreateView> {
                   buttonBuilder: (context, onTap) => CustomTextField(
                     onPressed: onTap,
                     title: 'Кому',
-                    hintText: 'Выберите',
+                    hintText: 'Выберите получателя',
                     controller: controllerKomu,
                     readOnly: true,
                     isRequired: true,
@@ -222,15 +222,15 @@ class _MemoCreateViewState extends State<MemoCreateView> {
             const SizedBox(height: 16),
             CustomTextField(
               title: 'Тема',
-              hintText: 'О получении товара',
+              hintText: 'Введите тему документа',
               controller: controllerTema,
               isRequired: true,
               onChanged: (value) {},
             ),
             const SizedBox(height: 16),
             CustomTextField(
-              title: 'Сообщения',
-              hintText: 'Отображение сообщения служебки',
+              title: 'Сообщение',
+              hintText: 'Введите сообщение документа',
               minLines: 5,
               maxLines: 5,
               isRequired: true,
