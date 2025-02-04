@@ -33,6 +33,8 @@ DocumentShow _$DocumentShowFromJson(Map<String, dynamic> json) => DocumentShow(
       fromType: json['from_type'] as String? ?? '',
       fromName: json['from_name'] as String? ?? '',
       fileLink: json['file_link'] as String? ?? '',
+      toRoleTitle: json['to_role_title'] as String? ?? '',
+      fromRoleTitle: json['from_role_title'] as String? ?? '',
       fileInfo: json['file_info'] == null
           ? const FileInfo()
           : FileInfo.fromJson(json['file_info'] as Map<String, dynamic>),
@@ -48,6 +50,8 @@ Map<String, dynamic> _$DocumentShowToJson(DocumentShow instance) =>
       'to_id': instance.toId,
       'to_type': instance.toType,
       'to_name': instance.toName,
+      'to_role_title': instance.toRoleTitle,
+      'from_role_title': instance.fromRoleTitle,
       'subject': instance.subject,
       'content': instance.content,
       'from_id': instance.fromId,

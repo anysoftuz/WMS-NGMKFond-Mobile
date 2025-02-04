@@ -141,14 +141,14 @@ class _FilterViewState extends State<FilterView> {
             const SizedBox(height: 16),
             CustomTextField(
               title: "Номер документа",
-              hintText: 'Введите',
+              hintText: 'Введите номер документа',
               controller: widget.controllerNumber,
               onChanged: (value) {},
             ),
             const SizedBox(height: 16),
             CustomTextField(
               title: "Тема",
-              hintText: 'Введите',
+              hintText: 'Введите тему',
               controller: widget.controllerTema,
               onChanged: (value) {},
             ),
@@ -165,7 +165,7 @@ class _FilterViewState extends State<FilterView> {
                       buttonBuilder: (context, onTap) => CustomTextField(
                         onPressed: onTap,
                         title: "Кому",
-                        hintText: 'Выберите',
+                        hintText: 'Введите получателя',
                         controller: widget.controllerKomu,
                         readOnly: true,
                         suffixIcon: AppIcons.chevronDown.svg(),
@@ -219,7 +219,7 @@ class _FilterViewState extends State<FilterView> {
                       buttonBuilder: (context, onTap) => CustomTextField(
                         onPressed: onTap,
                         title: "Отправитель",
-                        hintText: 'Выберите',
+                        hintText: 'Введите отправителя',
                         controller: widget.controllerOtp,
                         readOnly: true,
                         suffixIcon: AppIcons.chevronDown.svg(),

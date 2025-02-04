@@ -2,14 +2,13 @@ import 'package:flex_dropdown/flex_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:go_router/go_router.dart';
 import 'package:sklad/app/auth/auth_bloc.dart';
 import 'package:sklad/app/home/home_bloc.dart';
 import 'package:sklad/assets/colors/colors.dart';
 import 'package:sklad/assets/icons.dart';
 import 'package:sklad/data/models/document_show_model.dart';
 import 'package:sklad/data/models/drafts_memo_model.dart';
-import 'package:sklad/presentation/routers/route_name.dart';
+import 'package:sklad/presentation/views/home/memo_pdf_view.dart';
 import 'package:sklad/presentation/widgets/bottom_info_button.dart';
 import 'package:sklad/presentation/widgets/custom_snackbar.dart';
 import 'package:sklad/presentation/widgets/custom_text_field.dart';
@@ -251,10 +250,21 @@ class _DraftsEditViewState extends State<DraftsEditView> {
             const SizedBox(height: 16),
             WPreviewButton(
               onTap: () {
-                context.push(AppRouteName.pdfView, extra: {
-                  'title': widget.document.number,
-                  'id': widget.document.id,
-                });
+                // context.push(AppRouteName.pdfView, extra: {
+                //   'title': widget.document.number,
+                //   'id': widget.document.id,
+                // });
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MemoPdfView(
+                      komu: controllerKomu.text,
+                      tema: controllerTema.text,
+                      docNum: controllerNumber.text,
+                      note: controllerNote.text,
+                    ),
+                  ),
+                );
               },
             ),
           ],

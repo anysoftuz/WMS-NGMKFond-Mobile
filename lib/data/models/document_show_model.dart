@@ -44,6 +44,10 @@ class DocumentShow {
   final String toType;
   @JsonKey(name: "to_name")
   final String toName;
+  @JsonKey(name: "to_role_title")
+  final String toRoleTitle;
+  @JsonKey(name: "from_role_title")
+  final String fromRoleTitle;
   @JsonKey(name: "subject")
   final String subject;
   @JsonKey(name: "content")
@@ -74,6 +78,8 @@ class DocumentShow {
     this.fromType = '',
     this.fromName = '',
     this.fileLink = '',
+    this.toRoleTitle = '',
+    this.fromRoleTitle = '',
     this.fileInfo = const FileInfo(),
   });
 

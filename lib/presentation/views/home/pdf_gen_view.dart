@@ -1,112 +1,152 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sklad/app/auth/auth_bloc.dart';
+import 'package:formz/formz.dart';
+import 'package:sklad/app/home/home_bloc.dart';
 import 'package:sklad/assets/colors/colors.dart';
 import 'package:sklad/assets/images.dart';
-import 'package:sklad/utils/my_function.dart';
+import 'package:sklad/data/models/document_show_model.dart';
+import 'package:sklad/presentation/widgets/w_shimmer.dart';
+import 'package:sklad/data/models/drafts_memo_model.dart';
 
-class PdfGenView extends StatelessWidget {
+class PdfGenView extends StatefulWidget {
   const PdfGenView({
     super.key,
-    required this.komu,
-    required this.tema,
-    required this.docNum,
-    required this.note,
+    required this.document,
+    this.isMemos = false,
   });
-  final String komu;
-  final String tema;
-  final String docNum;
-  final String note;
+  final Document document;
+  final bool isMemos;
+
+  @override
+  State<PdfGenView> createState() => _PdfGenViewState();
+}
+
+class _PdfGenViewState extends State<PdfGenView> {
+  DocumentShowModel? documentShowModel;
+
+  @override
+  void initState() {
+    context.read<HomeBloc>().add(GetDocumentShowEvent(
+          id: widget.document.id,
+          onSucces: (model) {
+            documentShowModel = model;
+            setState(() {});
+          },
+        ));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Превью')),
+      appBar: AppBar(title: Text(widget.document.number)),
       backgroundColor: whiteGrey,
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 56),
-        child: Container(
-          decoration: BoxDecoration(
-            color: white,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          padding: const EdgeInsets.fromLTRB(32, 16, 32, 32),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Logo and header
-              Center(
-                child: Column(
-                  spacing: 12,
-                  children: [
-                    Row(
-                      spacing: 6.16,
-                      mainAxisAlignment: MainAxisAlignment.center,
+        child: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            if (state.statusShow.isInProgress) {
+              return const WShimmer(
+                height: 220,
+                width: double.infinity,
+              );
+            }
+            return Container(
+              decoration: BoxDecoration(
+                color: white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: const EdgeInsets.fromLTRB(32, 16, 32, 32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Logo and header
+                  Center(
+                    child: Column(
+                      spacing: 12,
                       children: [
-                        AppImages.logo.imgAsset(height: 20.54),
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
+                          spacing: 6.16,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              "NKMK",
-                              style: TextStyle(
-                                fontSize: 9.24,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF000D24),
-                              ),
-                            ),
-                            Text(
-                              'Jamg‘armasi',
-                              style: TextStyle(
-                                fontSize: 6.16,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFFCBCCCE),
-                              ),
+                            AppImages.logo.imgAsset(height: 20.54),
+                            const Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "NKMK",
+                                  style: TextStyle(
+                                    fontSize: 9.24,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF000D24),
+                                  ),
+                                ),
+                                Text(
+                                  'Jamg‘armasi',
+                                  style: TextStyle(
+                                    fontSize: 6.16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color(0xFFCBCCCE),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
+                        Text(
+                          widget.isMemos ? 'СЛУЖЕБНАЯ ЗАПИСКА' : 'ЗАПРОС',
+                          style: const TextStyle(
+                            fontSize: 10.27,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF000D24),
+                          ),
+                        ),
                       ],
                     ),
-                    const Text(
-                      'ЗАПРОС',
-                      style: TextStyle(
-                        fontSize: 10.27,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF000D24),
+                  ),
+                  const SizedBox(height: 20),
+                  _buildDetailRow(
+                    'Дата: ',
+                    documentShowModel?.document.date ?? '',
+                  ),
+                  _buildDetailRow(
+                    '№: ',
+                    documentShowModel?.document.number ?? '',
+                  ),
+                  const SizedBox(height: 12),
+                  _buildDetailRow(
+                    widget.isMemos ? 'Кому:' : 'Получатель: ',
+                    documentShowModel?.document.toName ?? '',
+                  ),
+                  if (!widget.isMemos) ...[
+                    const SizedBox(height: 12),
+                    _buildDetailRow('Тип запроса: ', 'Свободный запрос'),
+                  ],
+                  const SizedBox(height: 12),
+                  _buildDetailRow(
+                    'Тема: ',
+                    documentShowModel?.document.subject ?? '',
+                  ),
+                  if (documentShowModel?.document.content != null)
+                    const SizedBox(height: 12),
+                  if (documentShowModel?.document.content != null)
+                    Text(
+                      documentShowModel?.document.content ?? '',
+                      style: const TextStyle(
+                        fontSize: 6.75,
+                        fontWeight: FontWeight.w400,
+                        color: backgroundText,
                       ),
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              _buildDetailRow(
-                'Дата: ',
-                MyFunction.dateFormatDate(DateTime.now().toString()),
-              ),
-              _buildDetailRow('№: ', docNum),
-              const SizedBox(height: 12),
-              _buildDetailRow('Получатель: ', komu),
-              const SizedBox(height: 12),
-              _buildDetailRow('Тип запроса: ', 'Свободный запрос'),
-              const SizedBox(height: 12),
-              _buildDetailRow('Тема: ', tema),
-              if (note.isNotEmpty) const SizedBox(height: 12),
-              if (note.isNotEmpty)
-                Text(
-                  note,
-                  style: const TextStyle(
-                    fontSize: 6.75,
-                    fontWeight: FontWeight.w400,
-                    color: backgroundText,
+                  const SizedBox(height: 12),
+                  _buildDetailRow(
+                    '${documentShowModel?.document.fromRoleTitle ?? "Nomalum"}: ',
+                    documentShowModel?.document.fromName ?? '',
                   ),
-                ),
-              const SizedBox(height: 12),
-              _buildDetailRow(
-                'Отправитель: ',
-                '${context.read<AuthBloc>().state.userModel.user?.firstname} ${context.read<AuthBloc>().state.userModel.user?.lastname}',
+                ],
               ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

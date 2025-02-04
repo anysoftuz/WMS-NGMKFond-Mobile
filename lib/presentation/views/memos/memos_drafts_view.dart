@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:go_router/go_router.dart';
 import 'package:sklad/app/home/home_bloc.dart';
 import 'package:sklad/data/models/filter_model.dart';
-import 'package:sklad/presentation/routers/route_name.dart';
+import 'package:sklad/presentation/views/home/pdf_gen_view.dart';
 import 'package:sklad/presentation/views/memos/drafts_edit_view.dart';
 import 'package:sklad/presentation/widgets/empty_iteam.dart';
 import 'package:sklad/presentation/widgets/information_iteam.dart';
@@ -80,11 +79,13 @@ class _MemosDraftsViewState extends State<MemosDraftsView> {
                     child: ListView.separated(
                       itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
-                          context.push(AppRouteName.pdfView, extra: {
-                            'title':
-                                state.draftsMemoModel.documents[index].number,
-                            'id': state.draftsMemoModel.documents[index].id,
-                          });
+                          Navigator.of(context, rootNavigator: true)
+                              .push(MaterialPageRoute(
+                            builder: (context) => PdfGenView(
+                              document: state.draftsMemoModel.documents[index],
+                              isMemos: true,
+                            ),
+                          ));
                         },
                         child: InformationIteam(
                           isEdit: true,
