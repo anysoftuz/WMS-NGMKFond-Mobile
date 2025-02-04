@@ -142,18 +142,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         phone: event.phone,
         password: event.password,
       ));
-      if (result.isRight) {
-        if (result.right.success) {
-          add(GetMeEvent());
+      try {
+        if (result.isRight) {
+          if (result.right.success) {
+            add(GetMeEvent());
+          } else {
+            emit(state.copyWith(status: FormzSubmissionStatus.failure));
+            event.onError(result.right.error['message']);
+          }
         } else {
-          emit(state.copyWith(status: FormzSubmissionStatus.failure));
           event.onError(result.right.error['message']);
+          emit(state.copyWith(
+            statusAuth: AuthenticationStatus.unauthenticated,
+            status: FormzSubmissionStatus.failure,
+          ));
         }
-      } else {
-        emit(state.copyWith(
-          statusAuth: AuthenticationStatus.unauthenticated,
-          status: FormzSubmissionStatus.failure,
-        ));
+      } catch (e) {
+        event.onError("Malumot topilmadi");
       }
     });
 
