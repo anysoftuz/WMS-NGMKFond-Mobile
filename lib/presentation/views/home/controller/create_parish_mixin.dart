@@ -160,7 +160,9 @@ mixin CreateParishMixin on State<CreateParishView> {
         products: List.generate(
           productInfo.length,
           (index) => Product(
-            name: tableOfReceivedProducts[index].productType[indexType].name,
+            name: tableOfReceivedProducts[index].productType.isEmpty
+                ? "Nomalum"
+                : tableOfReceivedProducts[index].productType[indexType].name,
             categoryId: indexCategories != -1
                 ? state.productCategoriesModel
                     .productCategories[indexCategories].id
