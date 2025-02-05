@@ -12,6 +12,7 @@ class DioSettings {
     receiveTimeout: const Duration(milliseconds: 35000),
     followRedirects: false,
     headers: <String, dynamic>{
+      'Accept': 'application/json',
       'x-device-type': getDeviceType(),
       'x-device-model': StorageRepository.getString(StorageKeys.deviceModel),
       'x-app-version': '0.0.1',
@@ -33,6 +34,7 @@ class DioSettings {
       connectTimeout: const Duration(milliseconds: 35000),
       receiveTimeout: const Duration(milliseconds: 35000),
       headers: <String, dynamic>{
+        'Accept': 'application/json',
         'x-device-type': getDeviceType(),
         'x-device-model': StorageRepository.getString(StorageKeys.deviceModel),
         'x-app-version': '0.0.1',
@@ -57,6 +59,7 @@ class DioSettings {
     receiveTimeout: const Duration(milliseconds: 35000),
     followRedirects: false,
     headers: <String, dynamic>{
+      'Accept': 'application/json',
       'x-device-type': getDeviceType(),
       'x-device-model': StorageRepository.getString(StorageKeys.deviceModel),
       'x-app-version': '0.0.1',
